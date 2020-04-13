@@ -28,6 +28,11 @@ function buildHTML(content, navbar){
 <div class="content">
 ${content}
 </div>
+
+<div class="footer">
+  <p>Made by <a href="https://github.com/ThunderSmotch">ThunderSmotch</a> | 2020 |</p>
+</div>
+
 </body>
 </html>
     `;
@@ -38,7 +43,7 @@ function buildIndexHTML(navbar){
 var content = `
 <h1>ThunderSmotch's Scribbles</h1>
 </br>
-This website archives some of my notes regarding Maths and Physics.
+This website archives some of my notes regarding Maths and Physics and other stuff!
 </br>
 Feel free to share them! :))
 </br>
@@ -48,10 +53,20 @@ Feel free to share them! :))
     return buildHTML(content, navbar);
 }
 
-function buildSubjectHTML(navbar, subject){
+function buildSubjectHTML(subject, pages, navbar){
+
+    var listitems = '';
+
+    pages.forEach(page => {
+        listitems += `<li><a href="./${page}">${page}</a></li>`
+    });
 
     var content = `
     <h3>${subject}</h3>
+
+    <ul>
+    ${listitems}
+    </ul>
     `
 
     return buildHTML(content, navbar);
@@ -59,9 +74,9 @@ function buildSubjectHTML(navbar, subject){
 
 function buildNavbar(physics, maths, other){
 
-    var mathsButtons = addNoteButtons(maths);
-    var physicsButtons = addNoteButtons(physics);
-    var otherButtons = addNoteButtons(other);
+    var mathsButtons = addNoteButtons(maths, "mathematics");
+    var physicsButtons = addNoteButtons(physics, "physics");
+    var otherButtons = addNoteButtons(other, "other");
 
     return `
 <a href="/index.html">Home</a>
@@ -88,11 +103,11 @@ function buildNavbar(physics, maths, other){
 `;
 }
 
-function addNoteButtons(array){
+function addNoteButtons(array, subfolder){
     var html = '';
     if(array){
         array.forEach(folder => {
-            html += `<a href="/notes/${folder}">${folder}</a>\n`;
+            html += `<a href="/notes/${subfolder}/${folder}">${folder}</a>\n`;
         });
     }
     return html;

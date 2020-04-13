@@ -2,7 +2,8 @@ const fs = require("fs");
 const path = require("path");
 const config = require("./config");
 
-const templates = require("./templates")
+const templates = require("./templates");
+const parser = require("./webtexParser");
 
 //Recursive File Search Function
 //Returns 
@@ -48,10 +49,9 @@ cssfiles.forEach(function(file) {
 })
 
 //Build navbar
-
-const physics = fs.readdirSync(config.dev.notesdir + "/Physics/")
-const maths = fs.readdirSync(config.dev.notesdir + "/Mathematics/")
-const other = fs.readdirSync(config.dev.notesdir + "/Other/")
+const physics = fs.readdirSync(config.dev.notesdir + "/physics/")
+const maths = fs.readdirSync(config.dev.notesdir + "/mathematics/")
+const other = fs.readdirSync(config.dev.notesdir + "/other/")
 
 const navbar = templates.buildNavbar(physics, maths, other);
 
@@ -61,30 +61,61 @@ fs.writeFile(config.dev.outdir+"/index.html", indexhtml, function(err){
     if(err) console.log(err);
 });
 
-//Build subject page
-createSubjectPages(physics, "Physics");
-createSubjectPages(maths, "Mathematics");
-createSubjectPages(other, "Other");
-
+//Make directories for each subject
+makeDirectoriesSubjects(physics, "physics");
+makeDirectoriesSubjects(maths, "mathematics");
+makeDirectoriesSubjects(other, "other");
 
 var res = walk("./notes");
-
 for(var i = 0; i < res.length; i++){
-    res[i] = res[i].replace(/(\.\/notes\/Physics\/|\.\/notes\/Other\/|\.\/notes\/Mathematics\/)/g, '')
+
+    var ext = path.extname(res[i]);
+    var base = path.basename(res[i]);
+    var filepath = res[i].substr(1).split('.')[0];
+
+    if(ext == '.webtex'){
+        var content = fs.readFileSync(res[i], 'utf8');
+        var data = parser.parseWebtex(content);
+        fs.writeFileSync(config.dev.outdir + filepath + '.html', templates.buildHTML(data, navbar));
+    } else if(ext == '.html'){
+        var content = fs.readFileSync(res[i], 'utf8');
+        fs.writeFileSync(config.dev.outdir + filepath + '.html', templates.buildHTML(content, navbar));
+    } else {
+        console.log("File not handled: " + filepath + ext);
+    }
 }
 
-console.log(res)
+//Build subject page
+createSubjectPages(physics, "physics");
+createSubjectPages(maths, "mathematics");
+createSubjectPages(other, "other");
 
-async function createSubjectPages(array, folder){
+
+////////////////////////////// HELPER FUNCTIONS /////////////////////////////////////////
+
+function makeDirectoriesSubjects(array, folder){
     if(array){
         array.forEach(subject => {
-
-            if(fs.statSync('./notes/'+folder+'/'+subject).isDirectory() == false) return false;
-            fs.mkdirSync(config.dev.outdir+'/notes/'+subject, { recursive: true }, (err) => {
+            var fpath = 'notes/'+folder+'/'+subject;
+            if(fs.statSync('./'+fpath).isDirectory() == false) return false;
+            fs.mkdirSync(config.dev.outdir+'/'+fpath, { recursive: true }, (err) => {
                 if (err) throw err;
             });
+        });
+    }
+}
 
-            fs.writeFileSync(config.dev.outdir+"/notes/"+subject+"/index.html", templates.buildSubjectHTML(navbar, subject), (err)=>{
+//Creates a index page for each subject
+//TODO: add indexing :P
+function createSubjectPages(array, folder){
+    if(array){
+        array.forEach(subject => {
+            var spath = 'notes/' + folder + '/' + subject;
+
+            var pages = walk(config.dev.outdir+'/'+spath).map(string => path.basename(string));
+
+            if(fs.statSync('./'+spath).isDirectory() == false) return false;
+            fs.writeFileSync(config.dev.outdir+"/"+spath+"/index.html", templates.buildSubjectHTML(subject, pages, navbar), (err)=>{
                 if(err){console.log(err)};
             })
         });
