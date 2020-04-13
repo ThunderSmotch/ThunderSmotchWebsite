@@ -66,7 +66,7 @@ makeDirectoriesSubjects(physics, "physics");
 makeDirectoriesSubjects(maths, "mathematics");
 makeDirectoriesSubjects(other, "other");
 
-var res = walk("./notes");
+var res = walk(config.dev.notesdir);
 for(var i = 0; i < res.length; i++){
 
     var ext = path.extname(res[i]);
