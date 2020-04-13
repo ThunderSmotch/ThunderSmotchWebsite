@@ -48,6 +48,17 @@ cssfiles.forEach(function(file) {
     })
 })
 
+//Copy images from img
+var imgfiles = walk("./img");
+fs.mkdirSync(config.dev.outdir+'/img/', { recursive: true }, (err) => {
+    if (err) throw err;
+});
+imgfiles.forEach(function(file) {
+    fs.copyFile(file, config.dev.outdir+'/img/' + path.basename(file), (err) => {
+        if (err) throw err;
+    })
+})
+
 //Build navbar
 const physics = fs.readdirSync(config.dev.notesdir + "/physics/")
 const maths = fs.readdirSync(config.dev.notesdir + "/mathematics/")
