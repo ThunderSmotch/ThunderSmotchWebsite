@@ -90,15 +90,15 @@ function buildNavbar(physics, maths, other){
     <div class="dropdown-content">
     <div class="row">
         <div class="column">
-        <h3>Mathematics</h3>
+        <h4>Mathematics</h4>
         ${mathsButtons}
         </div>
         <div class="column">
-        <h3>Physics</h3>
+        <h4>Physics</h4>
         ${physicsButtons}
         </div>
         <div class="column">
-        <h3>Other</h3>
+        <h4>Other</h4>
         ${otherButtons}
         </div>
     </div>

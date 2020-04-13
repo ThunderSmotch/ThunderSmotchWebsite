@@ -1,0 +1,276 @@
+\subsection*{4.1 The stiffness theorem}
+
+For a system with an Hamiltonian 
+\( \hat{H} \) and an observable 
+\( \hat{A} \) (with 
+\( \hat{A} = \hat{A}^{\dagger} \) ), consider the lowest possible energy, 
+\( E(A) \) , compatible with a mean value of 
+\( \hat{A} \) being 
+\( A \) , i.e. 
+\( A = \bra{\psi}\hat{A}\ket{\psi} \). In other words, 
+\( E(A) \) is given by: 
+\[ E(A) = \min_{\ket{\psi} : \bra{\psi} \hat{A} \ket{\psi} = A} \bra{\psi} \hat{H} \ket{\psi} \ , \] 
+where the minimum is taken with respect to a state 
+\( \ket{\psi} \) in the Hilbert space, restricted to the constrain 
+\( \bra{\psi}\hat{A}\ket{\psi} = A \). We will assume that in the ground state of the system, 
+\( \ket{\psi_{0}} \), the mean value of 
+\( \hat{A} \) vanishes, i.e. 
+\( \bra{\psi_{0}}\hat{A}\ket{\psi_{0}} = 0 \).  
+
+\paragraph*{a)} Show that for a small value of 
+\( A \approx 0 \), we have 
+\[ E(A) = E(0) + \frac{\alpha}{2} A^{2} + O(A^{2})\ , \] 
+where 
+\( \alpha > 0 \) is a constant. Actually, the 
+\( \alpha \) is called the stiffness of the system with respect to a change in 
+\( A \). The stiffness theorem asserts that 
+\[ \alpha = - \frac{1}{\chi_{A A} (\omega = 0)}\ . \] 
+
+The rest of the exercise is guided to prove this statement.
+
+\begin{spoiler}[Solution a)]
+	
+We can expand 
+\( E(A) \) around the ground state as: 
+\[ E(A) = E(0) + E'(0) A + \frac{1}{2} E''(0) A^{2} + O(A^{3})\ . \] 
+
+Noting that minimum possible value for the energy is the ground state energy, assuming that the mean value of 
+\( \hat{A} \) vanishes in the ground state means that 
+\( E'(0) = 0 \) as we are at the global minimum for the energy values.
+
+Moreover as we are at the global minimum the energy can only be higher which translates to saying that the second derivative at the ground state is strictly positive, i.e. 
+\( \alpha = E''(0) > 0 \). Joining both of these conditions ensures that, near 
+\( A \approx 0 \): 
+\[ E(A) = E(0) + \frac{\alpha}{2} A^{2} + O(A^{3})\ . \]   
+\end{spoiler}
+
+\paragraph*{b)} Consider the Hamiltonian 
+\[ \hat{H}_{A} = \hat{H} + \lambda \hat{A} \]
+with ground-state 
+\( \ket{\psi_{0} (\lambda)} \). Show that 
+\( \ket{\psi_{0}(\lambda_{A})} \), with 
+\( \lambda_{A} = \frac{A}{\chi_{A A}(0)} \), minimizes the energy 
+\( \hat{H} \) and respects the constraint 
+\( \bra{\psi_{0}(\lambda_{A})} \hat{A} \ket{\psi_{0} (\lambda_{A})} = A   \).    
+
+\begin{spoiler}[Solution b)]
+If we try to assume that there is another state 
+\( \ket{\psi'} \) such that 
+\( \bra{\psi'}\hat{A}\ket{\psi'} = A \) that has a value for 
+\( \bra{\psi'}\hat{H}\ket{\psi'} \) lower than for 
+\( \ket{\psi_{0}(\lambda_{A})} \) then the entire energy would be lower than the energy for \( \ket{\psi_{0}(\lambda_{A})} \) and if \( \ket{\psi_{0}(\lambda_{A})} \) is the ground state then we reached a contradiction, thus \( \ket{\psi_{0}(\lambda_{A})} \) already minimizes 
+\( \hat{H} \).
+
+It remains to show that this ground state respects the constraint 
+\( \bra{\psi_{0}(\lambda_{A})} \hat{A} \ket{\psi_{0}(\lambda_{A})} = A  \) to do this we will consider 
+\( \lambda \hat{A} \) as a perturbation to our Hamiltonian and so in that case we have that: 
+\[ \bra{\psi_{0}(\lambda_{A})} \hat{A} \ket{\psi_{0}(\lambda_{A})} = \left< A\right>_0 + \chi_{A A}(0) \lambda_{A} + O(\lambda_{A}^{2}) \approx A + O(A^{2}) \]  
+
+And so in fact for small enough 
+\( A \) the statement is true.
+\end{spoiler}
+
+\paragraph*{c)} Consider the Hamiltonian 
+\[ \hat{H}(\lambda) = \hat{H} + \lambda \hat{A} \] 
+with ground-state energy 
+\( E_{0}(\lambda) \). Show that 
+\[ E_{0}(\lambda) = E_{0}(0) + \frac{1}{2} \chi_{A A}(0) \lambda^{2} \] 
+to leading order in 
+\( \lambda \). 
+
+\begin{spoiler}[Solution c)]
+He have: 
+\[ \hat{H}(\lambda) = \hat{H} + \lambda \hat{A} \]
+where 
+\( \lambda \) mediates the perturbation. If we denote by 
+\( \ket{\psi(\lambda)} \) the ground state of 
+\( \hat{H}(\lambda) \) then we have that: 
+\[ \bra{\psi(\lambda)}\hat{A}\ket{\psi(\lambda)} \approx \left< A\right>_0 + \chi_{A A}(0) \lambda = \lambda \chi_{A A}(0) \] 
+
+We then have that: 
+\[ E(\lambda) - E(0) = \int_{0}^{\lambda} d\lambda' \frac{dE(\lambda)}{d\lambda'} \] 
+where 
+\[ \frac{dE(\alpha)}{\alpha} = \frac{d}{d\alpha} \bra{\psi(\alpha)}H_{A}\ket{\psi(\alpha)} = E(\alpha) \frac{d}{d\alpha} \bra{\psi(\alpha)}\ket{\psi(\alpha)} + \bra{\psi(\alpha)}\frac{dH_{A}}{d\alpha}\ket{\psi(\alpha)} = \bra{\psi(\alpha)}\frac{dH_{A}}{d\alpha}\ket{\psi(\alpha)}  \] 
+
+As such we have that: 
+\[ E(\lambda) = E(0) + \int_{0}^{\lambda} d\lambda' \bra{\psi(\lambda')}\hat{A}\ket{\psi(\lambda')} = E(0) + \chi_{A A}(0) \left[\lambda'^{2} \frac{1}{2}\right]_{0}^{\lambda} = E(0) + \frac{1}{2} \chi_{A A}(0) \lambda^{2} \] 
+	
+\end{spoiler}
+
+\paragraph*{d)} Compute 
+\( E(A) \) using (b) and (c), and use (a) to prove the stiffness theorem. Show that 
+\( \alpha > 0 \), as required.  
+
+\begin{spoiler}[Solution d)]
+From c) we have that: 
+\[ \bra{\psi_{0}(\lambda_{A})}H_{A}\ket{\psi_{0}(\lambda_{A})} = E(A) + A \lambda \ \Leftrightarrow E_{0}(0) + \frac{1}{2} \chi_{A A}(0) \lambda^{2} = E(A) + \lambda A \] 
+
+From b) we know that we need to use 
+\( \lambda = \frac{A}{\chi_{A A}(0)} \) and so substituting on the above expression we get: 
+\[ E(A) = E(0) + \frac{1}{2} \frac{1}{\chi_{A A}(0)} A^{2} - A^{2} \frac{1}{\chi_{A A}(0)} = E(0) - \frac{1}{2} \frac{1}{\chi_{A A}(0)} A^{2} \]  
+
+Making a direct comparison with a) we thus see that: 
+\[ \alpha = - \frac{1}{\chi_{A A}(0)} \] 
+Like we wanted to prove.	
+\end{spoiler}
+
+\subsection*{4.2  Kramers-Krönig relations \& Fluctuation dissipation relations}
+
+\paragraph*{a)} Provide a physical reason why a response function, 
+\( \chi_{AB}(t, t') \), vanishes for 
+\( t < t' \).  
+
+\begin{spoiler}[Solution a)]
+We want to model the response that a physical system that is in equilibrium (or in the ground state) has when inducing a perturbation on it. As such we want this perturbation to only be present in the system after a given time 
+\( t \). Thus the response function is zero for a time earlier than this switching-on time, as the system fundamentally is the same as it was in the past, it remained in equilibrium (or in the ground state).	
+\end{spoiler}
+
+\paragraph*{b)} Show that this implies that its Fourier transform, 
+\( \chi_{AB}(\omega) \), is analytic in the upper-half plane. 
+
+\begin{spoiler}[Solution b)]
+We have that: 
+\[ \chi_{AB}(t) = \frac{1}{2\pi } \int_{ - \infty}^{ + \infty} d\omega e^{ - i \omega t} \chi_{AB}(\omega) \] 
+Notice that for negative time the exponential for an 
+\( \omega \) with positive imaginary part is exponentially decreasing meaning that if we do a contour from 
+\( - R \) to 
+\( R \) that then arcs in the upper half plane we have: 
+\[ \frac{1}{2\pi } \oint d\omega e^{ - i \omega t} \chi_{AB}(\omega) = 
+\frac{1}{2\pi } \int_{ - \infty}^{ + \infty} d\omega e^{ - i \omega t} \chi_{AB}(\omega) + 
+\frac{1}{2\pi } \int_{\text{arc}} d\omega e^{ - i \omega t} \chi_{AB}(\omega) = \chi_{AB}(t) + 0 = 0 \] 
+Where in the above the integral in the arc vanishes from Jordan's Lemma for negative time and the other term also vanishes for negative time.
+
+As the contour integral is zero there are no poles on the entire upper half-plane and so the function is analytic there.
+
+However this poses a problem where we cannot be sure that there aren't residues that sum to zero inside the contour. A formal proof would require proving the Titchmarsh theorem which states exactly what we want to prove, that a function that vanishes for 
+\( t < 0 \) has an analytic Fourier transform on the upper half plane.
+\end{spoiler}
+
+
+\paragraph*{c)} By evaluating the contour integral 
+\[ I = \oint_{\Gamma} \frac{dz}{2\pi i} \frac{\chi_{AB}(z)}{z - \omega + i \eta} \] 
+with a judicious choice of 
+\( \Gamma \) and using that, for real 
+\( \nu \), 
+\( \frac{1}{\nu + i \eta} = P \frac{1}{\nu} - i \pi \delta(\nu) \), show that 
+\[ \Re \chi_{AB}(\omega) = \frac{1}{\pi} P \int_{ - \infty}^{ + \infty} d\nu \frac{\Im \chi_{AB} (\nu) }{\nu - \omega} \] 
+\[ \Im \chi_{AB}(\omega) = - \frac{1}{\pi} P \int_{ - \infty}^{ + \infty} d\nu \frac{\Re \chi_{AB} (\nu) }{\nu - \omega} \] 
+
+\begin{spoiler}[Solution c)]
+If we have: 
+\[ \chi_{AB}(z) = \Re \chi_{AB}(\nu) + i \Im \chi_{AB}(\nu) \]
+Then we have: 
+\[ \oint \frac{dz}{2\pi  i} \frac{\chi_{AB}(z)}{z - \omega - i \eta} = \oint \frac{dz}{2\pi} ( - i \Re \chi_{AB}(z) + \Im\chi_{AB}(z) ) \left( P \frac{1}{z - \omega} - i \pi \delta(z - \omega)\right) = 0 \]  
+
+This is equivalent to having: 
+\[  \Re \chi_{AB}(\omega) + i \Im \chi_{AB}(\omega) = \frac{1}{\pi} P \oint \left( \frac{\Im \chi_{AB}(z) - i \Re \chi_{AB}(z)}{z - \omega} \right) \] 
+
+As the integral along the arc goes to zero when the radius of the contour tends to infinity then by taking the real and imaginary part of the above expression we get that:
+\[ \Re \chi_{AB} (\omega) = \frac{1}{\pi} P \int_{ - \infty}^{ + \infty} dz \frac{\Im \chi_{AB}(z)}{z - \omega} \] 
+\[ \Im \chi_{AB} (\omega) = -\frac{1}{\pi} P \int_{ - \infty}^{ + \infty} dz \frac{\Re \chi_{AB}(z)}{z - \omega} \]	
+\end{spoiler}
+
+\paragraph*{d)} Show that for 
+\( A \) and 
+\( B \) Hermitian, 
+\[ \Re \chi_{AB}(\omega) = \frac{2}{\pi} P \int_{ 0}^{ + \infty} d\nu \frac{\nu \Im \chi_{AB} (\nu) }{\nu^{2} - \omega^{2}} \] 
+\[ \Im \chi_{AB}(\omega) = - \frac{2 \omega}{\pi} P \int_{ 0}^{ + \infty} d\nu \frac{\Re \chi_{AB} (\nu) }{\nu^{2} - \omega^{2}} \] 
+
+\begin{spoiler}[Solution d)]
+
+Knowing that we have for real 
+\( \omega \) : 
+\[ \chi_{AB} ( - \omega) = \left[\chi_{A^{\dagger}B^{\dagger}(\omega)}\right]^{*} \] 
+
+If 
+\( A,B \) are Hermitian operators then we conclude that: 
+\[ \Re \chi_{AB}(\omega) = \Re \chi_{AB}( - \omega) \]
+\[ \Im \chi_{AB}(\omega) = - \Im \chi_{AB}( - \omega) \]
+
+Now we rewrite the previous integrals as:
+\[ \Re \chi_{AB} (\omega) = \frac{1}{\pi} P \int_{ - \infty}^{ + \infty} dz \frac{\Im \chi_{AB}(z) (z + \omega)}{z^{2} - \omega^{2}} \] 
+\[ \Im \chi_{AB} (\omega) = -\frac{1}{\pi} P \int_{ - \infty}^{ + \infty} dz \frac{\Re \chi_{AB}(z) (z + \omega) }{z^{2} - \omega^{2}} \]
+
+As 
+\( \Im \chi_{AB}(z) \) is an odd function multiplying it by 
+\( z \) turns it into an even function which allows to simplify the integral to:
+\[ \Re \chi_{AB} (\omega) = \frac{1}{\pi} P \int_{ - \infty}^{ + \infty} dz \frac{\Im \chi_{AB}(z) (z + \omega)}{z^{2} - \omega^{2}} = \frac{2}{\pi } P \int_{0}^{ + \infty} dz \frac{z \Im \chi_{AB}(z)}{z^{2} - \omega^{2}} \] 
+
+Similarly as 
+\( \Re \chi_{AB}(z) \) is an even function multiplying by a constant makes it remain even whilst multiplying it by 
+\( z \) makes it odd (which cancels the integral). Thus we have: 
+\[ \Im \chi_{AB} (\omega) = -\frac{1}{\pi} P \int_{ - \infty}^{ + \infty} dz \frac{\Re \chi_{AB}(z) (z + \omega) }{z^{2} - \omega^{2}} = \frac{2}{\pi} P \int_{0}^{ + \infty} dz \frac{\omega \Re \chi_{AB}(z) }{z^{2} - \omega^{2}} \]  
+
+Yielding us the expressions that we wanted.
+	
+\end{spoiler}
+
+\paragraph*{e)} Prove the fluctuation dissipation relations: 
+\[ \Im \chi_{A A^{\dagger}} (\omega) = - \frac{\pi}{\hbar} \left(1 - e^{ - \beta \hbar \omega}\right) S_{A^{\dagger}A}(\omega) \] 
+
+\begin{spoiler}[Solution e)]
+
+In the Lehmann representation we have that: 
+\[ \chi_{AB}(\omega) = \frac{1}{\hbar} \sum_{nm} \frac{P_{m} - P_{n}}{\omega - \omega_{nm} + i \eta} A_{mn}B_{nm} \]
+with 
+\( \omega_{nm} = \frac{E_{n} - E_{m}}{\hbar} \). As said in a previous exercise we have that: 
+\[ \lim_{\eta \rightarrow 0} \frac{1}{z - \omega + i \eta} = P \frac{1}{z - \omega} - i \pi \delta(z - \omega) \]   
+
+Using it, then in the case of 
+\( \chi_{A A^{\dagger}} \) we have that: 
+\[ \Re \chi_{A A^{\dagger}} (\omega) = \frac{1}{\hbar} P \sum_{nm} \frac{\left|A_{mn}\right|^2 (P_{m} - P_{n})}{\omega - \omega_{nm}} \]  
+\[ \Im \chi_{A A^{\dagger}} (\omega) = - \frac{\pi}{\hbar} \sum_{nm} \left|A_{mn}\right|^2 (P_{m} - P_{n}) \delta(\omega - \omega_{nm}) \] 
+
+In particular noting that 
+\( \omega_{nm} = - \omega_{mn} \) the last expression can be rewritten as: 
+\[ \Im \chi_{A A^{\dagger}} (\omega) = - \frac{\pi}{\hbar} \sum_{nm} P_{m} \left[ \left|A_{mn}\right|^2 \delta(\omega - \omega_{nm}) - \left|A^{\dagger}_{mn}\right|^2 \delta(\omega + \omega_{nm}) \right] \]  
+
+Now, the dynamical structure factor is defined as: 
+\[ S_{A A^{\dagger}}(\omega) = \frac{1}{2\pi } \int_{ - \infty}^{ + \infty} \left< \hat{A}(t) \hat{A}^{\dagger} \right>_0 e^{i \omega t} dt = \frac{1}{2\pi } \int_{ - \infty}^{ + \infty} dt \Tr \left[ e^{i H t / \hbar} A e^{ - i H t / \hbar} A^{\dagger} e^{ - \beta H} \frac{1}{Z} \right] e^{i \omega t} \] 
+
+Choosing a basis of eigenstates of the Hamiltonian we a partition of unity to obtain: 
+\begin{align}
+	S_{A A^{\dagger}}(\omega) &= \frac{1}{2\pi } \sum_{mn} \int_{ - \infty}^{ + \infty} dt e^{i \omega_{mn} t} A_{m n} A^{\dagger}_{nm} P_{m} e^{i \omega t} \\ 
+	&= \frac{1}{2\pi} \sum_{mn} \int_{ - \infty}^{ + \infty} e^{ - i \omega_{nm} t} \left|A_{m n}\right|^2 P_{m} e^{i \omega t} dt\\
+	&= \sum_{mn} \left|A_{m n}\right|^2 P_{m} \delta(\omega - \omega_{nm})
+\end{align}
+
+Now note that: 
+\begin{align}
+	S_{A A^{\dagger}}( - \omega) &= \sum_{mn} \left|A_{m n}\right|^2 P_{m} \delta(\omega - \omega_{mn}) = \sum_{mn} \frac{e^{ - \beta (E_{m} - E_{n} - E_{n})}}{Z} \left|A^{\dagger}_{nm}\right|^2 \delta(\omega - \omega_{mn}) = \\
+	&= e^{ - \beta \hbar \omega} \sum_{nm} P_{n} \left|A^{\dagger}_{nm}\right|^2 \delta(\omega - \omega_{mn}) = e^{ - \beta \hbar \omega} S_{ A^{\dagger} A} (\omega) 
+\end{align}
+
+Finally we have: 
+\[ \Im \chi_{A A^{\dagger}} (\omega) = - \frac{\pi}{\hbar} \sum_{nm} P_{m} \left[ \left|A_{mn}\right|^2 \delta(\omega - \omega_{nm}) - \left|A^{\dagger}_{mn}\right|^2 \delta(\omega + \omega_{nm}) \right] =  \]   
+\[ = - \frac{\pi}{\hbar} \left( S_{A A^{\dagger}}(\omega) - S_{A^{\dagger}A}( - \omega) \right) = - \frac{\pi}{\hbar} S_{A A^{\dagger}}(\omega) \left( 1 - e^{ - \beta \hbar \omega} \right) \] 
+
+Like we wanted to prove.	
+\end{spoiler}
+
+
+\paragraph*{f)} Obtain the classical form of the fluctuation-dissipation theorem from the high-temperatures limit.
+
+\begin{spoiler}[Solution f)]
+We have that 
+\( e^{ - \beta \hbar \omega} \approx 1 - \beta \hbar \omega + O(\beta^{2}) \) when 
+\( \beta \rightarrow 0 \) and so we get the expression: 
+\[ \Im \chi_{A A^{\dagger}} (\omega) = - \pi \beta \omega S_{A A^{\dagger}}(\omega) \] 	
+\end{spoiler}
+
+
+\paragraph*{g)} Combining the result with the Kramers-Krönig dispersion relations show that in the classical theory the static density-density response function 
+\( \chi_{A A^{\dagger}}(\omega = 0) \) (which is real) is related to the static structure factor 
+\( S_{A^{\dagger}A} = \left< \hat{A}^{\dagger} \hat{A} \right> \) by 
+\[ \chi_{A^{\dagger} A}(0) = - \frac{S_{A^{\dagger} A}}{k_{B}T}\ . \]   
+
+\begin{spoiler}[Solution g)]
+We have that: 
+\[ \Re \chi_{A^{\dagger}A} (\omega) = \frac{1}{\pi} P \int_{ - \infty}^{ + \infty} dz \frac{\Im \chi_{A^{\dagger}A}(z)}{z - \omega} = - \beta P \int_{ - \infty}^{ + \infty}dz \frac{z}{z - \omega} S_{A^{\dagger} A}(z) \] 
+
+At zero then we have: 
+\begin{align}
+	\Re \chi_{A^{\dagger} A} (0) &= - \beta P \int_{ - \infty}^{ + \infty} d z S_{ A^{\dagger} A}(z) = - \beta \frac{1}{2\pi} P \int_{ - \infty}^{ + \infty} \int_{ - \infty}^{ + \infty} d z dt \left< \hat{A}^{\dagger}(t) \hat{A} \right>_0 e^{i z t} = \\
+	&= - \beta P \int_{ - \infty}^{ + \infty} dt \delta(t) \left< \hat{A}^{\dagger}(t) \hat{A} \right>_0 = - \beta \left< \hat{A}^{\dagger}(0) \hat{A} \right>_0 =	 - \beta S_{ A^{\dagger} A}
+\end{align}	
+\end{spoiler}
