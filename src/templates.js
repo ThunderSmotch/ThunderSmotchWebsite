@@ -4,7 +4,6 @@ var headHTML = `
 <title>ThunderSmotch</title>
 
 <link rel="shortcut icon" href="/img/favicon.ico"/>
-<link rel="shortcut icon" href="http://example.com/img/favicon.ico"/>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
