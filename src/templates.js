@@ -9,10 +9,7 @@ var headHTML = `
 
 <script src="https://raw.githack.com/ThunderSmotch/WebTex/master/webtexParser.js"></script>
 
-<script src="/js/includeElements.js"></script>
-<script src="/js/main.js"></script>
 <script src="/js/mathjaxConfig.js"></script>
-
 <script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>	
 
 <link rel="stylesheet" type="text/css" href="/style.css">

@@ -1,6 +1,10 @@
-MathJax = {
+window.MathJax = {
 	tex: {
-		inlineMath: [['$', '$'], ['\\(', '\\)']],
-		tags: 'all'
+	  macros: {
+		Re: "{\\operatorname{Re}}",
+		Im: "{\\operatorname{Im}}",
+	  },
+	  inlineMath: [['$', '$'], ['\\(', '\\)']],
+	  tags: 'all'
 	}
 };
