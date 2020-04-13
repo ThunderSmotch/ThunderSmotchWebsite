@@ -25,12 +25,12 @@ var walk = function(dir) {
 }
 
 //Make output folder
-fs.mkdir(config.dev.outdir, { recursive: true }, (err) => {
+fs.mkdirSync(config.dev.outdir, { recursive: true }, (err) => {
     if (err) throw err;
 });
 
 //Copy Javascripts files
-fs.mkdir(config.dev.outdir+'/js/', { recursive: true }, (err) => {
+fs.mkdirSync(config.dev.outdir+'/js/', { recursive: true }, (err) => {
     if (err) throw err;
 });
 var jsfiles = walk("./js");
