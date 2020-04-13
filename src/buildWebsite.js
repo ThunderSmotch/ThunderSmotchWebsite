@@ -38,6 +38,14 @@ jsfiles.forEach(function(file) {
     })
 })
 
+//Copy html files
+var htmlfiles = walk("./html");
+htmlfiles.forEach(function(file) {
+    fs.copyFile(file, config.dev.outdir+'/' + path.basename(file), (err) => {
+        if (err) throw err;
+    })
+})
+
 //Handle note files
 var res = walk("./notes");
 console.log(res)
