@@ -20,6 +20,7 @@ let headHTML = `
 <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
 `;
 
+//Builds any page by inserting the head and the content
 function buildHTML(content){
     return `
 <!DOCTYPE html>
@@ -43,6 +44,7 @@ ${content}
     `;
 }
 
+//Main page for the Website
 function buildIndexHTML(){
 
 var content = `
@@ -52,12 +54,15 @@ This website archives some of my notes regarding Maths and Physics and other stu
 </br>
 Feel free to share them! :))
 </br>
-<div id='main'>\\(E = mc^2\\)</div>
+</br>
+<div id='main'>\\(Latex\\quad is\\quad cool...\\)</div>
 `;
 
     return buildHTML(content);
 }
 
+//Build HTML list of notes
+//TODO: Beautify this
 function buildSubjectHTML(subject, pages){
 
     var listitems = '';
