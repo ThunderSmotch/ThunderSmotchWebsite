@@ -5,53 +5,19 @@ const config = require("./config");
 const templates = require("./templates");
 const parser = require("./webtexParser");
 
-//Recursive File Search Function
-//Returns 
-var walk = function(dir) {
-    var results = [];
-    var list = fs.readdirSync(dir);
-    list.forEach(function(file) {
-        file = dir + '/' + file;
-        var stat = fs.statSync(file);
-        if (stat && stat.isDirectory()) { 
-            /* Recurse into a subdirectory */
-            results = results.concat(walk(file));
-        } else { 
-            /* Is a file */
-            results.push(file);
-        }
-    });
-    return results;
-}
+//Building the Website
 
-//Make output folder
-fs.mkdirSync(config.dev.outdir, { recursive: true }, (err) => {
-    if (err) throw err;
-});
+makeOutputFolder();
 
-//Copy Javascripts files
-fs.mkdirSync(config.dev.outdir+'/js/', { recursive: true }, (err) => {
-    if (err) throw err;
-});
-var jsfiles = walk("./js");
-jsfiles.forEach(function(file) {
-    fs.copyFile(file, config.dev.outdir+'/js/' + path.basename(file), (err) => {
-        if (err) throw err;
-    })
-})
-
-//Copy stylesheets
-var cssfiles = walk("./style");
-cssfiles.forEach(function(file) {
-    fs.copyFile(file, config.dev.outdir+'/' + path.basename(file), (err) => {
-        if (err) throw err;
-    })
-})
+moveFilesFrom('js');
+moveFilesFrom('style');
 
 //Build navbar
-const physics = fs.readdirSync(config.dev.notesdir + "/physics/")
-const maths = fs.readdirSync(config.dev.notesdir + "/mathematics/")
-const other = fs.readdirSync(config.dev.notesdir + "/other/")
+
+//TODO: Automatize this to read subdirs of notesdir
+const physics = fs.readdirSync(config.dev.notesdir + "/physics/");
+const maths = fs.readdirSync(config.dev.notesdir + "/mathematics/");
+const other = fs.readdirSync(config.dev.notesdir + "/other/");
 
 const navbar = templates.buildNavbar(physics, maths, other);
 
@@ -90,8 +56,33 @@ createSubjectPages(physics, "physics");
 createSubjectPages(maths, "mathematics");
 createSubjectPages(other, "other");
 
-
 ////////////////////////////// HELPER FUNCTIONS /////////////////////////////////////////
+
+//Moves files from global folder to a folder inside the output directory
+function moveFilesFrom(folder) {
+    //Create new folder inside output dir
+    fs.mkdirSync(config.dev.outdir + '/'+ folder +'/', { recursive: true }, (err) => {
+        if (err)
+            throw err;
+    });
+
+    //Move files to newly created folder
+    let files = walk("./" + folder);
+    files.forEach(function (file) {
+        fs.copyFile(file, config.dev.outdir + '/'+ folder +'/' + path.basename(file), (err) => {
+            if (err)
+                throw err;
+        });
+    });
+}
+
+//Read config and create folder where website will be built into
+function makeOutputFolder() {
+    fs.mkdirSync(config.dev.outdir, { recursive: true }, (err) => {
+        if (err)
+            throw err;
+    });
+}
 
 function makeDirectoriesSubjects(array, folder){
     if(array){
@@ -120,4 +111,25 @@ function createSubjectPages(array, folder){
             })
         });
     }
+}
+
+//Recursive File Search Function
+//Returns list of all files inside dir (across all depth levels)
+function walk(dir) {
+    let results = [];
+    let list = fs.readdirSync(dir);
+
+    list.forEach(file => {
+        file = dir + '/' + file;
+        let stat = fs.statSync(file);
+        if (stat && stat.isDirectory()) { 
+            /* Recursevely search into subdirectory */
+            results = results.concat(walk(file));
+        } else { 
+            /* It is a file */
+            results.push(file);
+        }
+    });
+
+    return results;
 }
