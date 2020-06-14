@@ -100,7 +100,6 @@ function makeDirectoriesSubjects(subjects){
 }
 
 //Creates a index page for each subject
-//TODO: add ordering of notes somehow :P
 function createSubjectPages(subjects){
     for(let subject in subjects){
         subjects[subject].forEach(topic => {
@@ -109,11 +108,29 @@ function createSubjectPages(subjects){
 
             if(fs.statSync('./'+spath).isDirectory() == false) return false;
             
-            fs.writeFileSync(config.dev.outdir+"/"+spath+"/index.html", templates.buildSubjectHTML(topic, pages), (err)=>{
+            if(fs.existsSync('./' + spath + '/data.json')){
+                let data = require('../' + spath + '/data.json');
+                pages = orderPages(pages, data['files']);
+            }
+
+            fs.writeFileSync(config.dev.outdir+"/"+spath+"/index.html", templates.buildSubjectHTML(topic, pages), err =>{
                 if(err){console.log(err)};
             })
         });
     }
+}
+
+//Orders pages according to json if available
+function orderPages(pages, data){
+    let result = [];
+    result.push('index.html');
+
+    data.forEach(page => {
+        if(pages.includes(page + '.html'))
+            result.push(page + '.html');
+    });
+
+    return result;
 }
 
 //Recursive File Search Function
