@@ -1,11 +1,10 @@
-module.exports = {headHTML, buildIndexHTML, buildNavbar, buildHTML, buildSubjectHTML}
-
+module.exports = {buildIndexHTML, buildNavbar, buildHTML, buildSubjectHTML}
 const path = require("path");
 
 //Navbar HTML to be set during build
-var navbarHTML = '';
-
-var headHTML = `
+let navbarHTML = '';
+//Head HTML appended to all pages
+let headHTML = `
 <title>ThunderSmotch</title>
 
 <link rel="shortcut icon" href="/style/favicon.ico"/>

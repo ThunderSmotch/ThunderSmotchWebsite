@@ -100,7 +100,7 @@ function makeDirectoriesSubjects(subjects){
 }
 
 //Creates a index page for each subject
-//TODO: add indexing :P
+//TODO: add ordering of notes somehow :P
 function createSubjectPages(subjects){
     for(let subject in subjects){
         subjects[subject].forEach(topic => {
