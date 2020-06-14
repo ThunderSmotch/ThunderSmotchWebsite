@@ -5,58 +5,61 @@ const config = require("./config");
 const templates = require("./templates");
 const parser = require("./webtexParser");
 
-//Building the Website
-
+//////////////////////Building the Website//////////////////////////////
 makeOutputFolder();
-
 moveFilesFrom('js');
 moveFilesFrom('style');
+//Get all notes directories
+const subjects = getNotesSubjects();
+templates.buildNavbar(subjects);
+buildIndexHTML();
+makeDirectoriesSubjects(subjects);
+parseNotes();
+createSubjectPages(subjects);
+////////////////////////////// HELPER FUNCTIONS /////////////////////////////////////////
 
-//Build navbar
-
-//TODO: Automatize this to read subdirs of notesdir
-const physics = fs.readdirSync(config.dev.notesdir + "/physics/");
-const maths = fs.readdirSync(config.dev.notesdir + "/mathematics/");
-const other = fs.readdirSync(config.dev.notesdir + "/other/");
-
-const navbar = templates.buildNavbar(physics, maths, other);
-
-//Build index.html
-var indexhtml = templates.buildIndexHTML(navbar);
-fs.writeFile(config.dev.outdir+"/index.html", indexhtml, function(err){
-    if(err) console.log(err);
-});
-
-//Make directories for each subject
-makeDirectoriesSubjects(physics, "physics");
-makeDirectoriesSubjects(maths, "mathematics");
-makeDirectoriesSubjects(other, "other");
-
-var res = walk(config.dev.notesdir);
-for(var i = 0; i < res.length; i++){
-
-    var ext = path.extname(res[i]);
-    var base = path.basename(res[i]);
-    var filepath = res[i].substr(1).split('.')[0];
-
-    if(ext == '.webtex'){
-        var content = fs.readFileSync(res[i], 'utf8');
-        var data = parser.parseWebtex(content);
-        fs.writeFileSync(config.dev.outdir + filepath + '.html', templates.buildHTML(data, navbar));
-    } else if(ext == '.html'){
-        var content = fs.readFileSync(res[i], 'utf8');
-        fs.writeFileSync(config.dev.outdir + filepath + '.html', templates.buildHTML(content, navbar));
-    } else {
-        console.log("File not handled: " + filepath + ext);
-    }
+//Builds the main page of the website
+function buildIndexHTML() {
+    var indexhtml = templates.buildIndexHTML();
+    fs.writeFile(config.dev.outdir + "/index.html", indexhtml, function (err) {
+        if (err)
+            console.log(err);
+    });
 }
 
-//Build subject page
-createSubjectPages(physics, "physics");
-createSubjectPages(maths, "mathematics");
-createSubjectPages(other, "other");
+//Returns list of subjects (dirs of notes) and their topics (subdirs)
+function getNotesSubjects(){
+    let test = fs.readdirSync(config.dev.notesdir);
+    let subjects = {};
+    test.forEach(subject => {
+        subjects[subject] = fs.readdirSync(config.dev.notesdir + '/' + subject);
+    });
+    return subjects;
+}
 
-////////////////////////////// HELPER FUNCTIONS /////////////////////////////////////////
+//Check and parse all files inside notesdir
+function parseNotes() {
+    let res = walk(config.dev.notesdir);
+    for (let i = 0; i < res.length; i++) {
+
+        var ext = path.extname(res[i]);
+        var base = path.basename(res[i]);
+        var filepath = res[i].substr(1).split('.')[0];
+
+        if (ext == '.webtex') {
+            var content = fs.readFileSync(res[i], 'utf8');
+            var data = parser.parseWebtex(content);
+            fs.writeFileSync(config.dev.outdir + filepath + '.html', templates.buildHTML(data));
+        }
+        else if (ext == '.html') {
+            var content = fs.readFileSync(res[i], 'utf8');
+            fs.writeFileSync(config.dev.outdir + filepath + '.html', templates.buildHTML(content));
+        }
+        else {
+            console.log("File not handled: " + filepath + ext);
+        }
+    }
+}
 
 //Moves files from global folder to a folder inside the output directory
 function moveFilesFrom(folder) {
@@ -84,10 +87,10 @@ function makeOutputFolder() {
     });
 }
 
-function makeDirectoriesSubjects(array, folder){
-    if(array){
-        array.forEach(subject => {
-            var fpath = 'notes/'+folder+'/'+subject;
+function makeDirectoriesSubjects(subjects){
+    for(let subject in subjects){
+        subjects[subject].forEach(topic => {
+            let fpath = 'notes/'+subject+'/'+topic;
             if(fs.statSync('./'+fpath).isDirectory() == false) return false;
             fs.mkdirSync(config.dev.outdir+'/'+fpath, { recursive: true }, (err) => {
                 if (err) throw err;
@@ -98,15 +101,15 @@ function makeDirectoriesSubjects(array, folder){
 
 //Creates a index page for each subject
 //TODO: add indexing :P
-function createSubjectPages(array, folder){
-    if(array){
-        array.forEach(subject => {
-            var spath = 'notes/' + folder + '/' + subject;
-
-            var pages = walk(config.dev.outdir+'/'+spath).map(string => path.basename(string));
+function createSubjectPages(subjects){
+    for(let subject in subjects){
+        subjects[subject].forEach(topic => {
+            let spath = 'notes/' + subject + '/' + topic;
+            let pages = walk(config.dev.outdir+'/'+spath).map(string => path.basename(string));
 
             if(fs.statSync('./'+spath).isDirectory() == false) return false;
-            fs.writeFileSync(config.dev.outdir+"/"+spath+"/index.html", templates.buildSubjectHTML(subject, pages, navbar), (err)=>{
+            
+            fs.writeFileSync(config.dev.outdir+"/"+spath+"/index.html", templates.buildSubjectHTML(topic, pages), (err)=>{
                 if(err){console.log(err)};
             })
         });

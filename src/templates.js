@@ -1,9 +1,14 @@
+module.exports = {headHTML, buildIndexHTML, buildNavbar, buildHTML, buildSubjectHTML}
+
 const path = require("path");
+
+//Navbar HTML to be set during build
+var navbarHTML = '';
 
 var headHTML = `
 <title>ThunderSmotch</title>
 
-<link rel="shortcut icon" href="/favicon.ico"/>
+<link rel="shortcut icon" href="/style/favicon.ico"/>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
@@ -16,7 +21,7 @@ var headHTML = `
 <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
 `;
 
-function buildHTML(content, navbar){
+function buildHTML(content){
     return `
 <!DOCTYPE html>
 <html>
@@ -25,7 +30,7 @@ function buildHTML(content, navbar){
 </head>
 
 <body>
-<div class="navbar">${navbar}</div>
+<div class="navbar">${navbarHTML}</div>
 <div class="content">
 ${content}
 </div>
@@ -39,7 +44,7 @@ ${content}
     `;
 }
 
-function buildIndexHTML(navbar){
+function buildIndexHTML(){
 
 var content = `
 <h1>ThunderSmotch's Scribbles</h1>
@@ -51,10 +56,10 @@ Feel free to share them! :))
 <div id='main'>\\(E = mc^2\\)</div>
 `;
 
-    return buildHTML(content, navbar);
+    return buildHTML(content);
 }
 
-function buildSubjectHTML(subject, pages, navbar){
+function buildSubjectHTML(subject, pages){
 
     var listitems = '';
 
@@ -70,41 +75,38 @@ function buildSubjectHTML(subject, pages, navbar){
     </ul>
     `
 
-    return buildHTML(content, navbar);
+    return buildHTML(content);
 };
 
-function buildNavbar(physics, maths, other){
+//Builds the HTML for the navbar and sets it to the global constant
+function buildNavbar(subjects){
 
-    var mathsButtons = addNoteButtons(maths, "mathematics");
-    var physicsButtons = addNoteButtons(physics, "physics");
-    var otherButtons = addNoteButtons(other, "other");
+    let subjectsHTML = '';
+    for(let subject in subjects){
+        subjectsHTML+=`
+        <div class="column">
+        <h4>${subject}</h4>
+        ${getTopicButtons(subjects[subject], subject)}
+        </div>
+        `;
+    }
 
-    return `
-<a href="/index.html">Home</a>
-<a href="/about.html">About</a>
-<div id="notes" class="dropdown">
-    <button class="dropbtn">Notes<i class="fa fa-caret-down"></i></button>
-    <div class="dropdown-content">
-    <div class="row">
-        <div class="column">
-        <h4>Mathematics</h4>
-        ${mathsButtons}
+    navbarHTML = `
+    <a href="/index.html">Home</a>
+    <a href="/about.html">About</a>
+    <div id="notes" class="dropdown">
+        <button class="dropbtn">Notes<i class="fa fa-caret-down"></i></button>
+        <div class="dropdown-content">
+        <div class="row">
+        ${subjectsHTML}
         </div>
-        <div class="column">
-        <h4>Physics</h4>
-        ${physicsButtons}
         </div>
-        <div class="column">
-        <h4>Other</h4>
-        ${otherButtons}
-        </div>
-    </div>
-    </div>
-</div>    
+    </div>    
 `;
 }
 
-function addNoteButtons(array, subfolder){
+//Returns HTML for a given topic inside a subject
+function getTopicButtons(array, subfolder){
     var html = '';
     if(array){
         array.forEach(folder => {
@@ -113,5 +115,3 @@ function addNoteButtons(array, subfolder){
     }
     return html;
 }
-
-module.exports = {headHTML, buildIndexHTML, buildNavbar, buildHTML, buildSubjectHTML}
