@@ -1,4 +1,4 @@
-module.exports = {buildIndexHTML, buildNavbar, buildHTML, buildSubjectHTML}
+module.exports = {buildIndexHTML, buildNavbar, buildHTML, buildSubjectHTML, buildSidebar}
 const path = require("path");
 
 //Navbar HTML to be set during build
@@ -21,7 +21,7 @@ let headHTML = `
 `;
 
 //Builds any page by inserting the head and the content
-function buildHTML(content){
+function buildHTML(content, sidebar=''){
     return `
 <!DOCTYPE html>
 <html>
@@ -31,8 +31,11 @@ function buildHTML(content){
 
 <body>
 <div class="navbar">${navbarHTML}</div>
-<div class="content">
-${content}
+<div id="main">
+    <div id="sidebar">${sidebar}</div>
+    <div class="content">
+    ${content}
+    </div>
 </div>
 
 <div class="footer">
@@ -61,26 +64,32 @@ Feel free to share them! :))
     return buildHTML(content);
 }
 
-//Build HTML list of notes
-//TODO: Beautify this
-function buildSubjectHTML(subject, pages){
+//Build HTML index page
+function buildSubjectHTML(subject, sidebar, html){
 
-    var listitems = '';
+    let content = `
+    <h3>${subject}</h3>
+    ${html}
+    `
+    return buildHTML(content, sidebar);
+};
+
+//Builds sidebar from a list of pages
+function buildSidebar(pages){
+    let listitems = '';
 
     pages.forEach(page => {
-        listitems += `<li><a href="./${page}">${page}</a></li>`
+        listitems += `<a href="./${page}">${page}</a></br>`
     });
 
-    var content = `
-    <h3>${subject}</h3>
-
-    <ul>
+    let sidebar = `
+    <div class='sidebar'>
+    <div class='sidebarTitle'>Navigation</div>
     ${listitems}
-    </ul>
-    `
+    </div>`;
 
-    return buildHTML(content);
-};
+    return sidebar;
+}
 
 //Builds the HTML for the navbar and sets it to the global constant
 function buildNavbar(subjects){

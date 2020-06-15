@@ -92,6 +92,11 @@ details > summary{
   overflow: hidden;
   background-color: #333;
   font-family: Arial;
+  height: 46px;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 100;
 }
 
 /* Links inside the navbar */
@@ -130,11 +135,11 @@ details > summary{
 /* Dropdown content (hidden by default) */
 .dropdown-content {
   display: none;
-  position: absolute;
+  position: fixed;
   background-color: #f9f9f9;
   width: 100%;
   left: 0;
-  z-index: 1;
+  z-index: 10;
 }
 
 /* Mega Menu header, if needed */
@@ -198,3 +203,56 @@ details > summary{
     height: auto;
   }
 } 
+
+/*SIDEBAR CSS*/
+
+#main{
+  position: relative;
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: 100px;
+}
+
+.sidebar{
+  height: 100%;
+  width:300px;
+  position: fixed;
+  top: 46px;
+  left: -230px;
+  background-color: #efefef;
+  padding-top: 30px;
+  padding-bottom: 80px;
+  box-sizing: border-box;
+  box-shadow: -3px 0px 5px 5px rgba(0,0,0,0.2);
+  transition: all 0.3s;
+}
+
+.sidebar:hover, .sidebar:focus
+{
+  transform: translate3d(230px, 0, 0);
+  animation-timing-function: 1s ease-in;
+}
+
+.sidebarTitle{
+  position:absolute;
+  top: 50%;
+  transform: rotate(270deg);
+	right: -15px;
+	font-weight: 800;
+  font-size: 18px;
+}
+
+.sidebar a {
+  color: black;
+  text-decoration: none;
+  font-size: 20px;
+  display: block;
+  text-align: center;
+  padding-bottom: 5px;
+  padding-top: 5px;
+}
+
+.sidebar a:hover {
+  text-decoration: underline;
+}

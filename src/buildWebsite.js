@@ -17,9 +17,14 @@ buildIndexHTML();
 
 //TODO: Have a sidebar with each topic's index
 for(let subject in subjects){
-    makeSubjectDirectory(subject, subjects[subject]);
-    parseSubjectNotes(subject);
-    createSubjectIndexPages(subject, subjects[subject]);
+    subjects[subject].forEach(topic => {
+        makeTopicDirectory(subject, topic);
+        //TODO Somehow discover the HTML structure without parsing the files
+        let pages = getTopicPages(subject, topic);
+        let sidebar = templates.buildSidebar(pages);
+        createTopicIndexPage(subject, topic, sidebar);
+        parseTopicNotes(subject, topic, sidebar);
+    });
 }
 
 ////////////////////////////// HELPER FUNCTIONS /////////////////////////////////////////
@@ -43,9 +48,35 @@ function getNotesSubjects(){
     return subjects;
 }
 
+//Returns array with topic pages (ordered if possible)
+function getTopicPages(subject, topic) {
+    let spath = config.dev.notesdir + '/' + subject + '/' + topic;
+    let res = walk(spath).map(file => {
+        return path.basename(file);
+    });
+
+    res.filter(file => {
+       return path.extname(file).toLowerCase() === '.webtex' || path.extname(file).toLowerCase() === '.html';
+    });
+
+    //Remove extension names
+    res = res.map(file => {
+        return (file.split('.')[0] + '.html');
+    });
+
+    if(fs.existsSync('./' + spath + '/data.json')){
+        let data = require('../' + spath + '/data.json');
+        res = orderPages(res, data['files']);
+    } else{
+        res.unshift('index.html');
+    }
+
+    return res;
+}
+
 //Check and parse all files relating to given subject
-function parseSubjectNotes(subject) {
-    let spath = config.dev.notesdir + '/' + subject;
+function parseTopicNotes(subject, topic, sidebar) {
+    let spath = config.dev.notesdir + '/' + subject + '/' + topic;
     let res = walk(spath);
     for (let i = 0; i < res.length; i++) {
 
@@ -56,11 +87,11 @@ function parseSubjectNotes(subject) {
         if (ext == '.webtex') {
             var content = fs.readFileSync(res[i], 'utf8');
             var data = parser.parseWebtex(content);
-            fs.writeFileSync(config.dev.outdir + filepath + '.html', templates.buildHTML(data));
+            fs.writeFileSync(config.dev.outdir + filepath + '.html', templates.buildHTML(data, sidebar));
         }
         else if (ext == '.html') {
             var content = fs.readFileSync(res[i], 'utf8');
-            fs.writeFileSync(config.dev.outdir + filepath + '.html', templates.buildHTML(content));
+            fs.writeFileSync(config.dev.outdir + filepath + '.html', templates.buildHTML(content, sidebar));
         }
         else {
             console.log("File not handled: " + filepath + ext);
@@ -94,34 +125,29 @@ function makeOutputFolder() {
     });
 }
 
-//Makes the directory structure for a given subject
-function makeSubjectDirectory(subject, topics){
-    topics.forEach(topic => {
-        let fpath = 'notes/'+subject+'/'+topic;
-        if(fs.statSync('./'+fpath).isDirectory() == false) return false;
-        fs.mkdirSync(config.dev.outdir+'/'+fpath, { recursive: true }, (err) => {
-            if (err) throw err;
-        });
+//Makes the directory structure for a given topic under a given subject
+function makeTopicDirectory(subject, topic){
+    let fpath = 'notes/'+subject+'/'+topic;
+    if(fs.statSync('./'+fpath).isDirectory() == false) return false;
+    fs.mkdirSync(config.dev.outdir+'/'+fpath, { recursive: true }, (err) => {
+        if (err) throw err;
     });
 }
 
 //Creates a index page for each subject
-function createSubjectIndexPages(subject, topics){
-    topics.forEach(topic => {
-        let spath = 'notes/' + subject + '/' + topic;
-        let pages = walk(config.dev.outdir+'/'+spath).map(string => path.basename(string));
+function createTopicIndexPage(subject, topic, sidebar){
+    let spath = 'notes/' + subject + '/' + topic;
+    let html='No available info.';
+    
+    //Grab info html from json if available
+    if(fs.existsSync('./' + spath + '/data.json')){
+        let data = require('../' + spath + '/data.json');
+        html = data['info'];
+    }
 
-        if(fs.statSync('./'+spath).isDirectory() == false) return false;
-        
-        if(fs.existsSync('./' + spath + '/data.json')){
-            let data = require('../' + spath + '/data.json');
-            pages = orderPages(pages, data['files']);
-        }
-
-        fs.writeFileSync(config.dev.outdir+"/"+spath+"/index.html", templates.buildSubjectHTML(topic, pages), err =>{
-            if(err){console.log(err)};
-        })
-    });
+    fs.writeFileSync(config.dev.outdir+"/"+spath+"/index.html", templates.buildSubjectHTML(topic, sidebar, html), err =>{
+        if(err){console.log(err)};
+    })
 }
 
 //Orders pages according to json if available
