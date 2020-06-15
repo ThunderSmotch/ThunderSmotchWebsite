@@ -14,6 +14,7 @@ moveFilesFrom('style');
 const subjects = getNotesSubjects();
 templates.buildNavbar(subjects);
 buildIndexHTML();
+buildAboutHTML();
 
 for(let subject in subjects){
     subjects[subject].forEach(topic => {
@@ -31,6 +32,15 @@ for(let subject in subjects){
 function buildIndexHTML() {
     var indexhtml = templates.buildIndexHTML();
     fs.writeFile(config.dev.outdir + "/index.html", indexhtml, function (err) {
+        if (err)
+            console.log(err);
+    });
+}
+
+//Builds the about page of the website
+function buildAboutHTML() {
+    var abouthtml = templates.buildAboutHTML();
+    fs.writeFile(config.dev.outdir + "/about.html", abouthtml, function (err) {
         if (err)
             console.log(err);
     });

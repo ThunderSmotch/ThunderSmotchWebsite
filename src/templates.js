@@ -1,4 +1,4 @@
-module.exports = {buildIndexHTML, buildNavbar, buildHTML, buildSubjectHTML, buildSidebar}
+module.exports = {buildIndexHTML, buildNavbar, buildHTML, buildSubjectHTML, buildSidebar, buildAboutHTML}
 const path = require("path");
 
 //Navbar HTML to be set during build
@@ -61,6 +61,24 @@ Feel free to share them! :))
 <div id='main'>\\(Latex\\quad is\\quad cool...\\)</div>
 `;
 
+    return buildHTML(content);
+}
+
+//About page for the Website
+function buildAboutHTML(){
+
+    var content = `
+    <h1>ThunderSmotch - Carlos Couto</h1>
+    </br>
+    Someone who loves physics, maths and computer science. Always procrastinating...
+    </br>
+    You can find me at:</br>
+    <ul>
+    <li>Email: thundersmotch@gmail.com</li>
+    <li><a href='https://github.com/ThunderSmotch'>Github</a></li>
+    </ul>
+    `;
+    
     return buildHTML(content);
 }
 
