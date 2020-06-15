@@ -4,6 +4,7 @@ const config = require("./config");
 
 const templates = require("./templates");
 const parser = require("./webtexParser");
+const { buildSubjectHTML } = require("./templates");
 
 //////////////////////Building the Website//////////////////////////////
 makeOutputFolder();
@@ -13,9 +14,14 @@ moveFilesFrom('style');
 const subjects = getNotesSubjects();
 templates.buildNavbar(subjects);
 buildIndexHTML();
-makeDirectoriesSubjects(subjects);
-parseNotes();
-createSubjectPages(subjects);
+
+//TODO: Have a sidebar with each topic's index
+for(let subject in subjects){
+    makeSubjectDirectory(subject, subjects[subject]);
+    parseSubjectNotes(subject);
+    createSubjectIndexPages(subject, subjects[subject]);
+}
+
 ////////////////////////////// HELPER FUNCTIONS /////////////////////////////////////////
 
 //Builds the main page of the website
@@ -37,9 +43,10 @@ function getNotesSubjects(){
     return subjects;
 }
 
-//Check and parse all files inside notesdir
-function parseNotes() {
-    let res = walk(config.dev.notesdir);
+//Check and parse all files relating to given subject
+function parseSubjectNotes(subject) {
+    let spath = config.dev.notesdir + '/' + subject;
+    let res = walk(spath);
     for (let i = 0; i < res.length; i++) {
 
         var ext = path.extname(res[i]);
@@ -87,37 +94,34 @@ function makeOutputFolder() {
     });
 }
 
-function makeDirectoriesSubjects(subjects){
-    for(let subject in subjects){
-        subjects[subject].forEach(topic => {
-            let fpath = 'notes/'+subject+'/'+topic;
-            if(fs.statSync('./'+fpath).isDirectory() == false) return false;
-            fs.mkdirSync(config.dev.outdir+'/'+fpath, { recursive: true }, (err) => {
-                if (err) throw err;
-            });
+//Makes the directory structure for a given subject
+function makeSubjectDirectory(subject, topics){
+    topics.forEach(topic => {
+        let fpath = 'notes/'+subject+'/'+topic;
+        if(fs.statSync('./'+fpath).isDirectory() == false) return false;
+        fs.mkdirSync(config.dev.outdir+'/'+fpath, { recursive: true }, (err) => {
+            if (err) throw err;
         });
-    }
+    });
 }
 
 //Creates a index page for each subject
-function createSubjectPages(subjects){
-    for(let subject in subjects){
-        subjects[subject].forEach(topic => {
-            let spath = 'notes/' + subject + '/' + topic;
-            let pages = walk(config.dev.outdir+'/'+spath).map(string => path.basename(string));
+function createSubjectIndexPages(subject, topics){
+    topics.forEach(topic => {
+        let spath = 'notes/' + subject + '/' + topic;
+        let pages = walk(config.dev.outdir+'/'+spath).map(string => path.basename(string));
 
-            if(fs.statSync('./'+spath).isDirectory() == false) return false;
-            
-            if(fs.existsSync('./' + spath + '/data.json')){
-                let data = require('../' + spath + '/data.json');
-                pages = orderPages(pages, data['files']);
-            }
+        if(fs.statSync('./'+spath).isDirectory() == false) return false;
+        
+        if(fs.existsSync('./' + spath + '/data.json')){
+            let data = require('../' + spath + '/data.json');
+            pages = orderPages(pages, data['files']);
+        }
 
-            fs.writeFileSync(config.dev.outdir+"/"+spath+"/index.html", templates.buildSubjectHTML(topic, pages), err =>{
-                if(err){console.log(err)};
-            })
-        });
-    }
+        fs.writeFileSync(config.dev.outdir+"/"+spath+"/index.html", templates.buildSubjectHTML(topic, pages), err =>{
+            if(err){console.log(err)};
+        })
+    });
 }
 
 //Orders pages according to json if available
