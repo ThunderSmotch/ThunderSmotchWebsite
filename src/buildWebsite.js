@@ -15,11 +15,9 @@ const subjects = getNotesSubjects();
 templates.buildNavbar(subjects);
 buildIndexHTML();
 
-//TODO: Have a sidebar with each topic's index
 for(let subject in subjects){
     subjects[subject].forEach(topic => {
         makeTopicDirectory(subject, topic);
-        //TODO Somehow discover the HTML structure without parsing the files
         let pages = getTopicPages(subject, topic);
         let sidebar = templates.buildSidebar(pages);
         createTopicIndexPage(subject, topic, sidebar);

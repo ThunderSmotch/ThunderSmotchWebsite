@@ -79,7 +79,11 @@ function buildSidebar(pages){
     let listitems = '';
 
     pages.forEach(page => {
-        listitems += `<a href="./${page}">${page}</a></br>`
+        //Capitalize Name
+        let name = page.split('.')[0];
+        name = name.charAt(0).toUpperCase() + name.substring(1);
+        //Add to list
+        listitems += `<a href="./${page}">${name}</a></br>`
     });
 
     let sidebar = `
