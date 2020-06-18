@@ -1,10 +1,9 @@
 const fs = require("fs");
 const path = require("path");
-const config = require("./config");
 
+const config = require("./config");
 const templates = require("./templates");
 const parser = require("./webtexParser");
-const { buildSubjectHTML } = require("./templates");
 
 //////////////////////Building the Website//////////////////////////////
 makeOutputFolder();

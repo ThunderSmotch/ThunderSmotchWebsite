@@ -1,0 +1,53 @@
+/*Titles*/
+
+h1{
+font-size: 2.5em;
+}
+
+h2{
+font-size: 2.2em;
+}
+
+h3{
+font-size: 1.8em;
+}
+
+h4{
+font-size: 1.5em;
+}
+
+h5{
+font-size: 1em;
+}
+
+h6{
+font-size: 0.7em;
+}
+
+/* Spoiler Blocks */
+
+details[open] summary ~ * {
+    animation: sweep .5s ease-in-out;
+  }
+
+details {
+  border-style: groove;
+  border-width: 2px;
+  border-radius: 5px;
+  padding: 5px;
+  margin:auto;
+  margin-top: 30px;
+  background-color: rgb(196, 196, 196);
+  width: 90%;
+}
+
+details > summary{
+  text-decoration: underline;
+  font-weight: bold;
+  font-size: large;
+}
+
+@keyframes sweep {
+  0%    {opacity: 0; margin-bottom: -20px}
+  100%  {opacity: 1; margin-bottom: 0px}
+}
