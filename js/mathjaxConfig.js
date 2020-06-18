@@ -5,6 +5,6 @@ window.MathJax = {
 		Im: "{\\operatorname{Im}}",
 	  },
 	  inlineMath: [['$', '$'], ['\\(', '\\)']],
-	  tags: 'all'
-	}
+	  tags: 'all',
+	},
 };

@@ -16,13 +16,15 @@ templates.buildNavbar(subjects);
 buildIndexHTML();
 buildAboutHTML();
 
+//MAYBE Make this code work for any depth of folders.
+//Loop over topics
 for(let subject in subjects){
     subjects[subject].forEach(topic => {
         makeTopicDirectory(subject, topic);
         let pages = getTopicPages(subject, topic);
         let sidebar = templates.buildSidebar(pages);
-        createTopicIndexPage(subject, topic, sidebar);
         parseTopicNotes(subject, topic, sidebar);
+        createTopicIndexPage(subject, topic, sidebar);
     });
 }
 
@@ -142,16 +144,19 @@ function makeTopicDirectory(subject, topic){
     });
 }
 
-//Creates a index page for each subject
+//Creates a index page for each subject if it does not exist
 function createTopicIndexPage(subject, topic, sidebar){
     let spath = 'notes/' + subject + '/' + topic;
-    let html='No available info.';
     
-    //Grab info html from json if available
-    if(fs.existsSync('./' + spath + '/data.json')){
-        let data = require('../' + spath + '/data.json');
-        html = data['info'];
+    //If index page already exists then cancel this
+    //HACK only working for HTML and Webtex (should generalize this)
+    if(fs.existsSync('./' + spath + '/index.html') || fs.existsSync('./' + spath + '/index.webtex')){
+        console.log('INDEX ALREADY EXISTS')
+        return;
     }
+
+    //If there is no index page we make one
+    let html='No index page was provided. This is a default index page.';
 
     fs.writeFileSync(config.dev.outdir+"/"+spath+"/index.html", templates.buildSubjectHTML(topic, sidebar, html), err =>{
         if(err){console.log(err)};
