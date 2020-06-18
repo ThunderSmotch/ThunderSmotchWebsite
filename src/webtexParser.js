@@ -6,6 +6,7 @@ function parseWebtex(data){
     data = replaceLinks(data);
     data = replaceSpoiler(data);
     data = replaceSections(data);
+    data = replaceMathEnvironments(data)
 
     return data;
 }
@@ -36,6 +37,29 @@ function replaceSections(data){
     data = replaceCommand(data, 'subparagraph', 'h6');
 
     return data;
+}
+
+
+function replaceMathEnvironments(data){
+    data = replaceMathEnvironment(data, 'definition');
+
+    return data;
+}
+
+//Replace a math environment env that has title
+function replaceMathEnvironment(data, env){
+    var reg = new RegExp('\\\\begin{'+env+'}\\[(.+)\\][\\s\\r\\n]+([\\s\\S]*?)\\\\end{'+env+'}', 'g')
+
+    var str = data.replace(reg, 
+    function (match, p1, p2){
+        return `
+<div class='${env}' title='${p1}'>
+${p2}
+</div>
+`;
+    }
+);
+return str;
 }
 
 //Replaces \begin{spoiler}[info] with the details HTML tag using the power of Regex

@@ -60,13 +60,18 @@ details > summary{
 
   margin: 12px 0;
 
+  border-style: solid;
+  border-width: 2px;
+
   font-style: normal;
 
 }
 
 .definition:before {
+  white-space: pre-wrap;
+  content: "Definition (" attr(title) ") \A\A";
 
-  content: "Definition.";
+  font-size: 1.1em;
 
   font-weight: bold;
 
