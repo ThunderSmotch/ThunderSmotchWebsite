@@ -156,7 +156,6 @@ function createTopicIndexPage(subject, topic, sidebar){
     
     //If index page already exists then cancel this
     if(indexFileExists(spath)){
-        console.log('INDEX ALREADY EXISTS')
         return;
     }
 
