@@ -77,11 +77,17 @@ function getTopicPages(subject, topic) {
     if(fs.existsSync('./' + spath + '/data.json')){
         let data = require('../' + spath + '/data.json');
         res = orderPages(res, data['files']);
-    } else{
+    } else if(!indexFileExists(spath)){
         res.unshift('index.html');
     }
 
     return res;
+}
+
+//Check relative path to see if an index file exists
+//HACK only working for HTML and Webtex (should generalize this)
+function indexFileExists(spath) {
+    return fs.existsSync('./' + spath + '/index.html') || fs.existsSync('./' + spath + '/index.webtex');
 }
 
 //Check and parse all files relating to given subject
@@ -149,8 +155,7 @@ function createTopicIndexPage(subject, topic, sidebar){
     let spath = 'notes/' + subject + '/' + topic;
     
     //If index page already exists then cancel this
-    //HACK only working for HTML and Webtex (should generalize this)
-    if(fs.existsSync('./' + spath + '/index.html') || fs.existsSync('./' + spath + '/index.webtex')){
+    if(indexFileExists(spath)){
         console.log('INDEX ALREADY EXISTS')
         return;
     }
@@ -166,7 +171,6 @@ function createTopicIndexPage(subject, topic, sidebar){
 //Orders pages according to json if available
 function orderPages(pages, data){
     let result = [];
-    result.push('index.html');
 
     data.forEach(page => {
         if(pages.includes(page + '.html'))
