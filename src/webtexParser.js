@@ -3,6 +3,7 @@ module.exports = { parseWebtex }
 function parseWebtex(data){
     
     data = replaceStyling(data);
+    data = replaceLinks(data);
     data = replaceSpoiler(data);
     data = replaceSections(data);
 
@@ -14,6 +15,13 @@ function replaceStyling(data){
     data = replaceCommand(data, 'textit', 'i');
     data = replaceCommand(data, 'textbf', 'b');
     data = replaceCommand(data, 'underline', 'u');
+
+    return data;
+}
+
+//Replace href
+function replaceLinks(data){
+    data = replaceHref(data);
 
     return data;
 }
@@ -42,6 +50,17 @@ ${p2}
 </details>`;
         }
     );
+    return str;
+}
+
+//Replaces \href{link}{text} with <a href='link'>text</a>.
+function replaceHref(data){
+    var reg = new RegExp('\\\\' + 'href' + '\\*?{(.+)}{(.+)}', 'g');
+
+    var str = data.replace(reg, 
+        function (match, p1, p2){
+            return `<a href='${p1}'>${p2}</a>`;
+        });
     return str;
 }
 

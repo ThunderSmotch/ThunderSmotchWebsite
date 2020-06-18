@@ -51,3 +51,25 @@ details > summary{
   0%    {opacity: 0; margin-bottom: -20px}
   100%  {opacity: 1; margin-bottom: 0px}
 }
+
+/*Latex Environments*/
+
+.definition {
+
+  display: block;
+
+  margin: 12px 0;
+
+  font-style: normal;
+
+}
+
+.definition:before {
+
+  content: "Definition.";
+
+  font-weight: bold;
+
+  font-style: normal;
+
+}
