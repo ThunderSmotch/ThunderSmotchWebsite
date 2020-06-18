@@ -5,6 +5,7 @@ const config = require("./config");
 const templates = require("./templates");
 const parser = require("./webtexParser");
 
+//TODO only generate page if it was updated recently
 //////////////////////Building the Website//////////////////////////////
 makeOutputFolder();
 moveFilesFrom('js');

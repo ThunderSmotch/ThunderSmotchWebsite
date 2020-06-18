@@ -2,12 +2,23 @@ module.exports = { parseWebtex }
 
 function parseWebtex(data){
     
+    data = replaceStyling(data);
     data = replaceSpoiler(data);
     data = replaceSections(data);
 
     return data;
 }
 
+//Replaces the styling by HTML tags
+function replaceStyling(data){
+    data = replaceCommand(data, 'textit', 'i');
+    data = replaceCommand(data, 'textbf', 'b');
+    data = replaceCommand(data, 'underline', 'u');
+
+    return data;
+}
+
+//Replaces Sections by HTML headers
 function replaceSections(data){
     data = replaceCommand(data, 'chapter', 'h1');
     data = replaceCommand(data, 'section', 'h2');
