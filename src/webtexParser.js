@@ -3,12 +3,22 @@ module.exports = { parseWebtex }
 //TODO: Detect line break as two blank linebreaks on the tex file.
 function parseWebtex(data){
     
+    data = removeComments(data);
     data = replaceStyling(data);
     data = replaceLinks(data);
     data = replaceSpoiler(data);
     data = replaceSections(data);
     data = replaceMathEnvironments(data)
     data = replaceParagraphs(data);
+
+    return data;
+}
+
+
+function removeComments(data){
+    let reg = /^%[\s\S]+$/gm;
+
+    data = data.replace(reg, '');
 
     return data;
 }
