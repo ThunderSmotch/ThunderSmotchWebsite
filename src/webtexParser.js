@@ -8,6 +8,19 @@ function parseWebtex(data){
     data = replaceSpoiler(data);
     data = replaceSections(data);
     data = replaceMathEnvironments(data)
+    data = replaceParagraphs(data);
+
+    return data;
+}
+
+//HACK HIGHLY EXPERIMENTAL
+//Puts p tags around everything that resembles a paragraph
+function replaceParagraphs(data){
+    let reg = /[^\r\n]+((\r|\n|\r\n)[^\r\n]+)*/gm;
+
+    data = data.replace(reg, (match)=>{
+       return `<p>${match}</p>`;
+    });
 
     return data;
 }
@@ -40,7 +53,7 @@ function replaceSections(data){
     return data;
 }
 
-
+//Replaces amsmath environments with the according divs
 function replaceMathEnvironments(data){
     data = replaceMathEnvironment(data, 'definition');
 

@@ -17,6 +17,10 @@ body{
   line-height: 30px;
 }
 
+.content p {
+  text-indent: 5%;
+}
+
 .footer {
   z-index: 15;
   position: fixed;
