@@ -1,0 +1,28 @@
+\section{Complex Numbers}
+
+Complex numbers are an extension of the real numbers. They arise from the need of having solutions to equations of the form: 
+\[ x^{2} + 1 = 0\ , \]
+which have no solutions on the real numbers. We thus define the following number: 
+\[ i = \sqrt{ - 1}\ , \]
+which is a solution to the above equation. As such we have that 
+\( i^{2} = - 1 \). 
+
+Formally we have,
+\begin{definition}[Complex Number]
+A \textbf{complex number}, 
+\( z \), is a pair 
+\( (a, b) \) where 
+\( a,b \in \mathbb{R} \) that can also be written as 
+\( z = a + b i \).
+\end{definition}
+
+We want to define addition and multiplication of complex numbers with two criteria in mind. The first is that it should be defined in such a way that the usual addition and multiplication of real numbers still makes sense. The second is that we should pay attention to the fact that 
+\( i^{2} = - 1 \). The obvious procedure thus is to simply extend the usual definitions to the complex numbers and see if they work (Spoiler alert, \textit{they do}). By extending the usual definitions we mean to treat 
+\( i \) as if it were a real number and to use the usual distributive and associative properties of real numbers to perform the sum and product. Doing so we can see that,
+
+\begin{definition}[Addition and Multiplication of Complex Numbers]
+    Let \( z = a + b i \) and \( w = c + d i \) be complex numbers. Their sum is defined as: 
+    \[ (a + b i) + (c + d i) = (a + c) + i (b + d)\ ,  \]
+    and their product is defined as: 
+    \[ (a + b i)(c + d i) = (ac - bd) + i (ad + bc) \]  
+\end{definition}
