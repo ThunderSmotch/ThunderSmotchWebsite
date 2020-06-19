@@ -23,7 +23,6 @@ for(let subject in subjects){
         makeTopicDirectory(subject, topic);
         let pages = getTopicPages(subject, topic);
         let sidebar = templates.buildSidebar(pages);
-        moveTopicFiles(subject, topic);
         parseTopicNotes(subject, topic, sidebar);
         createTopicIndexPage(subject, topic, sidebar);
     });
@@ -91,15 +90,6 @@ function indexFileExists(spath) {
     return fs.existsSync('./' + spath + '/index.html') || fs.existsSync('./' + spath + '/index.webtex');
 }
 
-//Moves images and other files that do not need parsing
-function moveTopicFiles(subject, topic){
-    let ipath = 'notes' + '/' + subject + '/' + topic;
-    let opath = '/notes' + '/' + subject + '/' + topic;
-
-    //Implement moving
-    moveFiles(ipath + '/img', opath + '/img');
-}
-
 //Check and parse all files relating to given subject
 function parseTopicNotes(subject, topic, sidebar) {
     let spath = config.dev.notesdir + '/' + subject + '/' + topic;
@@ -120,7 +110,9 @@ function parseTopicNotes(subject, topic, sidebar) {
             fs.writeFileSync(config.dev.outdir + filepath + '.html', templates.buildHTML(content, sidebar));
         }
         else if (ext == '.png' || ext == '.jpg') {
-            fs.copyFileSync(res[i], config.dev.outdir + filepath + ext);
+            let outpath = config.dev.outdir + filepath + ext;
+            ensureDirectoryExists(outpath);
+            fs.copyFileSync(res[i], outpath);
         }
         else {
             console.log("File not handled: " + filepath + ext);
@@ -220,3 +212,12 @@ function walk(dir) {
 
     return results;
 }
+
+//Ensures Directory Exists
+function ensureDirectoryExists(filePath) {
+    var dirname = path.dirname(filePath);
+    if (fs.existsSync(dirname)) {
+      return true;
+    }
+    fs.mkdirSync(dirname, {recursive: true});
+  }
