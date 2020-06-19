@@ -26,3 +26,5 @@ We want to define addition and multiplication of complex numbers with two criter
     and their product is defined as: 
     \[ (a + b i)(c + d i) = (ac - bd) + i (ad + bc) \]  
 \end{definition}
+
+%TODO Put interactive sum and multiplication of complex numbers

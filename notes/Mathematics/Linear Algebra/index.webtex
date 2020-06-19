@@ -6,3 +6,10 @@ They are based on the fantastic book by Sheldon Axler, \href{http://linear.axler
 
 My goal with these is to expand upon the above references inserting my own tidbits and remarks, as well as my own exercises and examples.
 Moreover, I intend to somehow put some sort of interactivity on these notes. But we will see...
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{linear_algebra.png}
+    \caption{X}
+    \label{fig:bla}
+\end{figure}
