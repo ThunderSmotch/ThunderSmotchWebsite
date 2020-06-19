@@ -1,5 +1,6 @@
 module.exports = { parseWebtex }
 
+//TODO: Detect line break as two blank linebreaks on the tex file.
 function parseWebtex(data){
     
     data = replaceStyling(data);
