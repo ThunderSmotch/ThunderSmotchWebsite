@@ -23,6 +23,7 @@ for(let subject in subjects){
         makeTopicDirectory(subject, topic);
         let pages = getTopicPages(subject, topic);
         let sidebar = templates.buildSidebar(pages);
+        moveTopicFiles(subject, topic);
         parseTopicNotes(subject, topic, sidebar);
         createTopicIndexPage(subject, topic, sidebar);
     });
@@ -90,6 +91,15 @@ function indexFileExists(spath) {
     return fs.existsSync('./' + spath + '/index.html') || fs.existsSync('./' + spath + '/index.webtex');
 }
 
+//Moves images and other files that do not need parsing
+function moveTopicFiles(subject, topic){
+    let ipath = 'notes' + '/' + subject + '/' + topic;
+    let opath = '/notes' + '/' + subject + '/' + topic;
+
+    //Implement moving
+    moveFiles(ipath + '/img', opath + '/img');
+}
+
 //Check and parse all files relating to given subject
 function parseTopicNotes(subject, topic, sidebar) {
     let spath = config.dev.notesdir + '/' + subject + '/' + topic;
@@ -109,28 +119,39 @@ function parseTopicNotes(subject, topic, sidebar) {
             var content = fs.readFileSync(res[i], 'utf8');
             fs.writeFileSync(config.dev.outdir + filepath + '.html', templates.buildHTML(content, sidebar));
         }
+        else if (ext == '.png' || ext == '.jpg') {
+            fs.copyFileSync(res[i], config.dev.outdir + filepath + ext);
+        }
         else {
             console.log("File not handled: " + filepath + ext);
         }
     }
 }
 
-//Moves files from global folder to a folder inside the output directory
-function moveFilesFrom(folder) {
+//Moves files from global input folder to output folder inside the output directory
+function moveFiles(input, output) {
+
+    if(!fs.existsSync(input)) return;
+
     //Create new folder inside output dir
-    fs.mkdirSync(config.dev.outdir + '/'+ folder +'/', { recursive: true }, (err) => {
+    fs.mkdirSync(config.dev.outdir + '/'+ output +'/', { recursive: true }, (err) => {
         if (err)
             throw err;
     });
 
     //Move files to newly created folder
-    let files = walk("./" + folder);
+    let files = walk("./" + input);
     files.forEach(function (file) {
-        fs.copyFile(file, config.dev.outdir + '/'+ folder +'/' + path.basename(file), (err) => {
+        fs.copyFile(file, config.dev.outdir + '/'+ output +'/' + path.basename(file), (err) => {
             if (err)
                 throw err;
         });
     });
+}
+
+//Moves files from global folder to a folder inside the output directory
+function moveFilesFrom(folder) {
+    moveFiles(folder, folder);
 }
 
 //Read config and create folder where website will be built into

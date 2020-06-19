@@ -21,6 +21,10 @@ body{
   text-indent: 5%;
 }
 
+.content img {
+  max-width: 800px;
+}
+
 .footer {
   z-index: 15;
   position: fixed;
