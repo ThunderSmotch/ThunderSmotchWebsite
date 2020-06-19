@@ -4,6 +4,7 @@ module.exports = { parseWebtex }
 function parseWebtex(data){
     
     data = removeComments(data);
+    data = replaceFigure(data);
     data = replaceStyling(data);
     data = replaceLinks(data);
     data = replaceSpoiler(data);
@@ -14,7 +15,18 @@ function parseWebtex(data){
     return data;
 }
 
+//Replace figure environments with the img html tag
+function replaceFigure(data){
+    let reg = /\\begin{figure}[\s\S]+includegrap[\s\S]+?{([\S]+)}[\s\S]+\\end{figure}/mg;
 
+    data = data.replace(reg, (match, p1)=>{
+        return `<img alt='${p1}' src='${p1}'>`;
+    });
+
+    return data;
+}
+
+//Removes comments (lines starting with %)
 function removeComments(data){
     let reg = /^%[\s\S]+$/gm;
 
