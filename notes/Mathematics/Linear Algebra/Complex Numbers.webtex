@@ -28,3 +28,5 @@ We want to define addition and multiplication of complex numbers with two criter
 \end{definition}
 
 %TODO Put interactive sum and multiplication of complex numbers
+\script{test.js}
+

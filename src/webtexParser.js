@@ -22,8 +22,7 @@ function replaceScripts(data){
 
     data = data.replace(reg, 
         function (match, p1){
-            console.log(match);
-            return `<script async src="js/${p1}">`;
+            return `<div id='${p1}'><script async src="js/${p1}"></div>`;
         });
 
     return data;
