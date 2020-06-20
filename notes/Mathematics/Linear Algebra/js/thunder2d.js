@@ -34,7 +34,25 @@ export class Thunder2D {
         canvas.style.height = canvas_height + 'px';
     }
 
+    //Function that is called to handle a click inside the canvas
+    //Calls the handler function with the canvas position where the click occurred
+    click(handler){
+        $('#'+this.id).click((e)=>{
+            let rect = this.canvas.getBoundingClientRect(); 
+            let x = (e.clientX - rect.left)/rect.width;
+            let y = 1-(e.clientY - rect.top)/rect.height;
+            let point = {x: x, y:y};
+            handler(point);
+        });
+    }
+
     //Drawing functions
+
+    //Clears the entire canvas
+    clear(){
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.ctx.beginPath();
+    }
 
     //Draws line on canvas (0,0) is bottom-left corner (1,1) is top-right corner
     //Thus coordinates are in percentage
@@ -58,5 +76,15 @@ export class Thunder2D {
         let arrowAngle = 30*Math.PI/180.0;
         this.drawLine(finalPoint.x, finalPoint.y, angle-Math.PI-arrowAngle, arrowsize);
         this.drawLine(finalPoint.x, finalPoint.y, angle-Math.PI+arrowAngle, arrowsize);
+    }
+
+    //Write text to canvas
+    write(text, x=0, y=0.9, center=false){
+        let cx = x*this.canvasW;
+        let cy = (1-y)*this.canvasH;
+
+        this.ctx.font = "20px Roboto";
+        this.ctx.textAlign = center ? "center":"start";
+        this.ctx.fillText(text, cx, cy);
     }
 }
