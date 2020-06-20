@@ -11,6 +11,20 @@ function parseWebtex(data){
     data = replaceSections(data);
     data = replaceMathEnvironments(data)
     data = replaceParagraphs(data);
+    data = replaceScripts(data);
+
+    return data;
+}
+
+//Replace script commands with a script tag
+function replaceScripts(data){
+    let reg = /\\script{(.+)}/g;
+
+    data = data.replace(reg, 
+        function (match, p1){
+            console.log(match);
+            return `<script async src="js/${p1}">`;
+        });
 
     return data;
 }
@@ -28,7 +42,7 @@ function replaceFigures(data){
 
 //Removes comments (lines starting with %)
 function removeComments(data){
-    let reg = /^%[\s\S]+$/gm;
+    let reg = /^%[\s\S]+?$/gm;
 
     data = data.replace(reg, '');
 
