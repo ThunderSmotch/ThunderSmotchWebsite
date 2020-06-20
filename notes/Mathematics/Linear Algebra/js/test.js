@@ -1,40 +1,26 @@
+import {Thunder2D} from './thunder2d.js';
+
 let div = $('#test\\.js');
-div.append('<canvas id="myCanvas" width="800" height="600"></canvas>');
+let canvas = Thunder2D.createCanvas(div, 'testCanvas');
 
-var canvas = $('#myCanvas')[0];
-var ctx = canvas.getContext("2d");
+canvas.drawLineFromTo(0,0,1,1);
+canvas.drawLineFromTo(0,1,1,0);
 
-//TODO Move canvas stuff to a global script
-const canvasW = canvas.getBoundingClientRect().width;
-const canvasH = canvas.getBoundingClientRect().height;
+canvas.drawLineFromTo(0,0,1,0);
+canvas.drawLineFromTo(0,0,0,1);
 
-ctx.moveTo(0, 0);
-ctx.lineTo(canvasW, canvasH);
-ctx.stroke(); 
+canvas.drawArrow(0.5, 0.5, Math.PI/2, 0.3);
 
-ctx.moveTo(0, canvasH);
-ctx.lineTo(canvasW, 0);
-ctx.stroke(); 
-
-ctx.moveTo(1, 1);
-ctx.lineTo(canvasW, 1);
-ctx.stroke();
-
-ctx.moveTo(1, 1);
-ctx.lineTo(1, canvasH);
-ctx.stroke();
-
-window.addEventListener('load', resize, false);
-window.addEventListener('resize', resize, false);
-
-function resize() {
-    var ratio = canvas.width / canvas.height;
-
-    let maxWidth = $(".content").width();
-
-    var canvas_width = maxWidth;
-    var canvas_height = maxWidth / ratio;
-
-    canvas.style.width = canvas_width + 'px';
-    canvas.style.height = canvas_height + 'px';
-}
+/*
+$('#testCanvas').click((e)=>{
+    let rect = canvas.getBoundingClientRect(); 
+    let x = (e.clientX - rect.left)/rect.width;
+    let y = 1-(e.clientY - rect.top)/rect.height;
+    
+    let dx = x-0.5;
+    let dy = y-0.5;
+    let angle = Math.atan(dy/dx);
+    angle = (dx < 0) ? angle + Math.PI: angle;
+    let distance = Math.sqrt(dx*dx+dy*dy);
+    drawArrow(0.5, 0.5, angle, distance);
+});*/
