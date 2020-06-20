@@ -1,5 +1,6 @@
 export class Thunder2D {
-    constructor(cnvas){
+    constructor(cnvas, id){
+        this.id = id;
         this.canvas = cnvas;
         this.ctx = this.canvas.getContext("2d");
         this.ctx.translate(0.5,0.5);
@@ -15,16 +16,16 @@ export class Thunder2D {
     static createCanvas(el, id, width = 800, height = 600){
         el.append(`<canvas id="${id}" width="${width}" height="${height}"></canvas>`);
         let canvas = $(`#${id}`)[0];
-        return new Thunder2D(canvas);
+        return new Thunder2D(canvas, id);
     }
 
-    //FIXME using .content this is not general!
+    //Resizes the canvas according to parent's width
     resize() {
         let canvas = this.canvas;
 
         var ratio = canvas.width / canvas.height;
     
-        let maxWidth = $(".content").width();
+        let maxWidth = $("#"+this.id).parent().width();
     
         var canvas_width = maxWidth;
         var canvas_height = maxWidth / ratio;
