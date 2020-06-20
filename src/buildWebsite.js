@@ -109,6 +109,11 @@ function parseTopicNotes(subject, topic, sidebar) {
             var content = fs.readFileSync(res[i], 'utf8');
             fs.writeFileSync(config.dev.outdir + filepath + '.html', templates.buildHTML(content, sidebar));
         }
+        else if (ext == '.js'){
+            let outpath = config.dev.outdir + filepath + ext;
+            ensureDirectoryExists(outpath);
+            fs.copyFileSync(res[i], outpath);
+        }
         else if (ext == '.png' || ext == '.jpg') {
             let outpath = config.dev.outdir + filepath + ext;
             ensureDirectoryExists(outpath);
