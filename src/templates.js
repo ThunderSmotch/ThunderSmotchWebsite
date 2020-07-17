@@ -198,7 +198,7 @@ function getTopicButtons(array, subfolder){
     var html = '';
     if(array){
         array.forEach(folder => {
-            html += `<a href="/notes/${subfolder}/${folder}/">${folder}</a>\n`;
+            html += `<a href="/notes/${subfolder}/${folder}/index.html">${folder}</a>\n`;
         });
     }
     return html;
