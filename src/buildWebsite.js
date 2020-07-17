@@ -13,6 +13,7 @@ moveFilesFrom('style');
 //Get all notes directories
 const subjects = getNotesSubjects();
 templates.buildNavbar(subjects);
+//Build Specific Pages
 buildIndexHTML();
 buildAboutHTML();
 
@@ -103,11 +104,11 @@ function parseTopicNotes(subject, topic, sidebar) {
         if (ext == '.webtex') {
             var content = fs.readFileSync(res[i], 'utf8');
             var data = parser.parseWebtex(content);
-            fs.writeFileSync(config.dev.outdir + filepath + '.html', templates.buildHTML(data, sidebar));
+            fs.writeFileSync(config.dev.outdir + filepath + '.html', templates.buildHTMLWithComments(data, sidebar));
         }
         else if (ext == '.html') {
             var content = fs.readFileSync(res[i], 'utf8');
-            fs.writeFileSync(config.dev.outdir + filepath + '.html', templates.buildHTML(content, sidebar));
+            fs.writeFileSync(config.dev.outdir + filepath + '.html', templates.buildHTMLWithComments(content, sidebar));
         }
         else if (ext == '.js'){
             let outpath = config.dev.outdir + filepath + ext;

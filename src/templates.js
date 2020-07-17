@@ -1,4 +1,4 @@
-module.exports = {buildIndexHTML, buildNavbar, buildHTML, buildSubjectHTML, buildSidebar, buildAboutHTML}
+module.exports = {buildIndexHTML, buildNavbar, buildHTML, buildSubjectHTML, buildSidebar, buildAboutHTML, buildHTMLWithComments}
 const path = require("path");
 
 //Navbar HTML to be set during build
@@ -30,6 +30,20 @@ let headHTML = `
 </script>
 `;
 
+//Comment Section (powered by Hyvor Talk)
+let commentSection = `
+<div id="hyvor-talk-view"></div>
+<script type="text/javascript">
+    var HYVOR_TALK_WEBSITE = 1227; // DO NOT CHANGE THIS
+    var HYVOR_TALK_CONFIG = {
+        url: false,
+        id: false
+    };
+</script>
+<script async type="text/javascript" src="//talk.hyvor.com/web-api/embed"></script>
+`;
+
+
 //Builds any page by inserting the head and the content
 function buildHTML(content, sidebar=''){
     return `
@@ -45,6 +59,35 @@ function buildHTML(content, sidebar=''){
     <div id="sidebar">${sidebar}</div>
     <div class="content">
     ${content}
+    </div>
+</div>
+
+<div class="footer">
+  <p>Made by <a href="https://github.com/ThunderSmotch">ThunderSmotch</a> | 2020 |</p>
+</div>
+
+</body>
+</html>
+    `;
+}
+
+//Builds any page by inserting the head and the content and a comment section below
+function buildHTMLWithComments(content, sidebar=''){
+    return `
+<!DOCTYPE html>
+<html>
+<head>
+    ${headHTML}
+</head>
+
+<body>
+<div class="navbar">${navbarHTML}</div>
+<div id="main">
+    <div id="sidebar">${sidebar}</div>
+    <div class="content">
+    ${content}
+    <br>
+    ${commentSection}
     </div>
 </div>
 
