@@ -19,6 +19,15 @@ let headHTML = `
 <link rel="stylesheet" type="text/css" href="/style/webtex.css">
 <link rel="stylesheet" type="text/css" href="/style/style.css">
 <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-168636305-2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-168636305-2');
+</script>
 `;
 
 //Builds any page by inserting the head and the content
