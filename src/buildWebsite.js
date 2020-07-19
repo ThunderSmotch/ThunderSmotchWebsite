@@ -4,8 +4,8 @@ const path = require("path");
 const config = require("./config");
 const templates = require("./templates");
 const parser = require("./webtexParser");
+const { dir } = require("console");
 
-//TODO only generate page if it was updated recently
 //////////////////////Building the Website//////////////////////////////
 makeOutputFolder();
 moveFilesFrom('js');
@@ -21,10 +21,13 @@ build404HTML();
 //MAYBE Make this code work for any depth of folders.
 //Loop over topics
 for(let subject in subjects){
+    //MAYBE make a subject page with navigation towards the several topics
+    //TODO back and next links on pages
     subjects[subject].forEach(topic => {
         makeTopicDirectory(subject, topic);
         let pages = getTopicPages(subject, topic);
-        let sidebar = templates.buildSidebar(pages);
+        let dirpath = `/notes/${subject}/${topic}`;
+        let sidebar = templates.buildSidebar(pages, dirpath); //TODO Change this to use some metadata
         parseTopicNotes(subject, topic, sidebar);
         createTopicIndexPage(subject, topic, sidebar);
     });
@@ -59,7 +62,7 @@ function build404HTML() {
     });
 }
 
-//Returns list of subjects (dirs of notes) and their topics (subdirs)
+//Returns list of subjects (directories of the notes folder) and their topics (subdirectories therein)
 function getNotesSubjects(){
     let test = fs.readdirSync(config.dev.notesdir);
     let subjects = {};
@@ -72,27 +75,17 @@ function getNotesSubjects(){
 //Returns array with topic pages (ordered if possible)
 function getTopicPages(subject, topic) {
     let spath = config.dev.notesdir + '/' + subject + '/' + topic;
-    let res = walk(spath).map(file => {
-        return path.basename(file);
-    });
+    let pages = getSubDirs(spath);
 
-    res.filter(file => {
-       return path.extname(file).toLowerCase() === '.webtex' || path.extname(file).toLowerCase() === '.html';
-    });
-
-    //Remove extension names
-    res = res.map(file => {
-        return (file.split('.')[0] + '.html');
-    });
-
+    //Ordering is data.json exists
     if(fs.existsSync('./' + spath + '/data.json')){
         let data = require('../' + spath + '/data.json');
-        res = orderPages(res, data['files']);
-    } else if(!indexFileExists(spath)){
-        res.unshift('index.html');
-    }
+        pages = orderPages(pages, data['files']);
+    } 
 
-    return res;
+    pages.unshift('index');
+    
+    return pages;
 }
 
 //Check relative path to see if an index file exists
@@ -114,18 +107,17 @@ function parseTopicNotes(subject, topic, sidebar) {
         if (ext == '.webtex') {
             var content = fs.readFileSync(res[i], 'utf8');
             var data = parser.parseWebtex(content);
-            fs.writeFileSync(config.dev.outdir + filepath + '.html', templates.buildHTMLWithComments(data, sidebar));
+            var outpath = config.dev.outdir + path.dirname(filepath) + '/index.html';
+            ensureDirectoryExists(outpath);
+            fs.writeFileSync(outpath, templates.buildHTMLWithComments(data, sidebar));
         }
         else if (ext == '.html') {
             var content = fs.readFileSync(res[i], 'utf8');
+            var outpath = config.dev.outdir + path.dirname(filepath) + '/index.html';
+            ensureDirectoryExists(outpath);
             fs.writeFileSync(config.dev.outdir + filepath + '.html', templates.buildHTMLWithComments(content, sidebar));
         }
-        else if (ext == '.js'){
-            let outpath = config.dev.outdir + filepath + ext;
-            ensureDirectoryExists(outpath);
-            fs.copyFileSync(res[i], outpath);
-        }
-        else if (ext == '.png' || ext == '.jpg') {
+        else if (ext == '.js' || ext == '.png' || ext == '.jpg'){
             let outpath = config.dev.outdir + filepath + ext;
             ensureDirectoryExists(outpath);
             fs.copyFileSync(res[i], outpath);
@@ -164,19 +156,14 @@ function moveFilesFrom(folder) {
 
 //Read config and create folder where website will be built into
 function makeOutputFolder() {
-    fs.mkdirSync(config.dev.outdir, { recursive: true }, (err) => {
-        if (err)
-            throw err;
-    });
+    fs.mkdirSync(config.dev.outdir, { recursive: true }, (err) => {if (err) throw err; });
 }
 
 //Makes the directory structure for a given topic under a given subject
 function makeTopicDirectory(subject, topic){
-    let fpath = 'notes/'+subject+'/'+topic;
+    let fpath = 'notes/' + subject + '/' + topic;
     if(fs.statSync('./'+fpath).isDirectory() == false) return false;
-    fs.mkdirSync(config.dev.outdir+'/'+fpath, { recursive: true }, (err) => {
-        if (err) throw err;
-    });
+    fs.mkdirSync(config.dev.outdir+'/'+fpath, { recursive: true }, (err) => {if (err) throw err;});
 }
 
 //Creates a index page for each subject if it does not exist
@@ -201,8 +188,8 @@ function orderPages(pages, data){
     let result = [];
 
     data.forEach(page => {
-        if(pages.includes(page + '.html'))
-            result.push(page + '.html');
+        if(pages.includes(page))
+            result.push(page);
     });
 
     return result;
@@ -227,6 +214,11 @@ function walk(dir) {
     });
 
     return results;
+}
+
+//Get Dirs inside this Dir
+function getSubDirs(dir){
+    return fs.readdirSync(dir, {withFileTypes: true}).filter(dirent => dirent.isDirectory()).map(dirent => dirent.name);
 }
 
 //Ensures Directory Exists

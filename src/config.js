@@ -1,7 +1,8 @@
 const config = {
     dev: {
       notesdir: "./notes",
-      outdir: "./public"
+      outdir: "./public",
+      mainext: ["webtex", "html", "md"]
     }
   };
   

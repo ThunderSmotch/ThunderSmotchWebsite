@@ -1,5 +1,6 @@
 module.exports = {buildIndexHTML, buildNavbar, buildHTML, buildSubjectHTML, buildSidebar, buildAboutHTML, build404HTML, buildHTMLWithComments}
 const path = require("path");
+const { config } = require("process");
 
 //Navbar HTML to be set during build
 let navbarHTML = '';
@@ -158,15 +159,18 @@ function buildSubjectHTML(subject, sidebar, html){
 };
 
 //Builds sidebar from a list of pages
-function buildSidebar(pages){
+function buildSidebar(pages, dirpath){
     let listitems = '';
 
+    listitems +=  `<a href="${dirpath}">Index</a></br>`;
+    pages.shift();
+
     pages.forEach(page => {
-        //Capitalize Name
-        let name = page.split('.')[0];
-        name = name.charAt(0).toUpperCase() + name.substring(1);
+        //TODO Capitalize Name
+        //let name = page.split('.')[0];
+        //name = name.charAt(0).toUpperCase() + name.substring(1);
         //Add to list
-        listitems += `<a href="./${page}">${name}</a></br>`
+        listitems += `<a href="${dirpath}/${page}">${page}</a></br>`
     });
 
     let sidebar = `
@@ -210,7 +214,7 @@ function getTopicButtons(array, subfolder){
     var html = '';
     if(array){
         array.forEach(folder => {
-            html += `<a href="/notes/${subfolder}/${folder}/index.html">${folder}</a>\n`;
+            html += `<a href="/notes/${subfolder}/${folder}">${folder}</a>\n`;
         });
     }
     return html;
