@@ -106,9 +106,9 @@ function buildIndexHTML(){
 var content = `
 <h1>ThunderSmotch's Scribbles</h1>
 </br>
-This website archives some of my notes regarding Maths and Physics and other stuff!
+This website archives some of my notes regarding Maths and Physics and other stuff! Currently it still looks very barebones but I intend to add more content to it in the near future.
 </br>
-Feel free to share them! :))
+Feel free to share the site with friends! :)
 </br>
 </br>
 <div id='main'>\\(Latex\\quad is\\quad cool...\\)</div>
