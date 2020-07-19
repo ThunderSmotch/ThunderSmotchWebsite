@@ -16,6 +16,7 @@ templates.buildNavbar(subjects);
 //Build Specific Pages
 buildIndexHTML();
 buildAboutHTML();
+build404HTML();
 
 //MAYBE Make this code work for any depth of folders.
 //Loop over topics
@@ -44,6 +45,15 @@ function buildIndexHTML() {
 function buildAboutHTML() {
     var abouthtml = templates.buildAboutHTML();
     fs.writeFile(config.dev.outdir + "/about.html", abouthtml, function (err) {
+        if (err)
+            console.log(err);
+    });
+}
+
+//Builds the 404 page of the website
+function build404HTML() {
+    var html = templates.build404HTML();
+    fs.writeFile(config.dev.outdir + "/404.html", html, function (err) {
         if (err)
             console.log(err);
     });

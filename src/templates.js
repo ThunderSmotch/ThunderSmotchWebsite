@@ -1,4 +1,4 @@
-module.exports = {buildIndexHTML, buildNavbar, buildHTML, buildSubjectHTML, buildSidebar, buildAboutHTML, buildHTMLWithComments}
+module.exports = {buildIndexHTML, buildNavbar, buildHTML, buildSubjectHTML, buildSidebar, buildAboutHTML, build404HTML, buildHTMLWithComments}
 const path = require("path");
 
 //Navbar HTML to be set during build
@@ -134,6 +134,18 @@ function buildAboutHTML(){
     
     return buildHTML(content);
 }
+
+//404 page for the Website
+function build404HTML(){
+
+    var content = `
+    <h1>This page could not be found!</h1>
+    </br>
+    For problems or suggestion please enter in contact with thundersmotch@gmail.com.
+    `;
+    
+        return buildHTML(content);
+    }
 
 //Build HTML index page
 function buildSubjectHTML(subject, sidebar, html){
