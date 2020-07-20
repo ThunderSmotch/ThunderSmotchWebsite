@@ -25,7 +25,7 @@ function buildHTML(content, metadata, sidebar=''){
 <!DOCTYPE html>
 <html>
 <head>
-    ${getHead()}
+    ${getHead(metadata.title, metadata.description, metadata.url)}
 </head>
 
 <body>
@@ -89,7 +89,13 @@ Feel free to share the site with friends! :)
 <div id='main'>\\(Latex\\quad is\\quad cool...\\)</div>
 `;
 
-    return buildHTML(content);
+var metadata = {
+    "title": "Home",
+    "description": "Website connecting physics, maths and programming with the intent of having interactive topics.",
+    "url": "https://thundersmotch.com/"
+}
+
+    return buildHTML(content, metadata);
 }
 
 //About page for the Website
@@ -106,8 +112,14 @@ function buildAboutHTML(){
     <li><a href='https://github.com/ThunderSmotch'>Github</a></li>
     </ul>
     `;
+
+    var metadata = {
+        "title": "About",
+        "description": "About page for ThunderSmotch's Website.",
+        "url": "https://thundersmotch.com/about/"
+    }
     
-    return buildHTML(content);
+    return buildHTML(content, metadata);
 }
 
 //404 page for the Website
@@ -116,10 +128,16 @@ function build404HTML(){
     var content = `
     <h1>This page could not be found!</h1>
     </br>
-    For problems or suggestion please enter in contact with thundersmotch@gmail.com.
+    For problems or suggestions please enter in contact with thundersmotch@gmail.com.
     `;
+
+    var metadata = {
+        "title": "Page Not Found",
+        "description": "That page could not be found.",
+        "url": "https://thundersmotch.com/404.html/"
+    }
     
-        return buildHTML(content);
+        return buildHTML(content, metadata);
     }
 
 //Build HTML index page
@@ -128,8 +146,15 @@ function buildSubjectHTML(subject, sidebar, html){
     let content = `
     <h3>${subject}</h3>
     ${html}
-    `
-    return buildHTML(content, sidebar);
+    `;
+
+    let metadata = {
+        "title": subject,
+        "description": "Main page for" + subject + ". Needs additional metadata.",
+        "url": "https://thundersmotch.com/"
+    };
+
+    return buildHTML(content, metadata, sidebar);
 };
 
 //Builds sidebar from a list of pages
