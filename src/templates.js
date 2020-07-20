@@ -21,6 +21,12 @@ let commentSection = `
 
 //Builds any page by inserting the head and the content
 function buildHTML(content, metadata, sidebar=''){
+    
+    let noSidebar = '';
+    if(sidebar == '')
+        noSidebar = 'nosidebar';
+    
+    
     return `
 <!DOCTYPE html>
 <html>
@@ -32,7 +38,7 @@ function buildHTML(content, metadata, sidebar=''){
 <div class="navbar">${navbarHTML}</div>
 <div id="main">
     <div id="sidebar">${sidebar}</div>
-    <div class="content">
+    <div class="content ${noSidebar}">
     ${content}
     </div>
 </div>
@@ -48,6 +54,11 @@ function buildHTML(content, metadata, sidebar=''){
 
 //Builds any page by inserting the head and the content and a comment section below
 function buildHTMLWithComments(content, metadata, sidebar=''){
+    
+    let noSidebar = '';
+    if(sidebar == '')
+        noSidebar = 'nosidebar';
+    
     return `
 <!DOCTYPE html>
 <html>
@@ -59,7 +70,7 @@ function buildHTMLWithComments(content, metadata, sidebar=''){
 <div class="navbar">${navbarHTML}</div>
 <div id="main">
     <div id="sidebar">${sidebar}</div>
-    <div class="content">
+    <div class="content ${noSidebar}">
     ${content}
     <br>
     ${commentSection}

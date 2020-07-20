@@ -1,4 +1,4 @@
-\section{Complex Numbers}
+\chapter{Complex Numbers}
 
 Complex numbers are an extension of the real numbers. They arise from the need of having solutions to equations of the form: 
 \[ x^{2} + 1 = 0\ , \]
@@ -29,12 +29,12 @@ We want to define addition and multiplication of complex numbers with two criter
 
 Below there are two interactive apps where we can see how the addition and multiplication of two complex numbers works by moving the points A and B. Please do play with them!
 
-\subsection{Addition of complex numbers}
+\section{Addition of complex numbers}
 
 %%Addition of complex numbers
 \geogebra{zths5zgh}
 
-\subsection{Multiplication of complex numbers}
+\section{Multiplication of complex numbers}
 
 %%Multiplication of complex numbers
 \geogebra{uv3hwctz}

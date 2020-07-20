@@ -17,6 +17,11 @@ body{
   line-height: 30px;
 }
 
+.nosidebar{
+  padding-right: 20px !important;
+  padding-left: 20px !important;
+}
+
 .content p {
   text-indent: 5%;
 }

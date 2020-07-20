@@ -24,6 +24,12 @@ h6{
 font-size: 0.7em;
 }
 
+@media screen and (max-width: 600px) {
+  h1{
+    font-size: 9vw;
+  }
+}
+
 /* Spoiler Blocks */
 
 details[open] summary ~ * {
