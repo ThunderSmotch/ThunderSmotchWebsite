@@ -92,7 +92,7 @@ Feel free to share the site with friends! :)
 var metadata = {
     "title": "Home",
     "description": "Website connecting physics, maths and programming with the intent of having interactive topics.",
-    "url": "https://thundersmotch.com/"
+    "url": "https://thundersmotch.com"
 }
 
     return buildHTML(content, metadata);
@@ -116,7 +116,7 @@ function buildAboutHTML(){
     var metadata = {
         "title": "About",
         "description": "About page for ThunderSmotch's Website.",
-        "url": "https://thundersmotch.com/about/"
+        "url": "https://thundersmotch.com/about"
     }
     
     return buildHTML(content, metadata);
@@ -134,7 +134,7 @@ function build404HTML(){
     var metadata = {
         "title": "Page Not Found",
         "description": "That page could not be found.",
-        "url": "https://thundersmotch.com/404.html/"
+        "url": "https://thundersmotch.com/404.html"
     }
     
         return buildHTML(content, metadata);
@@ -151,7 +151,7 @@ function buildSubjectHTML(subject, sidebar, html){
     let metadata = {
         "title": subject,
         "description": "Main page for" + subject + ". Needs additional metadata.",
-        "url": "https://thundersmotch.com/"
+        "url": "https://thundersmotch.com"
     };
 
     return buildHTML(content, metadata, sidebar);
