@@ -136,14 +136,14 @@ function buildSubjectHTML(subject, sidebar, html){
 function buildSidebar(pages, dirpath){
     let listitems = '';
 
-    listitems +=  `<a href="/${dirpath}">Index</a></br>`;
+    listitems +=  `<a href="/${dirpath}/">Index</a></br>`;
 
     pages.forEach(page => {
         //TODO Capitalize Name
         //let name = page.split('.')[0];
         //name = name.charAt(0).toUpperCase() + name.substring(1);
         //Add to list
-        listitems += `<a href="/${dirpath}/${page}">${page}</a></br>`
+        listitems += `<a href="/${dirpath}/${page}/">${page}</a></br>`
     });
 
     let sidebar = `
@@ -169,8 +169,8 @@ function buildNavbar(subjects){
     }
 
     navbarHTML = `
-    <a href="/index.html">Home</a>
-    <a href="/about.html">About</a>
+    <a href="/">Home</a>
+    <a href="/about/">About</a>
     <div id="notes" class="dropdown">
         <button class="dropbtn">Notes<i class="fa fa-caret-down"></i></button>
         <div class="dropdown-content">
@@ -187,7 +187,7 @@ function getTopicButtons(array, subfolder){
     var html = '';
     if(array){
         array.forEach(folder => {
-            html += `<a href="/notes/${subfolder}/${folder}">${folder}</a>\n`;
+            html += `<a href="/notes/${subfolder}/${folder}/">${folder}</a>\n`;
         });
     }
     return html;
@@ -203,11 +203,11 @@ function getHead(title = 'Home', description = 'ThunderSmotch - Maths/Physics/Pr
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="description" content="${description}">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="canonical" href="${url}" />
+    <link rel="canonical" href="${url}/" />
     <!-- Open Graph data -->
     <meta property="og:title" content="${title}" />
     <meta property="og:type" content="article" />
-    <meta property="og:url" content="${url}" />
+    <meta property="og:url" content="${url}/" />
     <meta property="og:image" content="https://i.stack.imgur.com/59O8g.png" />
     <meta property="og:description" content="${description}" /> 
     <!-- END OF SEO STUFF -->

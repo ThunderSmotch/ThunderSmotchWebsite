@@ -54,7 +54,8 @@ function buildIndexHTML() {
 //Builds the about page of the website
 function buildAboutHTML() {
     var abouthtml = templates.buildAboutHTML();
-    fs.writeFile(config.dev.outdir + "/about.html", abouthtml, function (err) {
+    ensureDirectoryExists(config.dev.outdir + '/about/index.html')
+    fs.writeFile(config.dev.outdir + "/about/index.html", abouthtml, function (err) {
         if (err)
             console.log(err);
     });
