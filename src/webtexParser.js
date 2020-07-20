@@ -33,7 +33,7 @@ function replaceFigures(data){
     let reg = /\\begin{figure}[\s\S]+includegrap[\s\S]+?{([\S]+)}[\s\S]+\\end{figure}/mg;
 
     data = data.replace(reg, (match, p1)=>{
-        return `<img alt='${p1}' src='${p1}'>`;
+        return `<img alt='${p1}' src='./${p1}'>`;
     });
 
     return data;
