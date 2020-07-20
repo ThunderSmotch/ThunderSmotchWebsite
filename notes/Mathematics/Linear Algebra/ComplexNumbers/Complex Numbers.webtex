@@ -31,10 +31,10 @@ Below there are two interactive apps where we can see how the addition and multi
 
 \subsection{Addition of complex numbers}
 
-<iframe scrolling="no" allowfullscreen title="Addition of complex numbers" src="https://www.geogebra.org/material/iframe/id/vcweb6ky/width/700/height/500/border/888888/sfsb/true/smb/false/stb/false/stbh/false/ai/false/asb/false/sri/true/rc/false/ld/true/sdz/true/ctl/false" width="700px" height="500px" style="border:0px;"></iframe>
+%%Addition of complex numbers
+\geogebra{zths5zgh}
 
 \subsection{Multiplication of complex numbers}
 
-<iframe scrolling="no" allowfullscreen title="Multiplication of Two Complex Numbers" src="https://www.geogebra.org/material/iframe/id/mf5zs3hr/width/700/height/500/border/888888/sfsb/true/smb/false/stb/false/stbh/false/ai/false/asb/false/sri/true/rc/false/ld/true/sdz/true/ctl/false" width="700px" height="500px" style="border:4px;"></iframe>
-
-%% TODO maybe have a nicer way of embedding geogebra iframes
+%%Multiplication of complex numbers
+\geogebra{uv3hwctz}

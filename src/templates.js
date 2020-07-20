@@ -240,7 +240,8 @@ function getHead(title = 'Home', description = 'ThunderSmotch - Maths/Physics/Pr
     <link rel="shortcut icon" href="/style/favicon.ico"/>
     
     <script src="/js/mathjaxConfig.js"></script>
-    <script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>	
+    <script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+    <script src="https://www.geogebra.org/apps/deployggb.js"></script>
     
     <link rel="stylesheet" type="text/css" href="/style/webtex.css">
     <link rel="stylesheet" type="text/css" href="/style/style.css">

@@ -22,11 +22,15 @@ body{
 }
 
 .content img {
-  max-width: 700px;
+  max-width: 100%;
+}
+
+.geogebraApp {
+  max-width: 100%;
 }
 
 .footer {
-  z-index: 15;
+  z-index: 2000;
   position: fixed;
   left: 0;
   bottom: 0;

@@ -12,6 +12,25 @@ function parseWebtex(data){
     data = replaceMathEnvironments(data)
     data = replaceParagraphs(data);
     data = replaceScripts(data);
+    data = replaceGeogebra(data);
+    
+    return data;
+}
+
+//Replace \geogebra{material_id} by the Geogebra embed
+function replaceGeogebra(data){
+    let reg = /\\geogebra{(.+)}/g;
+
+    data = data.replace(reg,
+        function (match, p1){
+            return `<div class="geogebraApp" id="ggb-${p1}"></div>
+            <script>  
+                var ggbApp_${p1} = new GGBApplet({"material_id":"${p1}", "width": 800 , "height": 600, "playButton":true, "showFullscreenButton":true, "scaleContainerClass":"geogebraApp"}, true);
+                window.addEventListener("load", function() { 
+                    ggbApp_${p1}.inject('ggb-${p1}');
+                });
+            </script>`;
+    });
 
     return data;
 }
