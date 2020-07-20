@@ -25,11 +25,18 @@ for(let subject in subjects){
     //TODO back and next links on pages
     subjects[subject].forEach(topic => {
         makeTopicDirectory(subject, topic);
+        let dirpath = `notes/${subject}/${topic}`;
         let pages = getTopicPages(subject, topic);
-        let dirpath = `/notes/${subject}/${topic}`;
         let sidebar = templates.buildSidebar(pages, dirpath); //TODO Change this to use some metadata
-        parseTopicNotes(subject, topic, sidebar);
+
+        //Parse topic files
+        parseFiles(dirpath, sidebar);
         createTopicIndexPage(subject, topic, sidebar);
+
+        pages.forEach(page => {
+            //Parse each page files
+            parseFiles(dirpath + "/" + page, sidebar)
+        });
     });
 }
 
@@ -83,8 +90,6 @@ function getTopicPages(subject, topic) {
         pages = orderPages(pages, data['files']);
     } 
 
-    pages.unshift('index');
-    
     return pages;
 }
 
@@ -94,36 +99,48 @@ function indexFileExists(spath) {
     return fs.existsSync('./' + spath + '/index.html') || fs.existsSync('./' + spath + '/index.webtex');
 }
 
-//Check and parse all files relating to given subject
-function parseTopicNotes(subject, topic, sidebar) {
-    let spath = config.dev.notesdir + '/' + subject + '/' + topic;
-    let res = walk(spath);
+//Check and parse all files inside given dir
+function parseFiles(dir, sidebar) {
+    let res = getFiles(dir);
+
+    let metadata;
+    if(fs.existsSync(dir + '/data.json')){
+        res = res.filter(name => {return name != 'data.json';});
+        metadata = require('../' + dir + '/data.json');
+        metadata["url"] = "https://thundersmotch.com/" + dir;
+    } else{
+        metadata = {
+            "title": "Default Metadata",
+            "description": "I should've written a description for this.",
+            "url": "https://thundersmotch.com"
+        };
+    }
+
     for (let i = 0; i < res.length; i++) {
 
         var ext = path.extname(res[i]);
-        var base = path.basename(res[i]);
-        var filepath = res[i].substr(1).split('.')[0];
+        var filepath = dir + '/' + res[i];
 
         if (ext == '.webtex') {
-            var content = fs.readFileSync(res[i], 'utf8');
+            var content = fs.readFileSync(filepath, 'utf8');
             var data = parser.parseWebtex(content);
-            var outpath = config.dev.outdir + path.dirname(filepath) + '/index.html';
+            var outpath = config.dev.outdir + '/' + dir + '/index.html';
             ensureDirectoryExists(outpath);
-            fs.writeFileSync(outpath, templates.buildHTMLWithComments(data, sidebar));
+            fs.writeFileSync(outpath, templates.buildHTMLWithComments(data, metadata, sidebar));
         }
         else if (ext == '.html') {
-            var content = fs.readFileSync(res[i], 'utf8');
-            var outpath = config.dev.outdir + path.dirname(filepath) + '/index.html';
+            var content = fs.readFileSync(filepath, 'utf8');
+            var outpath = config.dev.outdir + '/' + dir + '/index.html';
             ensureDirectoryExists(outpath);
-            fs.writeFileSync(config.dev.outdir + filepath + '.html', templates.buildHTMLWithComments(content, sidebar));
+            fs.writeFileSync(outpath, templates.buildHTMLWithComments(content, metadata, sidebar));
         }
         else if (ext == '.js' || ext == '.png' || ext == '.jpg'){
-            let outpath = config.dev.outdir + filepath + ext;
+            let outpath = config.dev.outdir + '/' + filepath;
             ensureDirectoryExists(outpath);
-            fs.copyFileSync(res[i], outpath);
+            fs.copyFileSync(filepath, outpath);
         }
         else {
-            console.log("File not handled: " + filepath + ext);
+            console.log("File not handled: " + filepath);
         }
     }
 }
@@ -219,6 +236,11 @@ function walk(dir) {
 //Get Dirs inside this Dir
 function getSubDirs(dir){
     return fs.readdirSync(dir, {withFileTypes: true}).filter(dirent => dirent.isDirectory()).map(dirent => dirent.name);
+}
+
+//Get Files inside this Dir
+function getFiles(dir){
+    return fs.readdirSync(dir, {withFileTypes: true}).filter(dirent => !dirent.isDirectory()).map(dirent => dirent.name);
 }
 
 //Ensures Directory Exists

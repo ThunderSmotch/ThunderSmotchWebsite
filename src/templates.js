@@ -4,32 +4,6 @@ const { config } = require("process");
 
 //Navbar HTML to be set during build
 let navbarHTML = '';
-//Head HTML appended to all pages
-let headHTML = `
-<title>ThunderSmotch</title>
-
-<link rel="shortcut icon" href="/style/favicon.ico"/>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-
-<script src="https://raw.githack.com/ThunderSmotch/WebTex/master/webtexParser.js"></script>
-
-<script src="/js/mathjaxConfig.js"></script>
-<script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>	
-
-<link rel="stylesheet" type="text/css" href="/style/webtex.css">
-<link rel="stylesheet" type="text/css" href="/style/style.css">
-<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
-
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-168636305-2"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'UA-168636305-2');
-</script>
-`;
 
 //Comment Section (powered by Hyvor Talk)
 let commentSection = `
@@ -46,12 +20,12 @@ let commentSection = `
 
 
 //Builds any page by inserting the head and the content
-function buildHTML(content, sidebar=''){
+function buildHTML(content, metadata, sidebar=''){
     return `
 <!DOCTYPE html>
 <html>
 <head>
-    ${headHTML}
+    ${getHead()}
 </head>
 
 <body>
@@ -73,12 +47,12 @@ function buildHTML(content, sidebar=''){
 }
 
 //Builds any page by inserting the head and the content and a comment section below
-function buildHTMLWithComments(content, sidebar=''){
+function buildHTMLWithComments(content, metadata, sidebar=''){
     return `
 <!DOCTYPE html>
 <html>
 <head>
-    ${headHTML}
+    ${getHead(metadata.title, metadata.description, metadata.url)}
 </head>
 
 <body>
@@ -162,15 +136,14 @@ function buildSubjectHTML(subject, sidebar, html){
 function buildSidebar(pages, dirpath){
     let listitems = '';
 
-    listitems +=  `<a href="${dirpath}">Index</a></br>`;
-    pages.shift();
+    listitems +=  `<a href="/${dirpath}">Index</a></br>`;
 
     pages.forEach(page => {
         //TODO Capitalize Name
         //let name = page.split('.')[0];
         //name = name.charAt(0).toUpperCase() + name.substring(1);
         //Add to list
-        listitems += `<a href="${dirpath}/${page}">${page}</a></br>`
+        listitems += `<a href="/${dirpath}/${page}">${page}</a></br>`
     });
 
     let sidebar = `
@@ -218,4 +191,43 @@ function getTopicButtons(array, subfolder){
         });
     }
     return html;
+}
+
+//Returns the HTML for the head html tag
+function getHead(title = 'Home', description = 'ThunderSmotch - Maths/Physics/Programming', url="https://thundersmotch.com"){
+    title = title + ' | ThunderSmotch';
+
+    return `    
+    <!-- SEO STUFF -->
+    <title>${title}</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="description" content="${description}">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="canonical" href="${url}" />
+    <!-- Open Graph data -->
+    <meta property="og:title" content="${title}" />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="${url}" />
+    <meta property="og:image" content="https://i.stack.imgur.com/59O8g.png" />
+    <meta property="og:description" content="${description}" /> 
+    <!-- END OF SEO STUFF -->
+
+    <link rel="shortcut icon" href="/style/favicon.ico"/>
+    
+    <script src="/js/mathjaxConfig.js"></script>
+    <script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>	
+    
+    <link rel="stylesheet" type="text/css" href="/style/webtex.css">
+    <link rel="stylesheet" type="text/css" href="/style/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-168636305-2"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-168636305-2');
+    </script>
+    `;
 }
