@@ -27,15 +27,22 @@ for(let subject in subjects){
         makeTopicDirectory(subject, topic);
         let dirpath = `notes/${subject}/${topic}`;
         let pages = getTopicPages(subject, topic);
-        let sidebar = templates.buildSidebar(pages, dirpath); //TODO Change this to use some metadata
+        
+        let metadata = getMetadata(dirpath);
+
+        let pageNames = getPageNames(pages, dirpath);
+
+        let sidebar = templates.buildSidebar(pages, dirpath, pageNames); //TODO Change this to use some metadata
 
         //Parse topic files
-        parseFiles(dirpath, sidebar);
+        parseFiles(dirpath, metadata, sidebar);
         createTopicIndexPage(subject, topic, sidebar);
 
         pages.forEach(page => {
             //Parse each page files
-            parseFiles(dirpath + "/" + page, sidebar)
+            let dir = dirpath + '/' + page;
+            let meta = getMetadata(dir);
+            parseFiles(dir, meta, sidebar);
         });
     });
 }
@@ -100,22 +107,40 @@ function indexFileExists(spath) {
     return fs.existsSync('./' + spath + '/index.html') || fs.existsSync('./' + spath + '/index.webtex');
 }
 
-//Check and parse all files inside given dir
-function parseFiles(dir, sidebar) {
-    let res = getFiles(dir);
-
+//Check inside this dir for metadata
+function getMetadata(dir){
     let metadata;
     if(fs.existsSync(dir + '/data.json')){
-        res = res.filter(name => {return name != 'data.json';});
         metadata = require('../' + dir + '/data.json');
         metadata["url"] = "https://thundersmotch.com/" + dir;
     } else{
         metadata = {
-            "title": "Default Metadata",
-            "description": "I should've written a description for this.",
+            "title": "Default Title",
+            "description": "I should've written a description for this...",
             "url": "https://thundersmotch.com"
         };
     }
+    return metadata;
+}
+
+//Check inside subdirs for the title of each subpage and returns an array of them
+function getPageNames(pages, dir){
+    let pageNames = [];
+
+    pages.forEach(page => {
+        let metadata = getMetadata(dir + '/' + page);
+        pageNames.push(metadata.title);
+    });
+
+    return pageNames;
+}
+
+//Check and parse all files inside given dir
+function parseFiles(dir, metadata, sidebar) {
+    let res = getFiles(dir);
+
+    //Ignore data.json files
+    res = res.filter(name => {return name != 'data.json';});
 
     for (let i = 0; i < res.length; i++) {
 

@@ -169,18 +169,14 @@ function buildSubjectHTML(subject, sidebar, html){
 };
 
 //Builds sidebar from a list of pages
-function buildSidebar(pages, dirpath){
+function buildSidebar(pages, dirpath, pageNames){
     let listitems = '';
 
     listitems +=  `<a href="/${dirpath}/">Index</a></br>`;
 
-    pages.forEach(page => {
-        //TODO Capitalize Name
-        //let name = page.split('.')[0];
-        //name = name.charAt(0).toUpperCase() + name.substring(1);
-        //Add to list
-        listitems += `<a href="/${dirpath}/${page}/">${page}</a></br>`
-    });
+    for(let i = 0; i < pages.length; i++){
+        listitems += `<a href="/${dirpath}/${pages[i]}/">${pageNames[i]}</a></br>`
+    }
 
     let sidebar = `
     <div class='sidebar'>
