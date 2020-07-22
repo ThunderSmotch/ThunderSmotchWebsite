@@ -21,6 +21,7 @@ build404HTML();
 //MAYBE Make this code work for any depth of folders.
 // Almost works due to the beautiful pageTree :)
 // One cool way to implement this in the future is having a page type on the data.json
+// so that the builder knows what kind of page to build (content, index, etc)
 
 //Loop over topics
 for(let subject in pageTree){

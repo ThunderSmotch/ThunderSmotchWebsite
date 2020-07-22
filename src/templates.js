@@ -97,7 +97,7 @@ This website archives some of my notes regarding Maths and Physics and other stu
 Feel free to share the site with friends! :)
 </br>
 </br>
-<div id='main'>\\(Latex\\quad is\\quad cool...\\)</div>
+<div id='main' style='text-align: center'>\\(Latex\\ is\\ cool...\\quad You\\ should\\ learn\\ it! \\)</div>
 `;
 
 var metadata = {
