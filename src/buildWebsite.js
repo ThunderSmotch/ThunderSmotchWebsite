@@ -4,35 +4,40 @@ const path = require("path");
 const config = require("./config");
 const templates = require("./templates");
 const parser = require("./webtexParser");
-const { dir } = require("console");
 
+//TODO Build sitemap.xml (USE THE PAGE TREE FOR THIS ;))
 //////////////////////Building the Website//////////////////////////////
 makeOutputFolder();
 moveFilesFrom('js');
 moveFilesFrom('style');
-//Get all notes directories
-const subjects = getNotesSubjects();
-templates.buildNavbar(subjects);
+//Gets the page tree for the notes section of the website
+const pageTree = getPageTree(config.dev.notesdir);
+templates.buildNavbar(pageTree);
 //Build Specific Pages
 buildIndexHTML();
 buildAboutHTML();
 build404HTML();
 
 //MAYBE Make this code work for any depth of folders.
+// Almost works due to the beautiful pageTree :)
+// One cool way to implement this in the future is having a page type on the data.json
+
 //Loop over topics
-for(let subject in subjects){
+for(let subject in pageTree){
     //MAYBE make a subject page with navigation towards the several topics
     //TODO back and next links on pages
-    subjects[subject].forEach(topic => {
+    //
+    //TODO Refactor the below code so it makes use of the beautiful pageTree function
+    for(let topic in pageTree[subject].pages){
         makeTopicDirectory(subject, topic);
         let dirpath = `notes/${subject}/${topic}`;
-        let pages = getTopicPages(subject, topic);
+        let pages = getTopicPages(subject, topic); //CAN BE REFACTORED
         
         let metadata = getMetadata(dirpath);
 
-        let pageNames = getPageNames(pages, dirpath);
+        let pageNames = getPageNames(pages, dirpath); //Reorder can probably be refactored to the pageTree
 
-        let sidebar = templates.buildSidebar(pages, dirpath, pageNames); //TODO Change this to use some metadata
+        let sidebar = templates.buildSidebar(pages, dirpath, pageNames);
 
         //Parse topic files
         parseFiles(dirpath, metadata, sidebar);
@@ -44,7 +49,7 @@ for(let subject in subjects){
             let meta = getMetadata(dir);
             parseFiles(dir, meta, sidebar);
         });
-    });
+    }
 }
 
 ////////////////////////////// HELPER FUNCTIONS /////////////////////////////////////////
@@ -77,14 +82,24 @@ function build404HTML() {
     });
 }
 
-//Returns list of subjects (directories of the notes folder) and their topics (subdirectories therein)
-function getNotesSubjects(){
-    let test = fs.readdirSync(config.dev.notesdir);
-    let subjects = {};
-    test.forEach(subject => {
-        subjects[subject] = fs.readdirSync(config.dev.notesdir + '/' + subject);
+//Returns a json object with the tree of all subdirs and titles for them when given a dir
+function getPageTree(dir){
+    let subDirs = getSubDirs(dir);
+    if(subDirs.length == 0) return null;
+
+    let data = {};
+
+    subDirs.forEach( subDir => {
+        let subDirPath = dir + '/' + subDir;
+        let metadata = getMetadata(subDirPath);
+        data[subDir] = {title: metadata.title, pages: {}};
+
+        let page = getPageTree(subDirPath);
+        if(page != null)
+            data[subDir].pages = page;
     });
-    return subjects;
+
+    return data;
 }
 
 //Returns array with topic pages (ordered if possible)

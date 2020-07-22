@@ -140,6 +140,8 @@ function build404HTML(){
     <h1>This page could not be found!</h1>
     </br>
     For problems or suggestions please enter in contact with thundersmotch@gmail.com.
+    </br>
+    Maybe this page was moved elsewhere. Check the navigation bar above to see if you can still find it!
     `;
 
     var metadata = {
@@ -188,14 +190,14 @@ function buildSidebar(pages, dirpath, pageNames){
 }
 
 //Builds the HTML for the navbar and sets it to the global constant
-function buildNavbar(subjects){
+function buildNavbar(pageTree){
 
     let subjectsHTML = '';
-    for(let subject in subjects){
+    for(let subject in pageTree){
         subjectsHTML+=`
         <div class="column">
-        <h4>${subject}</h4>
-        ${getTopicButtons(subjects[subject], subject)}
+        <h4>${pageTree[subject].title}</h4>
+        ${getTopicButtons(pageTree[subject].pages, subject)}
         </div>
         `;
     }
@@ -215,12 +217,12 @@ function buildNavbar(subjects){
 }
 
 //Returns HTML for a given topic inside a subject
-function getTopicButtons(array, subfolder){
+function getTopicButtons(pages, folder){
     var html = '';
-    if(array){
-        array.forEach(folder => {
-            html += `<a href="/notes/${subfolder}/${folder}/">${folder}</a>\n`;
-        });
+    if(Object.keys(pages).length !== 0){
+        for(let page in pages){
+            html += `<a href="/notes/${folder}/${page}/">${pages[page].title}</a>\n`
+        }
     }
     return html;
 }
