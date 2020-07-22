@@ -14,9 +14,9 @@ moveFilesFrom('style');
 const pageTree = getPageTree(config.dev.notesdir);
 templates.buildNavbar(pageTree);
 //Build Specific Pages
-buildIndexHTML();
-buildAboutHTML();
-build404HTML();
+buildPage(config.dev.outdir + "/index.html", templates.buildIndexHTML());
+buildPage(config.dev.outdir + "/about/index.html", templates.buildAboutHTML());
+buildPage(config.dev.outdir + "/404.html", templates.build404HTML());
 
 //MAYBE Make this code work for any depth of folders.
 // Almost works due to the beautiful pageTree :)
@@ -55,29 +55,10 @@ for(let subject in pageTree){
 
 ////////////////////////////// HELPER FUNCTIONS /////////////////////////////////////////
 
-//Builds the main page of the website
-function buildIndexHTML() {
-    var indexhtml = templates.buildIndexHTML();
-    fs.writeFile(config.dev.outdir + "/index.html", indexhtml, function (err) {
-        if (err)
-            console.log(err);
-    });
-}
-
-//Builds the about page of the website
-function buildAboutHTML() {
-    var abouthtml = templates.buildAboutHTML();
-    ensureDirectoryExists(config.dev.outdir + '/about/index.html')
-    fs.writeFile(config.dev.outdir + "/about/index.html", abouthtml, function (err) {
-        if (err)
-            console.log(err);
-    });
-}
-
-//Builds the 404 page of the website
-function build404HTML() {
-    var html = templates.build404HTML();
-    fs.writeFile(config.dev.outdir + "/404.html", html, function (err) {
+//Builds a page on the given URL from a given HTML
+function buildPage(url, html){
+    ensureDirectoryExists(url)
+    fs.writeFile(url, html, function (err) {
         if (err)
             console.log(err);
     });
@@ -118,7 +99,7 @@ function getTopicPages(subject, topic) {
 }
 
 //Check relative path to see if an index file exists
-//HACK only working for HTML and Webtex (should generalize this)
+//HACK only working for HTML and Webtex (should generalize this) using the config options
 function indexFileExists(spath) {
     return fs.existsSync('./' + spath + '/index.html') || fs.existsSync('./' + spath + '/index.webtex');
 }
@@ -286,6 +267,7 @@ function getFiles(dir){
 }
 
 //Ensures Directory Exists
+//TODO ensure subdirectories exist
 function ensureDirectoryExists(filePath) {
     var dirname = path.dirname(filePath);
     if (fs.existsSync(dirname)) {
