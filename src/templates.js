@@ -1,6 +1,7 @@
 module.exports = {buildNavbar, buildHTML, buildSubjectHTML, buildSidebar, build404HTML}
 const path = require("path");
 const { config } = require("process");
+const { get } = require("http");
 
 //Navbar HTML to be set during build
 let navbarHTML = '';
@@ -21,41 +22,11 @@ let commentSection = `
 //Builds any page by inserting the head and the content
 function buildHTML(content, metadata, sidebar=''){
     
-    //Handle comments
-    let commentsFlag = metadata.comments || metadata.comments == null;
-    let commentHTML = commentsFlag ? commentSection : '';
-
-    //Handle sidebar
-    let noSidebar = '';
-    if(sidebar == '')
-        noSidebar = 'nosidebar';
-    
-    //Return HTML
-    return `
-<!DOCTYPE html>
-<html>
-<head>
-    ${getHead(metadata.title, metadata.description, metadata.url)}
-</head>
-
-<body>
-<div class="navbar">${navbarHTML}</div>
-<div id="main">
-    <div id="sidebar">${sidebar}</div>
-    <div class="content ${noSidebar}">
-    ${content}
-    <br>
-    ${commentHTML}
-    </div>
-</div>
-
-<div class="footer">
-  <p>Made by <a href="https://github.com/ThunderSmotch">ThunderSmotch</a> | 2020 |</p>
-</div>
-
-</body>
-</html>
-    `;
+    if(metadata.type == 'post'){
+        return postPageTemplate(content, metadata, sidebar);
+    } else {
+        return defaultPageTemplate(content, metadata, sidebar);
+    }
 }
 
 //Builds the 404 page
@@ -135,7 +106,7 @@ function buildNavbar(pageTree){
                 html+=`
                 <div class="column">
                 <h4>${dropPage[subpage].title}</h4>
-                ${getTopicButtons(dropPage[subpage].pages, subpage)}
+                ${getSubpageButtons(dropPage[subpage].pages, subpage)}
                 </div>
                 `;
             }
@@ -151,7 +122,7 @@ function buildNavbar(pageTree){
 }
 
 //Returns HTML for a given topic inside a subject
-function getTopicButtons(pages, folder){
+function getSubpageButtons(pages, folder){
     var html = '';
     if(Object.keys(pages).length !== 0){
         for(let page in pages){
@@ -199,4 +170,73 @@ function getHead(title = 'Home', description = 'ThunderSmotch - Maths/Physics/Pr
       gtag('config', 'UA-168636305-2');
     </script>
     `;
+}
+
+//Returns the footer HTML
+function getFooter(){
+    return `
+<p>Made by <a href="https://github.com/ThunderSmotch">ThunderSmotch</a> | 2020 |</p>
+`;
+}
+
+//Default page template
+function defaultPageTemplate(content, metadata){
+     //Return HTML
+     return `
+ <!DOCTYPE html>
+ <html>
+ <head>
+     ${getHead(metadata.title, metadata.description, metadata.url)}
+ </head>
+ 
+ <body>
+ <div class="navbar">${navbarHTML}</div>
+ <div id="main">
+     <div class="content nosidebar">
+     ${content}
+     </div>
+ </div>
+ 
+ <div class="footer">
+   ${getFooter()}
+ </div>
+ 
+ </body>
+ </html>
+     `
+}
+
+//Post template
+function postPageTemplate(content, metadata, sidebar){
+     //Handle sidebar
+     let noSidebar = '';
+     if(sidebar == '')
+         noSidebar = 'nosidebar';
+     
+     //Return HTML
+     return `
+ <!DOCTYPE html>
+ <html>
+ <head>
+     ${getHead(metadata.title, metadata.description, metadata.url)}
+ </head>
+ 
+ <body>
+ <div class="navbar">${navbarHTML}</div>
+ <div id="main">
+     <div id="sidebar">${sidebar}</div>
+     <div class="content ${noSidebar}">
+     ${content}
+     <br>
+     ${commentSection}
+     </div>
+ </div>
+ 
+ <div class="footer">
+   ${getFooter()}
+ </div>
+ 
+ </body>
+ </html>
+     `;
 }
