@@ -5,7 +5,9 @@ const config = require("./config");
 const templates = require("./templates");
 const parser = require("./webtexParser");
 
+//TODO Move the home, 404 and about pages to their own separate .html files that are included on build
 //TODO Build sitemap.xml (USE THE PAGE TREE FOR THIS ;))
+//TODO Have portuguese content on pt. subfolder
 //////////////////////Building the Website//////////////////////////////
 makeOutputFolder();
 moveFilesFrom('js');
