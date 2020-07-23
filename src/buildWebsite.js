@@ -92,13 +92,10 @@ function parseDirectory(pageTree, url='', parentSidebar = ''){
 
     //Sidebar logic
     // True means it's the parent page
-    // False means it's a child page
     //HACK this is so fucking stupid but it works...
-    let sidebar = '';
+    let sidebar = parentSidebar;
     if(metadata.sidebar == true){
         sidebar = templates.buildSidebar(subpages, url, getPageNames(subpages, url));
-    } else if (metadata.sidebar == false){
-        sidebar = parentSidebar;
     }
 
     //Convert files
@@ -198,6 +195,7 @@ function parseFile(name, dir, outpath, metadata, sidebar) {
     }
 }
 
+//Builds the 404 (page not found) default page
 function build404Page(){
     ensureDirectoryExists(config.dev.outdir);
     fs.writeFileSync(config.dev.outdir + '/404.html', templates.build404HTML());

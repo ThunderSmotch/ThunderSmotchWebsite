@@ -18,7 +18,6 @@ let commentSection = `
 <script async type="text/javascript" src="//talk.hyvor.com/web-api/embed"></script>
 `;
 
-
 //Builds any page by inserting the head and the content
 function buildHTML(content, metadata, sidebar=''){
     
