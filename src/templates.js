@@ -35,9 +35,8 @@ function build404HTML(){
     var content = `
     <h1>This page could not be found!</h1>
     </br>
-    For problems or suggestions please enter in contact with thundersmotch@gmail.com.
-    </br>
-    Maybe this page was moved elsewhere. Check the navigation bar above to see if you can still find it!
+    <span>For problems or suggestions please enter in contact with thundersmotch@gmail.com.</span><br>
+    <span>Maybe this page was moved elsewhere. Check the navigation bar above to see if you can still find it!</span>
     `;
 
     var metadata = {

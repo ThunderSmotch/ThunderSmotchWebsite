@@ -22,11 +22,11 @@ const parser = require("./webtexParser");
 ensureDirectoryExists(config.dev.outdir);
 moveFilesFrom('js');
 moveFilesFrom('style');
-//Build 404 page
-build404Page();
 //Gets the page tree for the website
 let pageTree = getPageTree();
 templates.buildNavbar(pageTree);
+//Build 404 page
+build404Page();
 
 parseDirectory(pageTree, '');
 
