@@ -19,9 +19,11 @@ const parser = require("./webtexParser");
 //TODO Have portuguese content on pt. subfolder
 
 //////////////////////Building the Website//////////////////////////////
-makeOutputFolder();
+ensureDirectoryExists(config.dev.outdir);
 moveFilesFrom('js');
 moveFilesFrom('style');
+//Build 404 page
+build404Page();
 //Gets the page tree for the website
 let pageTree = getPageTree();
 templates.buildNavbar(pageTree);
@@ -29,11 +31,6 @@ templates.buildNavbar(pageTree);
 parseDirectory(pageTree, '');
 
 ////////////////////////////// HELPER FUNCTIONS /////////////////////////////////////////
-
-//Read config and create folder where website will be built into
-function makeOutputFolder() {
-    fs.mkdirSync(config.dev.outdir, { recursive: true }, (err) => {if (err) throw err; });
-}
 
 //Moves files from global input folder to output folder inside the output directory
 function moveFiles(input, output) {
@@ -173,18 +170,10 @@ function parseFiles(dir, metadata, sidebar) {
     let outpath = dir == '' ? config.dev.outdir : config.dev.outdir + '/' + dir;
     ensureDirectoryExists(outpath);
 
-    if(dir == '' && res.includes('404.html')){
-        let content = fs.readFileSync(config.dev.filesdir + '/404.html' , 'utf8');
-        fs.writeFileSync(outpath + '/404.html', templates.buildHTML(content, metadata, sidebar));
-    }
-
-    //Ignore data.json file and 404.html
-    res = res.filter(name => {return (name != 'data.json' && name != '404.html');});
-
-    for (let i = 0; i < res.length; i++) {
-
-        parseFile(res[i], dir, outpath, metadata, sidebar);
-    }
+    //Ignore data.json files
+    res = res.filter(name => {return name != 'data.json';});
+    
+    res.forEach(file => parseFile(file, dir, outpath, metadata, sidebar))
 }
 
 //Parses a single file
@@ -207,6 +196,11 @@ function parseFile(name, dir, outpath, metadata, sidebar) {
     else {
         console.log("File not handled: " + filepath);
     }
+}
+
+function build404Page(){
+    ensureDirectoryExists(config.dev.outdir);
+    fs.writeFileSync(config.dev.outdir + '/404.html', templates.build404HTML());
 }
 
 //Orders pages according to json if available

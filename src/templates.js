@@ -1,4 +1,4 @@
-module.exports = {buildNavbar, buildHTML, buildSubjectHTML, buildSidebar}
+module.exports = {buildNavbar, buildHTML, buildSubjectHTML, buildSidebar, build404HTML}
 const path = require("path");
 const { config } = require("process");
 
@@ -25,7 +25,7 @@ function buildHTML(content, metadata, sidebar=''){
     //Handle comments
     let commentsFlag = metadata.comments || metadata.comments == null;
     let commentHTML = commentsFlag ? commentSection : '';
-    
+
     //Handle sidebar
     let noSidebar = '';
     if(sidebar == '')
@@ -57,6 +57,26 @@ function buildHTML(content, metadata, sidebar=''){
 </body>
 </html>
     `;
+}
+
+//Builds the 404 page
+function build404HTML(){
+
+    var content = `
+    <h1>This page could not be found!</h1>
+    </br>
+    For problems or suggestions please enter in contact with thundersmotch@gmail.com.
+    </br>
+    Maybe this page was moved elsewhere. Check the navigation bar above to see if you can still find it!
+    `;
+
+    var metadata = {
+        "title": "Page Not Found",
+        "description": "That page could not be found.",
+        "url": "https://thundersmotch.com/404.html"
+    }
+    
+        return buildHTML(content, metadata);
 }
 
 //Build HTML index page
