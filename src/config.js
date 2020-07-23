@@ -1,6 +1,6 @@
 const config = {
     dev: {
-      notesdir: "./notes",
+      filesdir: "./files",
       outdir: "./public",
       mainext: ["webtex", "html", "md"]
     }

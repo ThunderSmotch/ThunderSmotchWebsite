@@ -5,169 +5,34 @@ const config = require("./config");
 const templates = require("./templates");
 const parser = require("./webtexParser");
 
-//TODO Move the home, 404 and about pages to their own separate .html files that are included on build
+//////////////// T O D O S ////////////////
+
+//TODO Reorder can probably be refactored to the pageTree
+
+//MAYBE make a subject page with navigation towards the several topics
+//TODO back and next links on pages
+
+// One cool way to implement this in the future is having a page type on the data.json
+// so that the builder knows what kind of page to build (content, index, etc)
+
 //TODO Build sitemap.xml (USE THE PAGE TREE FOR THIS ;))
 //TODO Have portuguese content on pt. subfolder
+
 //////////////////////Building the Website//////////////////////////////
 makeOutputFolder();
 moveFilesFrom('js');
 moveFilesFrom('style');
-//Gets the page tree for the notes section of the website
-const pageTree = getPageTree(config.dev.notesdir);
+//Gets the page tree for the website
+let pageTree = getPageTree();
 templates.buildNavbar(pageTree);
-//Build Specific Pages
-buildPage(config.dev.outdir + "/index.html", templates.buildIndexHTML());
-buildPage(config.dev.outdir + "/about/index.html", templates.buildAboutHTML());
-buildPage(config.dev.outdir + "/404.html", templates.build404HTML());
 
-//MAYBE Make this code work for any depth of folders.
-// Almost works due to the beautiful pageTree :)
-// One cool way to implement this in the future is having a page type on the data.json
-// so that the builder knows what kind of page to build (content, index, etc)
-
-//Loop over topics
-for(let subject in pageTree){
-    //MAYBE make a subject page with navigation towards the several topics
-    //TODO back and next links on pages
-    //
-    //TODO Refactor the below code so it makes use of the beautiful pageTree function
-    for(let topic in pageTree[subject].pages){
-        makeTopicDirectory(subject, topic);
-        let dirpath = `notes/${subject}/${topic}`;
-        let pages = getTopicPages(subject, topic); //CAN BE REFACTORED
-        
-        let metadata = getMetadata(dirpath);
-
-        let pageNames = getPageNames(pages, dirpath); //Reorder can probably be refactored to the pageTree
-
-        let sidebar = templates.buildSidebar(pages, dirpath, pageNames);
-
-        //Parse topic files
-        parseFiles(dirpath, metadata, sidebar);
-        createTopicIndexPage(subject, topic, sidebar);
-
-        pages.forEach(page => {
-            //Parse each page files
-            let dir = dirpath + '/' + page;
-            let meta = getMetadata(dir);
-            parseFiles(dir, meta, sidebar);
-        });
-    }
-}
+parseDirectory(pageTree, '');
 
 ////////////////////////////// HELPER FUNCTIONS /////////////////////////////////////////
 
-//Builds a page on the given URL from a given HTML
-function buildPage(url, html){
-    ensureDirectoryExists(url)
-    fs.writeFile(url, html, function (err) {
-        if (err)
-            console.log(err);
-    });
-}
-
-//Returns a json object with the tree of all subdirs and titles for them when given a dir
-function getPageTree(dir){
-    let subDirs = getSubDirs(dir);
-    if(subDirs.length == 0) return null;
-
-    let data = {};
-
-    subDirs.forEach( subDir => {
-        let subDirPath = dir + '/' + subDir;
-        let metadata = getMetadata(subDirPath);
-        data[subDir] = {title: metadata.title, pages: {}};
-
-        let page = getPageTree(subDirPath);
-        if(page != null)
-            data[subDir].pages = page;
-    });
-
-    return data;
-}
-
-//Returns array with topic pages (ordered if possible)
-function getTopicPages(subject, topic) {
-    let spath = config.dev.notesdir + '/' + subject + '/' + topic;
-    let pages = getSubDirs(spath);
-
-    //Ordering is data.json exists
-    if(fs.existsSync('./' + spath + '/data.json')){
-        let data = require('../' + spath + '/data.json');
-        pages = orderPages(pages, data['files']);
-    } 
-
-    return pages;
-}
-
-//Check relative path to see if an index file exists
-//HACK only working for HTML and Webtex (should generalize this) using the config options
-function indexFileExists(spath) {
-    return fs.existsSync('./' + spath + '/index.html') || fs.existsSync('./' + spath + '/index.webtex');
-}
-
-//Check inside this dir for metadata
-function getMetadata(dir){
-    let metadata;
-    if(fs.existsSync(dir + '/data.json')){
-        metadata = require('../' + dir + '/data.json');
-        metadata["url"] = "https://thundersmotch.com/" + dir;
-    } else{
-        metadata = {
-            "title": "Default Title",
-            "description": "I should've written a description for this...",
-            "url": "https://thundersmotch.com"
-        };
-    }
-    return metadata;
-}
-
-//Check inside subdirs for the title of each subpage and returns an array of them
-function getPageNames(pages, dir){
-    let pageNames = [];
-
-    pages.forEach(page => {
-        let metadata = getMetadata(dir + '/' + page);
-        pageNames.push(metadata.title);
-    });
-
-    return pageNames;
-}
-
-//Check and parse all files inside given dir
-function parseFiles(dir, metadata, sidebar) {
-    let res = getFiles(dir);
-
-    //Ignore data.json files
-    res = res.filter(name => {return name != 'data.json';});
-
-    for (let i = 0; i < res.length; i++) {
-
-        var ext = path.extname(res[i]);
-        var filepath = dir + '/' + res[i];
-
-        if (ext == '.webtex') {
-            var content = fs.readFileSync(filepath, 'utf8');
-            var data = parser.parseWebtex(content);
-            var outpath = config.dev.outdir + '/' + dir + '/index.html';
-            ensureDirectoryExists(outpath);
-            fs.writeFileSync(outpath, templates.buildHTMLWithComments(data, metadata, sidebar));
-        }
-        else if (ext == '.html') {
-            var content = fs.readFileSync(filepath, 'utf8');
-            var outpath = config.dev.outdir + '/' + dir + '/index.html';
-            ensureDirectoryExists(outpath);
-            fs.writeFileSync(outpath, templates.buildHTMLWithComments(content, metadata, sidebar));
-        }
-        else if (ext == '.js' || ext == '.png' || ext == '.jpg'){
-            let outpath = config.dev.outdir + '/' + filepath;
-            ensureDirectoryExists(outpath);
-            fs.copyFileSync(filepath, outpath);
-        }
-        else {
-            console.log("File not handled: " + filepath);
-        }
-    }
+//Read config and create folder where website will be built into
+function makeOutputFolder() {
+    fs.mkdirSync(config.dev.outdir, { recursive: true }, (err) => {if (err) throw err; });
 }
 
 //Moves files from global input folder to output folder inside the output directory
@@ -196,33 +61,152 @@ function moveFilesFrom(folder) {
     moveFiles(folder, folder);
 }
 
-//Read config and create folder where website will be built into
-function makeOutputFolder() {
-    fs.mkdirSync(config.dev.outdir, { recursive: true }, (err) => {if (err) throw err; });
+//Returns a json object with the tree of all subdirs and titles for them when given a dir
+//MAYBE decide if metadata should or should not be inside page tree
+function getPageTree(dir=''){
+    let fpath = dir == '' ? config.dev.filesdir : config.dev.filesdir + '/' + dir;
+    let subDirs = getSubDirs(fpath);
+    if(subDirs.length == 0) return null;
+
+    let data = {};
+
+    subDirs.forEach( subDir => {
+        let subDirPath = dir + '/' + subDir;
+        let metadata = getMetadata(subDirPath);
+        data[subDir] = {title: metadata.title, pages: {}};
+
+        let page = getPageTree(subDirPath);
+        if(page != null)
+            data[subDir].pages = page;
+    });
+
+    return data;
+}
+
+//Creates and parses this directory
+//URL has no slash at the end
+function parseDirectory(pageTree, url='', parentSidebar = ''){
+
+    makeDirectory(url);
+
+    //Build sidebar (maybe move this to the file parser)
+    let subpages = getSubPages(pageTree); //Can be empty
+    let metadata = getMetadata(url);
+
+    //Sidebar logic
+    // True means it's the parent page
+    // False means it's a child page
+    //HACK this is so fucking stupid but it works...
+    let sidebar = '';
+    if(metadata.sidebar == true){
+        sidebar = templates.buildSidebar(subpages, url, getPageNames(subpages, url));
+    } else if (metadata.sidebar == false){
+        sidebar = parentSidebar;
+    }
+
+    //Convert files
+    parseFiles(url, metadata, sidebar);
+
+    for(let page in pageTree){
+        let newURL = url == '' ? page : url + '/' + page;
+        parseDirectory(pageTree[page].pages, newURL, sidebar);
+    }
 }
 
 //Makes the directory structure for a given topic under a given subject
-function makeTopicDirectory(subject, topic){
-    let fpath = 'notes/' + subject + '/' + topic;
-    if(fs.statSync('./'+fpath).isDirectory() == false) return false;
-    fs.mkdirSync(config.dev.outdir+'/'+fpath, { recursive: true }, (err) => {if (err) throw err;});
+function makeDirectory(url){
+    //Check that it is a valid directory
+    if(fs.statSync('./' + config.dev.filesdir + '/' + url).isDirectory() == false) {
+        console.log("URL IS NOT A DIRECTORY: " + url);
+        return false;
+    }
+    //If it is, create a new dir
+    fs.mkdirSync(config.dev.outdir+'/'+url, { recursive: true }, (err) => {if (err) throw err;});
 }
 
-//Creates a index page for each subject if it does not exist
-function createTopicIndexPage(subject, topic, sidebar){
-    let spath = 'notes/' + subject + '/' + topic;
-    
-    //If index page already exists then cancel this
-    if(indexFileExists(spath)){
-        return;
+//Returns array with subpages
+function getSubPages(pages) {
+
+    let array = [];
+
+    for(let page in pages)
+        array.push(page);
+
+    return array;
+}
+
+//Check inside this dir for metadata
+function getMetadata(dir){
+    let metadata;
+    let url = dir + '/data.json';
+    let fpath = config.dev.filesdir + '/' + url;
+    if(fs.existsSync(fpath)){
+        metadata = require('../' + fpath);
+        metadata["url"] = "https://thundersmotch.com/" + url;
+    } else{
+        metadata = {
+            "title": "Default Title",
+            "description": "I should've written a description for this...",
+            "url": "https://thundersmotch.com"
+        };
+    }
+    return metadata;
+}
+
+//Check inside subdirs for the title of each subpage and returns an array of them
+function getPageNames(pages, dir){
+    let pageNames = [];
+
+    pages.forEach(page => {
+        let metadata = getMetadata(dir + '/' + page);
+        pageNames.push(metadata.title);
+    });
+
+    return pageNames;
+}
+
+//Check and parse all files inside given dir
+function parseFiles(dir, metadata, sidebar) {
+    let res = getFiles(config.dev.filesdir + '/' + dir);
+
+    //Check if the output path exists
+    let outpath = dir == '' ? config.dev.outdir : config.dev.outdir + '/' + dir;
+    ensureDirectoryExists(outpath);
+
+    if(dir == '' && res.includes('404.html')){
+        let content = fs.readFileSync(config.dev.filesdir + '/404.html' , 'utf8');
+        fs.writeFileSync(outpath + '/404.html', templates.buildHTML(content, metadata, sidebar));
     }
 
-    //If there is no index page we make one
-    let html='No index page was provided. This is a default index page.';
+    //Ignore data.json file and 404.html
+    res = res.filter(name => {return (name != 'data.json' && name != '404.html');});
 
-    fs.writeFileSync(config.dev.outdir+"/"+spath+"/index.html", templates.buildSubjectHTML(topic, sidebar, html), err =>{
-        if(err){console.log(err)};
-    })
+    for (let i = 0; i < res.length; i++) {
+
+        parseFile(res[i], dir, outpath, metadata, sidebar);
+    }
+}
+
+//Parses a single file
+function parseFile(name, dir, outpath, metadata, sidebar) {
+    let ext = path.extname(name);
+    let filepath = dir == '' ? config.dev.filesdir + '/' + name : config.dev.filesdir + '/' + dir + '/' + name;
+
+    if (ext == '.webtex') {
+        let content = fs.readFileSync(filepath, 'utf8');
+        let data = parser.parseWebtex(content);
+        fs.writeFileSync(outpath + '/index.html', templates.buildHTML(data, metadata, sidebar));
+    }
+    else if (ext == '.html') {
+        var content = fs.readFileSync(filepath, 'utf8');
+        fs.writeFileSync(outpath + '/index.html', templates.buildHTML(content, metadata, sidebar));
+    }
+    else if (ext == '.js' || ext == '.png' || ext == '.jpg') {
+        fs.copyFileSync(filepath, outpath + '/' + name);
+    }
+    else {
+        console.log("File not handled: " + filepath);
+    }
 }
 
 //Orders pages according to json if available

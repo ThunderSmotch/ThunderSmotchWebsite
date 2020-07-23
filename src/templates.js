@@ -1,4 +1,4 @@
-module.exports = {buildIndexHTML, buildNavbar, buildHTML, buildSubjectHTML, buildSidebar, buildAboutHTML, build404HTML, buildHTMLWithComments}
+module.exports = {buildNavbar, buildHTML, buildSubjectHTML, buildSidebar}
 const path = require("path");
 const { config } = require("process");
 
@@ -22,43 +22,16 @@ let commentSection = `
 //Builds any page by inserting the head and the content
 function buildHTML(content, metadata, sidebar=''){
     
+    //Handle comments
+    let commentsFlag = metadata.comments || metadata.comments == null;
+    let commentHTML = commentsFlag ? commentSection : '';
+    
+    //Handle sidebar
     let noSidebar = '';
     if(sidebar == '')
         noSidebar = 'nosidebar';
     
-    
-    return `
-<!DOCTYPE html>
-<html>
-<head>
-    ${getHead(metadata.title, metadata.description, metadata.url)}
-</head>
-
-<body>
-<div class="navbar">${navbarHTML}</div>
-<div id="main">
-    <div id="sidebar">${sidebar}</div>
-    <div class="content ${noSidebar}">
-    ${content}
-    </div>
-</div>
-
-<div class="footer">
-  <p>Made by <a href="https://github.com/ThunderSmotch">ThunderSmotch</a> | 2020 |</p>
-</div>
-
-</body>
-</html>
-    `;
-}
-
-//Builds any page by inserting the head and the content and a comment section below
-function buildHTMLWithComments(content, metadata, sidebar=''){
-    
-    let noSidebar = '';
-    if(sidebar == '')
-        noSidebar = 'nosidebar';
-    
+    //Return HTML
     return `
 <!DOCTYPE html>
 <html>
@@ -73,7 +46,7 @@ function buildHTMLWithComments(content, metadata, sidebar=''){
     <div class="content ${noSidebar}">
     ${content}
     <br>
-    ${commentSection}
+    ${commentHTML}
     </div>
 </div>
 
@@ -85,73 +58,6 @@ function buildHTMLWithComments(content, metadata, sidebar=''){
 </html>
     `;
 }
-
-//Main page for the Website
-function buildIndexHTML(){
-
-var content = `
-<h1>ThunderSmotch's Scribbles</h1>
-</br>
-This website archives some of my notes regarding Maths and Physics and other stuff! Currently it still looks very barebones but I intend to add more content to it in the near future.
-</br>
-Feel free to share the site with friends! :)
-</br>
-</br>
-<div id='main' style='text-align: center'>\\(Latex\\ is\\ cool...\\quad You\\ should\\ learn\\ it! \\)</div>
-`;
-
-var metadata = {
-    "title": "Home",
-    "description": "Website connecting physics, maths and programming with the intent of having interactive topics.",
-    "url": "https://thundersmotch.com"
-}
-
-    return buildHTML(content, metadata);
-}
-
-//About page for the Website
-function buildAboutHTML(){
-
-    var content = `
-    <h1>ThunderSmotch - Carlos Couto</h1>
-    </br>
-    Someone who loves physics, maths and computer science. Always procrastinating...
-    </br>
-    You can find me at:</br>
-    <ul>
-    <li>Email: thundersmotch@gmail.com</li>
-    <li><a href='https://github.com/ThunderSmotch'>Github</a></li>
-    </ul>
-    `;
-
-    var metadata = {
-        "title": "About",
-        "description": "About page for ThunderSmotch's Website.",
-        "url": "https://thundersmotch.com/about"
-    }
-    
-    return buildHTML(content, metadata);
-}
-
-//404 page for the Website
-function build404HTML(){
-
-    var content = `
-    <h1>This page could not be found!</h1>
-    </br>
-    For problems or suggestions please enter in contact with thundersmotch@gmail.com.
-    </br>
-    Maybe this page was moved elsewhere. Check the navigation bar above to see if you can still find it!
-    `;
-
-    var metadata = {
-        "title": "Page Not Found",
-        "description": "That page could not be found.",
-        "url": "https://thundersmotch.com/404.html"
-    }
-    
-        return buildHTML(content, metadata);
-    }
 
 //Build HTML index page
 function buildSubjectHTML(subject, sidebar, html){
@@ -189,31 +95,40 @@ function buildSidebar(pages, dirpath, pageNames){
     return sidebar;
 }
 
-//Builds the HTML for the navbar and sets it to the global constant
+//Builds the HTML for the navbar from the pageTree and sets it to the global constant
+//MAYBE see wha't up with the fa caret thing & refactor this function
 function buildNavbar(pageTree){
 
-    let subjectsHTML = '';
-    for(let subject in pageTree){
-        subjectsHTML+=`
-        <div class="column">
-        <h4>${pageTree[subject].title}</h4>
-        ${getTopicButtons(pageTree[subject].pages, subject)}
-        </div>
-        `;
+    let html = '<a href="/">ThunderSmotch</a>\n';
+
+    for(let page in pageTree){
+        //If it's the last page then make a <a> link
+        if( Object.keys(pageTree[page].pages).length === 0){
+            html += `<a href="/${page}/">${pageTree[page].title}</a>\n`;
+        } else { //If not then there are more things to add
+            html += `<div id='${page}' class="dropdown">
+            <button class="dropbtn">${pageTree[page].title}<i class="fa fa-caret-down"></i></button>
+            <div class="dropdown-content">
+            <div class="row">`;
+
+            let dropPage = pageTree[page].pages;
+            for(let subpage in dropPage){
+                html+=`
+                <div class="column">
+                <h4>${dropPage[subpage].title}</h4>
+                ${getTopicButtons(dropPage[subpage].pages, subpage)}
+                </div>
+                `;
+            }
+
+            html += `</div>\n</div>\n</div>\n`;
+
+        }
+        
+        
     }
 
-    navbarHTML = `
-    <a href="/">Home</a>
-    <a href="/about/">About</a>
-    <div id="notes" class="dropdown">
-        <button class="dropbtn">Notes<i class="fa fa-caret-down"></i></button>
-        <div class="dropdown-content">
-        <div class="row">
-        ${subjectsHTML}
-        </div>
-        </div>
-    </div>    
-`;
+    navbarHTML = html;
 }
 
 //Returns HTML for a given topic inside a subject
