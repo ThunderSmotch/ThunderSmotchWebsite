@@ -1,6 +1,6 @@
 {
     "trailingSlash":true,
-    "routes": [
-        {"src":"\/pt(?<url>[\\S]+)", "dest":"$url"}
+    "rewrites": [
+        {"src":"\/pt([\\S]+)", "dest":"$1"}
     ]
 }
