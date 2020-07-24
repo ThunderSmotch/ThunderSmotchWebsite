@@ -5,7 +5,6 @@ const path = require("path");
 const config = require("./config");
 const templates = require("./templates");
 const parser = require("./webtexParser");
-const { parse } = require("path");
 
 //////////////// T O D O S ////////////////
 

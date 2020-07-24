@@ -1,7 +1,6 @@
 module.exports = {buildNavbar, buildHTML, buildSubjectHTML, buildSidebar, build404HTML}
 const path = require("path");
 const { config } = require("process");
-const { get } = require("http");
 
 const builder = require('./buildWebsite.js');
 
