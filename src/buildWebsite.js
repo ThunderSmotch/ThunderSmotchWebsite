@@ -10,6 +10,7 @@ const { parse } = require("path");
 //////////////// T O D O S ////////////////
 
 //MAYBE make a subject page with navigation towards the several topics
+
 //TODO back and next links on pages (probably it's better to have ordering working first)
 
 //TODO Build sitemap.xml (USE THE PAGE TREE FOR THIS)
