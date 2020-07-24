@@ -1,21 +1,21 @@
+module.exports = {getMetadata, parseDirText};
 const fs = require("fs");
 const path = require("path");
 
 const config = require("./config");
 const templates = require("./templates");
 const parser = require("./webtexParser");
+const { parse } = require("path");
 
 //////////////// T O D O S ////////////////
 
 //TODO Reorder can probably be refactored to the pageTree
 
 //MAYBE make a subject page with navigation towards the several topics
-//TODO back and next links on pages
+//TODO back and next links on pages (probably it's better to have ordering working first)
 
-// One cool way to implement this in the future is having a page type on the data.json
-// so that the builder knows what kind of page to build (content, index, etc)
+//TODO Build sitemap.xml (USE THE PAGE TREE FOR THIS)
 
-//TODO Build sitemap.xml (USE THE PAGE TREE FOR THIS ;))
 //TODO Have portuguese content on pt. subfolder
 
 //////////////////////Building the Website//////////////////////////////
@@ -29,7 +29,6 @@ templates.buildNavbar(pageTree);
 build404Page();
 
 parseDirectory(pageTree, '');
-
 ////////////////////////////// HELPER FUNCTIONS /////////////////////////////////////////
 
 //Moves files from global input folder to output folder inside the output directory
@@ -58,52 +57,54 @@ function moveFilesFrom(folder) {
     moveFiles(folder, folder);
 }
 
-//Returns a json object with the tree of all subdirs and titles for them when given a dir
-//MAYBE decide if metadata should or should not be inside page tree
+//Returns a json object with the tree of all dirs and subdirs
 function getPageTree(dir=''){
     let fpath = dir == '' ? config.dev.filesdir : config.dev.filesdir + '/' + dir;
-    let subDirs = getSubDirs(fpath);
+    let subDirs = getSubDirs(fpath).sort();
     if(subDirs.length == 0) return null;
 
     let data = {};
 
     subDirs.forEach( subDir => {
         let subDirPath = dir + '/' + subDir;
-        let metadata = getMetadata(subDirPath);
-        data[subDir] = {title: metadata.title, pages: {}};
-
+        data[subDir] = {};
         let page = getPageTree(subDirPath);
         if(page != null)
-            data[subDir].pages = page;
+            data[subDir] = page;
     });
 
     return data;
 }
 
+//Remove ordering text
+function parseDirText(dir){
+    return dir.replace(/[0-9]+\./, '');
+}
+
 //Creates and parses this directory
 //URL has no slash at the end
-function parseDirectory(pageTree, url='', parentSidebar = ''){
+function parseDirectory(pageTree, dir='', parentSidebar = ''){
 
-    makeDirectory(url);
+    makeDirectory(dir);
 
     //Build sidebar (maybe move this to the file parser)
     let subpages = getSubPages(pageTree); //Can be empty
-    let metadata = getMetadata(url);
+    let metadata = getMetadata(dir);
 
     //Sidebar logic
     // True means it's the parent page
     //HACK this is so fucking stupid but it works...
     let sidebar = parentSidebar;
     if(metadata.sidebar == true){
-        sidebar = templates.buildSidebar(subpages, url, getPageNames(subpages, url));
+        sidebar = templates.buildSidebar(subpages, parseDirText(dir), getPageNames(subpages, dir));
     }
 
     //Convert files
-    parseFiles(url, metadata, sidebar);
+    parseFiles(dir, metadata, sidebar);
 
     for(let page in pageTree){
-        let newURL = url == '' ? page : url + '/' + page;
-        parseDirectory(pageTree[page].pages, newURL, sidebar);
+        let newDir = dir == '' ? page : dir + '/' + page;
+        parseDirectory(pageTree[page], newDir, sidebar);
     }
 }
 
@@ -132,8 +133,9 @@ function getSubPages(pages) {
 //Check inside this dir for metadata
 function getMetadata(dir){
     let metadata;
-    let url = dir + '/data.json';
-    let fpath = config.dev.filesdir + '/' + url;
+    let url = parseDirText(dir);
+
+    let fpath = config.dev.filesdir + '/' + dir + '/data.json';
     if(fs.existsSync(fpath)){
         metadata = require('../' + fpath);
         metadata["url"] = "https://thundersmotch.com/" + url;
@@ -161,10 +163,12 @@ function getPageNames(pages, dir){
 
 //Check and parse all files inside given dir
 function parseFiles(dir, metadata, sidebar) {
+
+    let url = parseDirText(dir);
     let res = getFiles(config.dev.filesdir + '/' + dir);
 
     //Check if the output path exists
-    let outpath = dir == '' ? config.dev.outdir : config.dev.outdir + '/' + dir;
+    let outpath = url == '' ? config.dev.outdir : config.dev.outdir + '/' + url;
     ensureDirectoryExists(outpath);
 
     //Ignore data.json files
@@ -199,18 +203,6 @@ function parseFile(name, dir, outpath, metadata, sidebar) {
 function build404Page(){
     ensureDirectoryExists(config.dev.outdir);
     fs.writeFileSync(config.dev.outdir + '/404.html', templates.build404HTML());
-}
-
-//Orders pages according to json if available
-function orderPages(pages, data){
-    let result = [];
-
-    data.forEach(page => {
-        if(pages.includes(page))
-            result.push(page);
-    });
-
-    return result;
 }
 
 //Recursive File Search Function

@@ -3,6 +3,8 @@ const path = require("path");
 const { config } = require("process");
 const { get } = require("http");
 
+const builder = require('./buildWebsite.js');
+
 //Navbar HTML to be set during build
 let navbarHTML = '';
 
@@ -66,13 +68,13 @@ function buildSubjectHTML(subject, sidebar, html){
 };
 
 //Builds sidebar from a list of pages
-function buildSidebar(pages, dirpath, pageNames){
+function buildSidebar(pages, urlpath, pageNames){
     let listitems = '';
 
-    listitems +=  `<a href="/${dirpath}/">Index</a></br>`;
+    listitems +=  `<a href="/${urlpath}/">Index</a></br>`;
 
     for(let i = 0; i < pages.length; i++){
-        listitems += `<a href="/${dirpath}/${pages[i]}/">${pageNames[i]}</a></br>`
+        listitems += `<a href="/${urlpath}/${pages[i]}/">${pageNames[i]}</a></br>`
     }
 
     let sidebar = `
@@ -91,41 +93,46 @@ function buildNavbar(pageTree){
     let html = '<a href="/">ThunderSmotch</a>\n';
 
     for(let page in pageTree){
+        let dir = page;
+        let url = '/' + builder.parseDirText(dir);
+        
+        let title = builder.getMetadata(dir).title;
         //If it's the last page then make a <a> link
-        if( Object.keys(pageTree[page].pages).length === 0){
-            html += `<a href="/${page}/">${pageTree[page].title}</a>\n`;
-        } else { //If not then there are more things to add
+        if( Object.keys(pageTree[page]).length === 0){
+            html += `<a href="${url}/">${title}</a>\n`;
+        } else {
             html += `<div id='${page}' class="dropdown">
-            <button class="dropbtn">${pageTree[page].title}<i class="fa fa-caret-down"></i></button>
+            <button class="dropbtn">${title}<i class="fa fa-caret-down"></i></button>
             <div class="dropdown-content">
             <div class="row">`;
 
-            let dropPage = pageTree[page].pages;
+            let dropPage = pageTree[page];
             for(let subpage in dropPage){
+
+                let subdir = dir + '/' + subpage;
+                let subtitle = builder.getMetadata(subdir).title;
+                
                 html+=`
                 <div class="column">
-                <h4>${dropPage[subpage].title}</h4>
-                ${getSubpageButtons(dropPage[subpage].pages, subpage)}
+                <h4>${subtitle}</h4>
+                ${getSubpageButtons(dropPage[subpage], subdir)}
                 </div>
                 `;
             }
-
             html += `</div>\n</div>\n</div>\n`;
-
         }
-        
-        
     }
-
     navbarHTML = html;
 }
 
 //Returns HTML for a given topic inside a subject
-function getSubpageButtons(pages, folder){
+function getSubpageButtons(pages, dir){
     var html = '';
     if(Object.keys(pages).length !== 0){
         for(let page in pages){
-            html += `<a href="/notes/${folder}/${page}/">${pages[page].title}</a>\n`
+            let subdir = dir + '/' + page;
+            let title = builder.getMetadata(subdir).title;
+            html += `<a href="/${builder.parseDirText(subdir)}/">${title}</a>\n`
         }
     }
     return html;
