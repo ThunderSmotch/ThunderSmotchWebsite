@@ -180,7 +180,28 @@ function getHead(title = 'Home', description = 'ThunderSmotch - Maths/Physics/Pr
 //Returns the footer HTML
 function getFooter(){
     return `
-<p>Made by <a href="https://github.com/ThunderSmotch">ThunderSmotch</a> | 2020 |</p>
+<p>| Made by <a href="https://github.com/ThunderSmotch">ThunderSmotch</a> | 2020 | <a href="#" id='lang_en'>English</a> | <a href="#" id='lang_pt'>Português</a> </p>
+
+<script type="text/javascript">
+document.getElementById('lang_pt').onclick = (e) => {
+    e.preventDefault();
+    let path = location.pathname;
+    let regex = /\\/pt\\//
+    if(!path.match(regex)){
+        path = '/pt' + path;
+        location.assign(path);
+    }
+}
+
+document.getElementById('lang_en').onclick = (e) => {
+    e.preventDefault();
+    let path = location.pathname;
+    let regex = /\\/pt\\//
+    if(path.match(regex)){
+        location.assign(path.substr(3));
+    }
+}
+</script>
 `;
 }
 
