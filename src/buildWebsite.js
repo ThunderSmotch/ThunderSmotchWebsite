@@ -9,8 +9,6 @@ const { parse } = require("path");
 
 //////////////// T O D O S ////////////////
 
-//TODO Reorder can probably be refactored to the pageTree
-
 //MAYBE make a subject page with navigation towards the several topics
 //TODO back and next links on pages (probably it's better to have ordering working first)
 
@@ -109,14 +107,14 @@ function parseDirectory(pageTree, dir='', parentSidebar = ''){
 }
 
 //Makes the directory structure for a given topic under a given subject
-function makeDirectory(url){
+function makeDirectory(dir){
     //Check that it is a valid directory
-    if(fs.statSync('./' + config.dev.filesdir + '/' + url).isDirectory() == false) {
-        console.log("URL IS NOT A DIRECTORY: " + url);
+    if(fs.statSync('./' + config.dev.filesdir + '/' + dir).isDirectory() == false) {
+        console.log("GIVEN DIR IS NOT A DIRECTORY: " + dir);
         return false;
     }
     //If it is, create a new dir
-    fs.mkdirSync(config.dev.outdir+'/'+url, { recursive: true }, (err) => {if (err) throw err;});
+    fs.mkdirSync(config.dev.outdir+'/'+parseDirText(dir), { recursive: true }, (err) => {if (err) throw err;});
 }
 
 //Returns array with subpages
