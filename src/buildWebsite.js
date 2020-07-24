@@ -169,25 +169,43 @@ function parseFiles(dir, metadata, sidebar) {
     let outpath = url == '' ? config.dev.outdir : config.dev.outdir + '/' + url;
     ensureDirectoryExists(outpath);
 
-    //Ignore data.json files
+    //Ignore data.json files and .pt. files
     res = res.filter(name => {return name != 'data.json';});
-    
+    res = res.filter(name => {return !(name.match(/\.pt\./))});
+
     res.forEach(file => parseFile(file, dir, outpath, metadata, sidebar))
 }
 
 //Parses a single file
+//HACK The way PT files are parsed does not feel polished
 function parseFile(name, dir, outpath, metadata, sidebar) {
     let ext = path.extname(name);
-    let filepath = dir == '' ? config.dev.filesdir + '/' + name : config.dev.filesdir + '/' + dir + '/' + name;
+    let base = path.basename(name, ext);
+
+    let folder = dir == '' ? config.dev.filesdir + '/' : config.dev.filesdir + '/' + dir + '/';
+    let filepath = folder + name;
 
     if (ext == '.webtex') {
         let content = fs.readFileSync(filepath, 'utf8');
         let data = parser.parseWebtex(content);
         fs.writeFileSync(outpath + '/index.html', templates.buildHTML(data, metadata, sidebar));
+
+        //Portuguese version
+        if(fs.existsSync(folder + base + '.pt' + ext)){
+            content = fs.readFileSync(folder + base + '.pt' + ext, 'utf8');
+            data = parser.parseWebtex(content);
+        }
+        fs.writeFileSync(outpath + '/index.pt.html', templates.buildHTML(data, metadata, sidebar));
     }
     else if (ext == '.html') {
         var content = fs.readFileSync(filepath, 'utf8');
         fs.writeFileSync(outpath + '/index.html', templates.buildHTML(content, metadata, sidebar));
+
+        //Portuguese version
+        if(fs.existsSync(folder + base + '.pt' + ext)){
+            content = fs.readFileSync(folder + base + '.pt' + ext, 'utf8');
+        }
+        fs.writeFileSync(outpath + '/index.pt.html', templates.buildHTML(content, metadata, sidebar));
     }
     else if (ext == '.js' || ext == '.png' || ext == '.jpg') {
         fs.copyFileSync(filepath, outpath + '/' + name);
