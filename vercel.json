@@ -1,6 +1,6 @@
 {
     "trailingSlash":true,
     "rewrites": [
-        {"src":"\/pt([\\S]+)", "dest":"$1"}
+        {"source":"\/pt([\\S]+)", "destination":"$1"}
     ]
 }
