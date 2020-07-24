@@ -10,7 +10,7 @@ const parser = require("./webtexParser");
 
 //MAYBE make a subject page with navigation towards the several topics
 
-//TODO back and next links on pages
+//MAYBE change the looks/text of the nav buttons
 
 //TODO Build sitemap.xml (USE THE PAGE TREE FOR THIS)
 
