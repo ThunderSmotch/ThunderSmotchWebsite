@@ -10,11 +10,9 @@ const parser = require("./webtexParser");
 
 //MAYBE make a subject page with navigation towards the several topics
 
-//TODO back and next links on pages (probably it's better to have ordering working first)
+//TODO back and next links on pages
 
 //TODO Build sitemap.xml (USE THE PAGE TREE FOR THIS)
-
-//TODO Have portuguese content on pt. subfolder
 
 //////////////////////Building the Website//////////////////////////////
 ensureDirectoryExists(config.dev.outdir);

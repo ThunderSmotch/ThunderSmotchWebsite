@@ -69,11 +69,13 @@ function buildSubjectHTML(subject, sidebar, html){
 //Builds sidebar from a list of pages
 function buildSidebar(pages, urlpath, pageNames){
     let listitems = '';
+    let item_id = 0;
 
-    listitems +=  `<a href="/${urlpath}/">Index</a></br>`;
+    listitems +=  `<a n="${item_id}" href="/${urlpath}/">Index</a></br>`;
 
     for(let i = 0; i < pages.length; i++){
-        listitems += `<a href="/${urlpath}/${pages[i]}/">${pageNames[i]}</a></br>`
+        item_id++;
+        listitems += `<a n="${item_id}" href="/${urlpath}/${pages[i]}/">${pageNames[i]}</a></br>`
     }
 
     let sidebar = `
@@ -232,6 +234,35 @@ function postPageTemplate(content, metadata, sidebar){
      <div id="sidebar">${sidebar}</div>
      <div class="content ${noSidebar}">
      ${content}
+     <br>
+     <div class="nav_links">
+     <a href='#' class='nav_button' id='nav_previous' style='float:left;'> <- Previous </a>
+     <a href='#' class='nav_button' id='nav_next' style='float:right;'> Next -> </a>
+     
+     <script>
+     let aa = document.querySelector('.sidebar a[href="' + window.location.pathname + '"]');
+     let prev = document.getElementById('nav_previous');
+     let next = document.getElementById('nav_next');
+     let n = aa.getAttribute("n");
+
+     let sidebar_p = document.querySelector('.sidebar a[n="' + (parseInt(n)-1) + '"]');
+     let sidebar_n = document.querySelector('.sidebar a[n="' + (parseInt(n)+1) + '"]');
+
+     if(sidebar_p == null) {
+        prev.style = 'display: none;'
+     } else {
+         prev.innerText = '<- ' + sidebar_p.innerText;
+         prev.href = sidebar_p.href;
+     }
+     if(sidebar_n == null){
+        next.style = 'display:none;'
+     } else {
+        next.innerText = sidebar_n.innerText + ' ->';
+        next.href = sidebar_n.href;   
+     }
+
+     </script>
+     </div>
      <br>
      ${commentSection}
      </div>

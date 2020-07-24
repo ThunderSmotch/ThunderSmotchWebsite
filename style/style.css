@@ -229,3 +229,17 @@ margin-top:5px;
 .sidebar a:hover {
   text-decoration: underline;
 }
+
+.nav_button {
+  border-radius: 3px;
+  border: solid 1px #000000;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.4);
+  background: #f8f8f8;
+  color: rgb(0, 0, 0);
+  padding: 8px 12px;
+  text-decoration: none;
+}
+
+.nav_button:hover{
+  background: #adadad;
+}
