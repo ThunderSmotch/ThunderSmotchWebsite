@@ -1,0 +1,7 @@
+- Probabilities and Statistics
+    - Talking about independent events and why we multiply probabilities
+    - Talking about average values?
+
+- Combinatorics
+    - Talk about arrangements
+    - Talk about permutations and n choose k (see the Binomial distribution text for ideas)

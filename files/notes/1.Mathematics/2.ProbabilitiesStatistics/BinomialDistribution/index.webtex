@@ -1,0 +1,141 @@
+%TODO swap the pictures with interactive simulations using D3
+
+\chapter{Binomial Distribution}
+
+\section{Problem Definition}
+
+Suppose we have a coin that has probability 
+\( p \) of coming up heads and we toss it 
+\( N \) total times. What is the probability that we get 
+\( n \) heads, where 
+\( 0 \leq n \in \mathbb{N} \leq N  \)?
+
+Let's first define the answer to that question as giving a value to the function 
+\( P(n | N, p) \) which colloquially translates to "What is the probability of having 
+\( n \) heads, knowing that we tossed the coin 
+\( N \) times and it has a probability 
+\( p \) of coming up heads?".
+
+\section{Thinking with a picture}
+
+To see how one would tackle finding a formula for 
+\( P(n | N, r) \) let us first draw a schematic of the problem. A good first attempt would be to, for each tossing, draw each possible outcome, head or tails which means that we get a tree of 
+\( 2^N \) branches like the image below suggests:
+\begin{figure}[H]
+    \centerin
+    \includegraphics[width=0.8\textwidth]{tree.png}
+    \caption{tree.png}
+    \label{fig:tree.png}
+\end{figure}
+
+Now, we know that the probability of flipping heads is 
+\( p \) and so we also know that the probability of flipping tails is given by 
+\( 1 - p \). Using our picture we can now start deducing an expression for 
+\( P(n | N, p) \).
+
+Try thinking about the probability of getting 
+\( n \) heads in a row followed by 
+\( N - n \) tails in a row. Does order matter in the calculation you just did? How can you relate the expression you got to our problem?
+
+After you have tried check the below solution:
+\begin{spoiler}[Solution:]
+If the probability of getting a single heads is given by 
+\( p \) then the probability of getting 
+\( n \) heads in a row is given by 
+\( p^{n} \).
+
+The same is true for the throws that give tails which means that the final expression for getting 
+\( n \) heads followed by 
+\( N - n \) tails is: 
+\[ p^{n} (1 - p)^{N - n} \]  
+
+The above makes sense because if we threw the coin 
+\( N \) times and we want to get 
+\( n \) heads then we must get 
+\( N - n \) tails as well (For the smartasses out there no, the coin \textbf{does not land on its side}! At least we are assuming that the probability of such an event is \textbf{zero}).
+
+Now to relate this with our problem we just have to notice that we do not care about order. The above calculation assumed that there was an order on the outcomes, first we got 
+\( n \) heads in a row, then followed by 
+\( N - n \) tails in a row. 
+
+However, when we ask the probability of getting 
+\( n \) heads we just mean 
+\( n \) heads \textit{somewhere} in the midst of the global 
+\( N  \) throws. This means that to get our formula we just need to count all the possible ways of getting
+\( n \) heads.
+
+Given any ordering 
+\( O \) then we are going to have 
+\( n \) heads and 
+\( N - n \) tails which means that the probability of getting said ordering (
+\( P(O) \) ) is given by the multiplication of 
+\( n \) terms 
+\( p \) and
+\( N - n \) terms 
+\( (1 - p) \). Because multiplication is commutative this implies that for any ordering 
+\( O \) the probability is always given by the expression we derived:
+\[ P(O) = p^{n} (1 - p)^{N - n} \]
+
+So we just need to know how many possible orderings there are and sum the probability for each possible ordering. That is: 
+\[ P(n | N, p) = \sum_{\ \text{orderings}\ } P(O) = p^{n} (1 - p)^{N - n} \left( \sum_{\ \text{orderings}\ } 1 \right)  \] 
+\end{spoiler}
+
+Were you able to get it? To finish this let's now learn how to count.
+
+\section{(Re)Learning how to count}
+
+The picture we drew on the previous section is helpful but for our purposes of counting the total number of orderings it is far from perfect. Let us then look at another way to represent a given ordering. We can think of an ordering of 
+\( N \) tosses as a word with 
+\( N \) slots/characters where each slot will either contain the letter 
+\( H \) representing heads or 
+\( T \) representing tails. See the figure below for an example:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{slots.png}
+    \caption{slots.png}
+    \label{fig:slots.png}
+\end{figure}
+
+If you have come into contact with combinatorics in your studies then you should be able to quickly deduce what the total number of orderings is. If not give it a whirl yourself before taking a peek below:
+\begin{spoiler}[Solution]
+    For the purposes of pedagogy we will not assume any knowledge whatsoever of combinations. As such let us argument this from the beginning.
+
+    Counting the number of orderings is equivalent to saying "How many different ways do I have to put the 
+    \( H \) character on the slots?" because the remaining slots will always have 
+    \( T \).
+
+    If we have 
+    \( n \) heads then from the 
+    \( N \) total slots we want to count the number of ways we can choose 
+    \( n \) (\textit{wink wink ;)}). If we label each slot by their index, going from 
+    \( 1 \) to 
+    \( N \). Then we want to choose 
+    \( n \) different indexes. The way we do that is to first choose one from all the 
+    \( N \) different indexes, then another from the 
+    \( N - 1 \) and so on until we made 
+    \( n \) choices. Mathematically we write it as: 
+    \[ \frac{N!}{(N - n)!} \]
+    
+    However, we are not done because when we choose indexes their order does not matter, that is, the choice "123" is equivalent to the choice "321" because we are filling the slots with the letter 
+    \( H \). Thus we need to remove all the repeated orderings from the quantity above. How many times are we repeating the pattern? Well for a given set of 
+    \( n \) indexes there are 
+    \( n! \) ways of ordering it. You can convince yourself of this fact by noting that to make an order you first have to choose the first index from all the 
+    \( n \) indices, then the second from 
+    \( (n - 1) \) remaining indices and so on. 
+    
+    Finally we divide the quantity we had before by the number of times it is being repeated to reach an expression for what is called a n-\textbf{combination} of a set of size 
+    \( N \) , also called 
+    \( N \)-choose-
+    \( n \):
+    \[ {}^{N}C_{n} = {N \choose n} = \frac{N!}{(N - n)! n!} \] 
+
+\end{spoiler}
+
+\section{Combining everything}
+
+Joining everything together we see that 
+\( P(n | N, p) \) is given by: 
+\[ P(n | N, p) = {N \choose n} p^{n} (1 - p)^{N - n}  \]  
+This distribution is called the \textbf{Binomial distribution} because the term 
+\( N \choose n \) is called a \textbf{binomial coefficient}, due to its appearance when calculating powers of a binomial expression. This distribution is used when there are only two possible outcomes, like \textbf{yes or no} or in our case \textbf{heads or tails}, and when every experiment is performed independently from past ones.

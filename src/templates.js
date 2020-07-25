@@ -128,9 +128,11 @@ function buildNavbar(pageTree){
 
 //Returns HTML for a given topic inside a subject
 function getSubpageButtons(pages, dir){
+
     var html = '';
     if(Object.keys(pages).length !== 0){
         for(let page in pages){
+
             let subdir = dir + '/' + page;
             let title = builder.getMetadata(subdir).title;
             html += `<a href="/${builder.parseDirText(subdir)}/">${title}</a>\n`

@@ -14,6 +14,10 @@ const parser = require("./webtexParser");
 
 //TODO Build sitemap.xml (USE THE PAGE TREE FOR THIS)
 
+//TODO someway of navigating between h2 h3 h4 headers on a page
+
+//TODO some sort of bidirectional links (WIP)
+
 //////////////////////Building the Website//////////////////////////////
 ensureDirectoryExists(config.dev.outdir);
 moveFilesFrom('js');
@@ -74,7 +78,7 @@ function getPageTree(dir=''){
 
 //Remove ordering text
 function parseDirText(dir){
-    return dir.replace(/[0-9]+\./, '');
+    return dir.replace(/[0-9]+\./g, '');
 }
 
 //Creates and parses this directory

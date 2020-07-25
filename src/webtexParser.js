@@ -49,7 +49,7 @@ function replaceScripts(data){
 
 //Replace figure environments with the img html tag
 function replaceFigures(data){
-    let reg = /\\begin{figure}[\s\S]+includegrap[\s\S]+?{([\S]+)}[\s\S]+\\end{figure}/mg;
+    let reg = /\\begin{figure}[\s\S]*?includegrap[\s\S]+?{([\S]+)}[\s\S]*?\\end{figure}/mg;
 
     data = data.replace(reg, (match, p1)=>{
         return `<img alt='${p1}' src='./${p1}'>`;
@@ -158,7 +158,7 @@ function replaceHref(data){
 
 //Replaces a simple \command{text} or \command*{text} with a <tag>text</tag>
 function replaceCommand(data, cmdName, tag){
-    var reg = new RegExp('\\\\' + cmdName + '\\*?{(.+)}', 'g');
+    var reg = new RegExp('\\\\' + cmdName + '\\*?{(.*?)}', 'g');
 
     var str = data.replace(reg, 
         function (match, p1){
