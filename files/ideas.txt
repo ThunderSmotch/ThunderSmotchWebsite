@@ -5,3 +5,4 @@
 - Combinatorics
     - Talk about arrangements
     - Talk about permutations and n choose k (see the Binomial distribution text for ideas)
+    - Binomial Coefficient and Pythagoras Triangle

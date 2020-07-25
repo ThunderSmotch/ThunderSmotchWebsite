@@ -139,3 +139,7 @@ Joining everything together we see that
 \[ P(n | N, p) = {N \choose n} p^{n} (1 - p)^{N - n}  \]  
 This distribution is called the \textbf{Binomial distribution} because the term 
 \( N \choose n \) is called a \textbf{binomial coefficient}, due to its appearance when calculating powers of a binomial expression. This distribution is used when there are only two possible outcomes, like \textbf{yes or no} or in our case \textbf{heads or tails}, and when every experiment is performed independently from past ones.
+
+%%TODO use D3 to increase interactivity
+%%TODO introduce average value and variance of this
+%%TODO Create geogebra plot of the distribution
