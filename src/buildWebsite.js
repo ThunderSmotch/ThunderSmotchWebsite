@@ -5,6 +5,7 @@ const path = require("path");
 const config = require("./config");
 const templates = require("./templates");
 const parser = require("./webtexParser");
+const sitemap = require("./sitemapBuilder");
 
 //////////////// T O D O S ////////////////
 
@@ -25,10 +26,12 @@ moveFilesFrom('style');
 //Gets the page tree for the website
 let pageTree = getPageTree();
 templates.buildNavbar(pageTree);
+sitemap.startSitemap();
 //Build 404 page
 build404Page();
 
 parseDirectory(pageTree, '');
+fs.writeFileSync(config.dev.outdir + '/sitemap.xml', sitemap.endSitemap());
 ////////////////////////////// HELPER FUNCTIONS /////////////////////////////////////////
 
 //Moves files from global input folder to output folder inside the output directory
@@ -138,7 +141,7 @@ function getMetadata(dir){
     let fpath = config.dev.filesdir + '/' + dir + '/data.json';
     if(fs.existsSync(fpath)){
         metadata = require('../' + fpath);
-        metadata["url"] = "https://thundersmotch.com/" + url;
+        metadata["url"] = url == '' ? "https://thundersmotch.com/" : "https://thundersmotch.com/" + url + '/';
     } else{
         metadata = {
             "title": "Default Title",
@@ -186,10 +189,12 @@ function parseFile(name, dir, outpath, metadata, sidebar) {
         let content = fs.readFileSync(filepath, 'utf8');
         let data = parser.parseWebtex(content);
         fs.writeFileSync(outpath + '/index.html', templates.buildHTML(data, metadata, sidebar));
+        sitemap.addURL(metadata.url); //Helps building the sitemap
     }
     else if (ext == '.html') {
         var content = fs.readFileSync(filepath, 'utf8');
         fs.writeFileSync(outpath + '/index.html', templates.buildHTML(content, metadata, sidebar));
+        sitemap.addURL(metadata.url); //Helps building the sitemap
     }
     else if (ext == '.js' || ext == '.png' || ext == '.jpg') {
         fs.copyFileSync(filepath, outpath + '/' + name);

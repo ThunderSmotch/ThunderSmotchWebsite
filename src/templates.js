@@ -142,7 +142,7 @@ function getSubpageButtons(pages, dir){
 }
 
 //Returns the HTML for the head html tag
-function getHead(title = 'Home', description = 'ThunderSmotch - Maths/Physics/Programming', url="https://thundersmotch.com"){
+function getHead(title = 'Home', description = 'ThunderSmotch - Maths/Physics/Programming', url="https://thundersmotch.com/"){
     title = title + ' | ThunderSmotch';
 
     return `    
@@ -151,11 +151,11 @@ function getHead(title = 'Home', description = 'ThunderSmotch - Maths/Physics/Pr
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="description" content="${description}">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="canonical" href="${url}/" />
+    <link rel="canonical" href="${url}" />
     <!-- Open Graph data -->
     <meta property="og:title" content="${title}" />
     <meta property="og:type" content="article" />
-    <meta property="og:url" content="${url}/" />
+    <meta property="og:url" content="${url}" />
     <meta property="og:image" content="https://i.stack.imgur.com/59O8g.png" />
     <meta property="og:description" content="${description}" /> 
     <!-- END OF SEO STUFF -->
