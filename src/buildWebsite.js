@@ -19,6 +19,8 @@ const sitemap = require("./sitemapBuilder");
 
 //TODO some sort of bidirectional links (WIP)
 
+//MAYBE Anki flashcards repositoriums for each file
+
 //////////////////////Building the Website//////////////////////////////
 ensureDirectoryExists(config.dev.outdir);
 moveFilesFrom('js');

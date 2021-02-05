@@ -1,25 +1,28 @@
 \chapter{Complex Numbers}
 
-Complex numbers are an extension of the real numbers. They arise from the need of having solutions to equations of the form: 
+Complex numbers are an extension of the real numbers. They arise from the need of having solutions to equations of the form 
 \[ x^{2} + 1 = 0\ , \]
-which have no solutions on the real numbers. We thus define the following number: 
+which have no solutions on the real numbers. We thus define the following number 
 \[ i = \sqrt{ - 1}\ , \]
 which is a solution to the above equation. As such we have that 
 \( i^{2} = - 1 \). 
 
-Formally we have,
+Formally we have the following definition:
 \begin{definition}[Complex Number]
-A \textbf{complex number}, 
+A \textbf{complex number} 
 \( z \), is a pair 
-\( (a, b) \) where 
-\( a,b \in \mathbb{R} \) that can also be written as 
+\( (a, b) \), where 
+\( a,b \in \mathbb{R} \), that can also be written as 
 \( z = a + b i \).
 \end{definition}
 
+The set of all possible complex numbers is denoted by 
+\( \mathbb{C} \). You can think of it as almost the same as the set of two dimensional points on the plane, denoted by 
+\( \mathbb{R}^{2} \). I say \textit{almost the same} because the biggest difference is that, for the complex numbers, we define how we can add and multiply these numbers. At first sight this difference does not seem that interesting. However, if you already came into contact with the field of complex analysis then you know that this makes the study of these numbers \textbf{very very} interesting.
+
 We want to define addition and multiplication of complex numbers with two criteria in mind. The first is that it should be defined in such a way that the usual addition and multiplication of real numbers still makes sense. The second is that we should pay attention to the fact that 
 \( i^{2} = - 1 \). The obvious procedure thus is to simply extend the usual definitions to the complex numbers and see if they work (Spoiler alert, \textit{they do}). By extending the usual definitions we mean to treat 
-\( i \) as if it were a real number and to use the usual distributive and associative properties of real numbers to perform the sum and product. Doing so we can see that,
-
+\( i \) as if it were a real number and to use the usual distributive and associative properties of real numbers to perform the sum and product. Doing so we can see that:
 \begin{definition}[Addition and Multiplication of Complex Numbers]
     Let \( z = a + b i \) and \( w = c + d i \) be complex numbers. Their sum is defined as: 
     \[ (a + b i) + (c + d i) = (a + c) + i (b + d)\ ,  \]
@@ -27,7 +30,7 @@ We want to define addition and multiplication of complex numbers with two criter
     \[ (a + b i)(c + d i) = (ac - bd) + i (ad + bc) \]  
 \end{definition}
 
-Below there are two interactive apps where we can see how the addition and multiplication of two complex numbers works by moving the points A and B. Please do play with them!
+Below there are two interactive apps where we can see how the addition and multiplication of two complex numbers works by moving the points A and B. Feel free to play with them and get some intuition on both of these operations!
 
 \section{Addition of complex numbers}
 
@@ -38,3 +41,34 @@ Below there are two interactive apps where we can see how the addition and multi
 
 %%Multiplication of complex numbers
 \geogebra{uv3hwctz}
+
+Did you notice that adding two complex numbers is the same as if you were adding two vectors? For multiplication, however, something very different happens. Firstly, you should confirm that for real numbers the expected result occurs, that is, multiplication works as we expect. We can interpret multiplication of real numbers as a scaling with a possible reflection. If we multiply two positive numbers then what we are doing is a scaling of the real line, for example, 
+\( 1 \cdot 2 = 2 \), meaning we are effectively scaling the real line by a factor of two. If instead we multiply 
+\( 1 \cdot - 2 = - 2 \), then we are not only scaling by a factor of two but also reflecting the entire line around the origin. Multiplication of complex numbers needs to preserve this interpretation but it should also \textit{generalize} it for the case of complex numbers. "How is it generalized?" you ask. Well you can think of reflections around the origin as \textbf{a rotation} of the entire line by an angle of 
+\( \pi \). Then, is multiplication of complex numbers somehow related to \textbf{rotations}? Yes! Very much so! 
+
+To see this algebraically we just need to introduce a new way of representing complex numbers. The one we introduced is two think of them as points in a two dimensional plane. Now, let's think of them like vectors, that is let's use an angle and a length to point to each complex number. This leads us to the following:
+\begin{definition}[Exponential Representation of Complex Numbers]
+    A \textbf{complex number}  
+    \( z = a + b i \) can be written as 
+    \( z = r e^{i \theta} \), with 
+    \( r = \sqrt{a^{2} + b^{2}}  \) and 
+    \( \tan \theta = \frac{b}{a} \).
+\end{definition}
+
+What is the beauty of this representation you ask? We can look at it as simply having a real positive number 
+\( r \) and then rotating this vector by an angle 
+\( \theta \). Thus negative numbers are represented by 
+\( z = r e^{ i \pi } = - r \). 
+
+Whereas the first representation makes it so that addition is very simple to do, this one does the same to multiplication. Under this representation multiplication is done by \textit{literally} multiplying all the terms. If we have two complex numbers 
+\( z = r e^{i \theta} \) and 
+\( w = p e^{i \alpha} \), then their multiplication is 
+\( zw = rp e^{i (\theta + \alpha)} \), meaning that we scale the plane by the factor 
+\( rp \) and then we rotate it by an angle 
+\( \theta + \alpha\ \). You can see this effect on the complex plane grid by playing with the following app done by Ben Sparks:
+
+%%How multiplication of complex numbers affects the complex grid.
+\geogebra{mbhbdvkr}
+
+For more info on complex numbers I heavily recommend checking \href{https://www.youtube.com/watch?v=5PcpBw5Hbwo}{this video by 3Blue1Brown}.
