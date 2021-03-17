@@ -21,6 +21,8 @@ const sitemap = require("./sitemapBuilder");
 
 //MAYBE Anki flashcards repositoriums for each file
 
+//MAYBE Refactor code so that instead of data.json we use yaml metadata at the top of each file...
+
 //////////////////////Building the Website//////////////////////////////
 ensureDirectoryExists(config.dev.outdir);
 moveFilesFrom('js');
@@ -89,12 +91,21 @@ function parseDirText(dir){
 //Creates and parses this directory
 //URL has no slash at the end
 function parseDirectory(pageTree, dir='', parentSidebar = ''){
+    
+    //Grab metadata first off
+    let metadata = getMetadata(dir);
 
+    //If hidden skip this directory
+    //BUG Hidden pages appearing in sidebar
+    if(metadata.hidden == true){
+    return;
+    }
+    
     makeDirectory(dir);
-
+    
     //Build sidebar (maybe move this to the file parser)
     let subpages = getSubPages(pageTree); //Can be empty
-    let metadata = getMetadata(dir);
+
 
     //Sidebar logic
     // True means it's the parent page
