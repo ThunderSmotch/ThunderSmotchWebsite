@@ -1,8 +1,0 @@
-\chapter{Preliminaries}
-
-Complex numbers are an extension of the real numbers. They arise from the need of having solutions to equations of the form 
-\[ x^{2} + 1 = 0\ , \]
-which have no solutions on the real numbers. We thus define the following number 
-\[ i = \sqrt{ - 1}\ , \]
-which is a solution to the above equation. As such we have that 
-\( i^{2} = - 1 \). 
