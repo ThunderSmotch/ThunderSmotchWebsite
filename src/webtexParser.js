@@ -20,6 +20,7 @@ function parseWebtex(data){
 
 //Replace footnotes by anchors with the content of them shown on the bottom of the page.
 //BUG only works for one line footnotes adding s flag helps but then breaks because of unbalanced parentheses.
+//MAYBE Swap to a popup tooltip with the footnote in the future
 function replaceFootnotes(data){
     let reg = /\\footnote{(.+)}/g;
 
