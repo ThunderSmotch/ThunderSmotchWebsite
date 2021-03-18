@@ -13,12 +13,12 @@ and
 \[ \ket{ \phi_{n_{1}}(r_{1}), \phi_{n_{2}}(r_{2}), \dots} = \ket{\phi_{n_{1}}(r_{1})} \otimes \ket{\phi_{n_{2}}(r_{2})} \otimes \dots \ ,\] 
 and thus the total Hilbert space 
 \( \mathcal{H} = \otimes_{r} \mathcal{H}_{r} \) has dimension 
-\( d_{\mathcal{H}} = \prod_{r} d_{\mathcal{H}_{r}} \). 
+\( d_{\mathcal{H}} = \prod_{r} d_{\mathcal{H}_{r}} \) \footnote{Testing footnotes. \( 1 + 1 = 2 \) }. 
 
 A state of the total system can be written as 
 \[\label{eq:totalState} \ket{\Psi} = \sum_{n_{1}n_{2}\dots} c_{n_{1}n_{2}} \ket{\phi_{n_{1}}(r_{1}), \phi_{n_{2}}(r_{2}) }, \dots \] 
 
-This means that there is a sense on asking how the two degrees of freedom are correlated, or how one of them is correlated with the rest of the system.
+This means that there is a sense on asking how the two degrees of freedom are correlated, or how one of them is correlated with the rest of the system \footnote{Testing again...}.
 
 Due to the nature of physical forces it is also plausible to assume that the interactions between degrees of freedom are pair-wise or limited to few-body terms, i.e., operators can be written as 
 \[ O = \sum_{r} A_{r} + \sum_{r r'} A_{r} B_{r'} + \sum_{rr'r''} A_{r} B_{r'} C_{r'} + \dots\ , \] 
@@ -49,6 +49,6 @@ The above characterization of the Hilbert space of a many-body system has an ess
 
 As long as thermodynamic properties are concerned there are a lot of details that we clearly will not care about. Computing specific heat, compressibility, conductivity... should not require the knowledge of the entire wave function. Many-body theory developed within the context of Condensed Matter systems provides a useful set of tools to compute such quantities However, things might be different if you are concerned with other properties, in particular, if we want to follow the time evolution of a system, its full counting statistics or work distribution.
 
-In this context, information theory has given important contributions. For example, it was shown that ground states and Gibbs (i.e thermal) states are substantially simpler than a generic state, in particular, their entanglement follows a so called area law (some of these results will be covered in the future). Also, some of these states can be described in a much more compact way than equation \ref{eq:totalState}, using a formalism called Matrix Product States, which are a clever way of encoding the wave-function in just a few degrees of freedom.
+In this context, information theory has given important contributions. For example, it was shown that ground states and Gibbs (i.e thermal) states are substantially simpler than a generic state, in particular, their entanglement follows a so called area law (some of these results will be covered in the future). Also, some of these states can be described in a much more compact way than equation (\ref{eq:totalState}), using a formalism called Matrix Product States, which are a clever way of encoding the wave-function in just a few degrees of freedom.
 
 It has also been intensively investigated the way generic states, evolving under generic local Hamiltonians, thermalize, i.e. observables after a long time only depend on generic conserved quantities like energy and number of particles and are relatively indifferent to the nature of the initial state otherwise (I hope we will be able to cover this topic briefly). Some results (that I hope to discuss later) also indicate that physically meaningful states only explore a corner of the  entire Hilbert space in reasonable (non-exponential) time scales.

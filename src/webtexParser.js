@@ -11,9 +11,32 @@ function parseWebtex(data){
     data = replaceSections(data);
     data = replaceMathEnvironments(data)
     data = replaceParagraphs(data);
+    data = replaceFootnotes(data); //TESTING
     data = replaceScripts(data);
     data = replaceGeogebra(data);
     
+    return data;
+}
+
+//Replace footnotes by anchors with the content of them shown on the bottom of the page.
+//BUG only works for one line footnotes adding s flag helps but then breaks because of unbalanced parentheses.
+function replaceFootnotes(data){
+    let reg = /\\footnote{(.+)}/g;
+
+    let counter = 0; //Number of footnotes
+    let footnotes = `<br><hr><b>Footnotes:</b><br>`;
+
+    data = data.replace(reg, 
+        function(match, p1){
+            counter++;
+            footnote = `<a id="Reference${counter}" href="#Footnote${counter}">[${counter}]</a> - ${p1} <br>`
+            footnotes = footnotes.concat(footnote);
+            return `<a id="Footnote${counter}" href="#Reference${counter}">[${counter}]</a>`;
+    });
+
+    //If there are footnotes
+    if(counter){ data = data.concat(footnotes); } 
+
     return data;
 }
 
