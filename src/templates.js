@@ -184,7 +184,7 @@ function getHead(title = 'Home', description = 'ThunderSmotch - Maths/Physics/Pr
 //Returns the footer HTML
 function getFooter(){
     return `
-<p>Made by <a href="https://github.com/ThunderSmotch">ThunderSmotch</a> | 2020 |</p>
+<p>Made by <a href="https://github.com/ThunderSmotch">ThunderSmotch</a> | 2021 |</p>
 `;
 }
 

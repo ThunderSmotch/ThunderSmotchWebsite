@@ -18,9 +18,8 @@ and thus the total Hilbert space
 \todo{Insert correct footnotes.}
 
 A state of the total system can be written as 
-\[\label{eq:totalState} \ket{\Psi} = \sum_{n_{1}n_{2}\dots} c_{n_{1}n_{2}} \ket{\phi_{n_{1}}(r_{1}), \phi_{n_{2}}(r_{2}) }, \dots \] 
-
-This means that there is a sense on asking how the two degrees of freedom are correlated, or how one of them is correlated with the rest of the system \footnote{Testing again...}.
+\[\label{eq:totalState} \ket{\Psi} = \sum_{n_{1}n_{2}\dots} c_{n_{1}n_{2}} \ket{\phi_{n_{1}}(r_{1}), \phi_{n_{2}}(r_{2}) }, \dots\ , \]
+and, as such, there is a sense on asking how the two degrees of freedom are correlated, or how one of them is correlated with the rest of the system \footnote{Testing again...}.
 
 Due to the nature of physical forces it is also plausible to assume that the interactions between degrees of freedom are pair-wise or limited to few-body terms, i.e., operators can be written as 
 \[ O = \sum_{r} A_{r} + \sum_{r r'} A_{r} B_{r'} + \sum_{rr'r''} A_{r} B_{r'} C_{r'} + \dots\ , \] 
@@ -32,7 +31,7 @@ where
 
 In most physical systems there is also a notion of locality, i.e. of proximity between degrees of freedom. Two local degrees of freedom can only interact if they are sufficiently close. This happens since interacting potentials have finite characteristic length. Fully connected models, or random graphs, can also be considered but often care must be taken in interpreting the results and defining the interactions for sometimes even simple thermodynamic properties are not well defined. Most physical systems have well defined spatial and temporal structure and a notion of distance (i.e. a metric) between sites (or positions) in which the degrees of freedom live.
 
-IMAGE HERE
+\todo{IMAGE HERE}
 
 Due to the local nature of degrees of freedom and to the fact that interactions are restricted to a few terms, the Hamiltonian and local observables can be written as 
 \( O = \sum_{r} O_{r} \) where 
