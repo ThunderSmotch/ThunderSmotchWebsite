@@ -23,8 +23,6 @@ const sitemap = require("./sitemapBuilder");
 
 //MAYBE Refactor code so that instead of data.json we use yaml metadata at the top of each file...
 
-//TODO Todo Notes compatibility! HACKish at first
-
 //////////////////////Building the Website//////////////////////////////
 ensureDirectoryExists(config.dev.outdir);
 moveFilesFrom('js');

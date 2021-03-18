@@ -9,6 +9,7 @@ function parseWebtex(data){
     data = replaceLinks(data);
     data = replaceSpoiler(data);
     data = replaceSections(data);
+    data = replaceLists(data);
     data = replaceMathEnvironments(data)
     data = replaceParagraphs(data);
     data = replaceTodos(data);
@@ -17,6 +18,39 @@ function parseWebtex(data){
     data = replaceGeogebra(data);
     
     return data;
+}
+
+//Replaces lists with the corresponding html tags
+function replaceLists(data){
+    data = replaceList(data, 'itemize', 'ul');
+    data = replaceList(data, 'enumerate', 'ol');
+    return data;
+}
+
+//Replace a list environment env that has 
+function replaceList(data, env, tag){
+    var reg = new RegExp('\\\\begin{'+env+'}[\\s\\r\\n]+([\\s\\S]*?)\\\\end{'+env+'}', 'g')
+
+    var str = data.replace(reg, 
+    function (match, p1){
+        return `<${tag}>
+        ${replaceItem(p1)}
+        </${tag}>`
+    });
+    
+    return str;
+}
+
+//Replaces item by the tag li
+function replaceItem(text){
+    let reg = /\\item (.+)/g;
+
+    text = text.replace(reg,
+        function(match, p1){
+            return `<li>${p1}</li>`    
+        });
+
+    return text;
 }
 
 //Replaces todos with a red div
