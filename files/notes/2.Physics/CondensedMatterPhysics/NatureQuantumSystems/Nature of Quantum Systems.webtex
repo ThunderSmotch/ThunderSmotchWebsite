@@ -15,6 +15,8 @@ and thus the total Hilbert space
 \( \mathcal{H} = \otimes_{r} \mathcal{H}_{r} \) has dimension 
 \( d_{\mathcal{H}} = \prod_{r} d_{\mathcal{H}_{r}} \) \footnote{Testing footnotes. \( 1 + 1 = 2 \) }. 
 
+\todo{Insert correct footnotes.}
+
 A state of the total system can be written as 
 \[\label{eq:totalState} \ket{\Psi} = \sum_{n_{1}n_{2}\dots} c_{n_{1}n_{2}} \ket{\phi_{n_{1}}(r_{1}), \phi_{n_{2}}(r_{2}) }, \dots \] 
 

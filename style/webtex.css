@@ -92,3 +92,8 @@ mjx-container{
   overflow-y: hidden;
   padding-bottom: 10px; 
 }
+
+.todo {
+  background-color: #ffdddd;
+  border-left: 6px solid #f44336;
+}

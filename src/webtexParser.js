@@ -11,10 +11,22 @@ function parseWebtex(data){
     data = replaceSections(data);
     data = replaceMathEnvironments(data)
     data = replaceParagraphs(data);
-    data = replaceFootnotes(data); //TESTING
+    data = replaceTodos(data);
+    data = replaceFootnotes(data);
     data = replaceScripts(data);
     data = replaceGeogebra(data);
     
+    return data;
+}
+
+//Replaces todos with a red div
+function replaceTodos(data){
+    let reg = /\\todo{(.+)}/g;
+
+    data = data.replace(reg, 
+        function(match, p1){
+            return `<div class='todo'><b>To-Do: </b>${p1}</div>`;
+        })
     return data;
 }
 
