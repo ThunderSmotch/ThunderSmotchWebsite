@@ -184,6 +184,11 @@ margin-top:5px;
   margin-top: 100px;
 }
 
+/*HACK Offset anchor links*/
+html{
+  scroll-padding-top: 100px;
+}
+
 /*HACK padding-right to force wordwrap of links*/
 .sidebar{
   z-index: 1900;
