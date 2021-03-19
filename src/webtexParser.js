@@ -5,7 +5,6 @@ function parseWebtex(data){
     
     data = removeComments(data);
     data = replaceFigures(data);
-    data = replaceStyling(data);
     data = replaceLinks(data);
     data = replaceSpoiler(data);
     data = replaceSections(data);
@@ -13,6 +12,7 @@ function parseWebtex(data){
     data = replaceLists(data);
     data = replaceTodos(data);
     data = replaceParagraphs(data);
+    data = replaceStyling(data);
     data = replaceFootnotes(data);
     data = replaceScripts(data);
     data = replaceGeogebra(data);
@@ -137,13 +137,12 @@ function removeComments(data){
     return data;
 }
 
-//HACK HIGHLY EXPERIMENTAL
 //Empty p tags are appearing due to the presence of divs and other tags inside p elements
 //Maybe fixed now with a regex change!
 
 //Puts p tags around everything that resembles a paragraph
 function replaceParagraphs(data){
-    let reg = /^[^<\r\n]+((\r|\n|\r\n)[^\r\n]+)*/gm;
+    let reg = /^[^<\r\n][^\r\n]+((\r|\n|\r\n)[^\r\n]+)*/gm;
 
     data = data.replace(reg, (match)=>{
         return `<p>${match}</p>`;

@@ -13,13 +13,11 @@ and
 \[ \ket{ \phi_{n_{1}}(r_{1}), \phi_{n_{2}}(r_{2}), \dots} = \ket{\phi_{n_{1}}(r_{1})} \otimes \ket{\phi_{n_{2}}(r_{2})} \otimes \dots \ ,\] 
 and thus the total Hilbert space 
 \( \mathcal{H} = \otimes_{r} \mathcal{H}_{r} \) has dimension 
-\( d_{\mathcal{H}} = \prod_{r} d_{\mathcal{H}_{r}} \) \footnote{Testing footnotes. \( 1 + 1 = 2 \) }. 
-
-\todo{Insert correct footnotes.}
+\( d_{\mathcal{H}} = \prod_{r} d_{\mathcal{H}_{r}} \) \footnote{For some degrees of freedom like "anyons" the structure of the local Hilbert is not that of a simple product space, c.f. \href{https://arxiv.org/abs/0902.3275}{here.}}. 
 
 A state of the total system can be written as 
 \[\label{eq:totalState} \ket{\Psi} = \sum_{n_{1}n_{2}\dots} c_{n_{1}n_{2}} \ket{\phi_{n_{1}}(r_{1}), \phi_{n_{2}}(r_{2}) }, \dots\ , \]
-and, as such, there is a sense on asking how the two degrees of freedom are correlated, or how one of them is correlated with the rest of the system \footnote{Testing again...}.
+and, as such, there is a sense on asking how the two degrees of freedom are correlated, or how one of them is correlated with the rest of the system.
 
 Due to the nature of physical forces it is also plausible to assume that the interactions between degrees of freedom are pair-wise or limited to few-body terms, i.e., operators can be written as 
 \[ O = \sum_{r} A_{r} + \sum_{r r'} A_{r} B_{r'} + \sum_{rr'r''} A_{r} B_{r'} C_{r'} + \dots\ , \] 
@@ -29,7 +27,7 @@ where
 \( k \) sites they are called 
 \( k \)-local.
 
-In most physical systems there is also a notion of locality, i.e. of proximity between degrees of freedom. Two local degrees of freedom can only interact if they are sufficiently close. This happens since interacting potentials have finite characteristic length. Fully connected models, or random graphs, can also be considered but often care must be taken in interpreting the results and defining the interactions for sometimes even simple thermodynamic properties are not well defined. Most physical systems have well defined spatial and temporal structure and a notion of distance (i.e. a metric) between sites (or positions) in which the degrees of freedom live.
+In most physical systems there is also a notion of locality, i.e. of proximity between degrees of freedom. Two local degrees of freedom can only interact if they are sufficiently close. This happens since interacting potentials have finite characteristic length \footnote{If you are thinking about the Coulomb potential as a counter example there are two problems with that assumption. Firstly, if we consider the electromagnetic field as a dynamic degree of freedom the theory is local. Lastly, there can be screening of the electromagnetic fields, in metals or superconductors, that renders the interaction local. Which one of these happens depends on the physical situation.}. Fully connected models, or random graphs, can also be considered but often care must be taken in interpreting the results and defining the interactions for sometimes even simple thermodynamic properties are not well defined. Most physical systems have well defined spatial and temporal structure and a notion of distance (i.e. a metric) between sites (or positions) in which the degrees of freedom live.
 
 \todo{IMAGE HERE}
 
@@ -53,3 +51,37 @@ As long as thermodynamic properties are concerned there are a lot of details tha
 In this context, information theory has given important contributions. For example, it was shown that ground states and Gibbs (i.e thermal) states are substantially simpler than a generic state, in particular, their entanglement follows a so called area law (some of these results will be covered in the future). Also, some of these states can be described in a much more compact way than equation (\ref{eq:totalState}), using a formalism called Matrix Product States, which are a clever way of encoding the wave-function in just a few degrees of freedom.
 
 It has also been intensively investigated the way generic states, evolving under generic local Hamiltonians, thermalize, i.e. observables after a long time only depend on generic conserved quantities like energy and number of particles and are relatively indifferent to the nature of the initial state otherwise (I hope we will be able to cover this topic briefly). Some results (that I hope to discuss later) also indicate that physically meaningful states only explore a corner of the  entire Hilbert space in reasonable (non-exponential) time scales.
+
+\section{Physical States}
+
+Traditionally, Condensed Matter Physics deals with equilibrium states, that being ground states (which are pure states) or finite temperature states (described by density matrices).
+
+That is because most systems interact at least weakly with their environment, and, when left on their own, relax to an equilibrium condition, with a temperature (and other thermodynamic potentials) fixed by their surroundings.
+
+Under rather general conditions (which ones?) the density matrix of the equilibrium state has a Gibbs form 
+\[ \rho = \frac{1}{Z} e^{ - \beta H}\ , \] 
+with 
+\( Z = \operatorname{Tr}(e^{ - \beta H}) \) and where 
+\( H \) is the Hamiltonian of the system and 
+\( \beta \) the inverse temperature.
+
+There are a set of techniques that were developed to deal with these states, to compute observables and the response function when the system is perturbed slightly away from this equilibrium. You can learn about these in the course of Many Body Physics, where you will learn about the Matsubara formalism that provides an easy prescription to compute finite temperature observables. We will not use these techniques in this course.
+
+Assuming that 
+\( H \) is local, it turns out that thermal states of the form of (\ref{eq:totalState}) inhabit a rather special and small corner of the Hilbert space.
+
+An easy way of seeing this, \hat{t} sometimes is called \textbf{tipicality}, is to realize \hat{t}, for most states of the Hilbert space \(  \left< O_{r} \right> \approx \operatorname{Tr}(O_{r}) \), where \( \approx \) is precise in the thermodynamic limit, and 
+\( \left< O_{r} O_{r'}\right> \approx \operatorname{Tr}(O_{r}) \operatorname{Tr}(O_{r'}) \) if we assume that 
+\( O_{r} \) does contain operators of the degrees of freedom of 
+\( r' \) and vice-versa. Therefore the correlations 
+\( \left<(O_{r} - \left< O_{r}\right>) (O_{r'} - \left< O_{r'}\right>)\right> \approx 0 \) vanish in most states, whereas for a thermal state at finite temperature we expect them to be 
+\( \propto f(\left|r - r'\right|) \) with 
+\( f(r) \) some decreasing function of 
+\( r \). This means that almost all states in the Hilbert space are like infinite temperature states (since for 
+\( \beta \rightarrow 0: \operatorname{Tr}(\rho O) = \operatorname{Tr}(O) \) ). On the other hand, finite temperature states are special in the sense that correlations know about the spatial structure of the system. 
+
+Note that this discussion only makes sense for systems with a large number of degrees of freedom. When the Hilbert space is small, like that of a qubit, we can explore it all!
+
+Another remarkable property of thermal states (that somehow seems to contradict what we just said) is that they are much less entangled (to be defined later) than most states in the Hilbert space.
+
+Quantum information tools allow us to understand some of the unique properties of "physical" states, i.e. states that we are likely to observe in real systems.
