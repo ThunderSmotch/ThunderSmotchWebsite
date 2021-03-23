@@ -42,6 +42,7 @@ function replaceList(data, env, tag){
 }
 
 //Replaces item by the tag li
+//Fix this to work with multiline
 function replaceItem(text){
     let reg = /\\item (.+)/g;
 
@@ -182,6 +183,7 @@ function replaceSections(data){
 //Replaces amsmath environments with the according divs
 function replaceMathEnvironments(data){
     data = replaceMathEnvironment(data, 'definition');
+    data = replaceMathEnvironment(data, 'example');
 
     return data;
 }

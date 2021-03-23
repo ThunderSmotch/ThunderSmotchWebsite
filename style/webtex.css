@@ -86,6 +86,32 @@ details > summary{
   font-style: normal;
 }
 
+.example {
+
+  display: block;
+
+  padding: 12px;
+
+  margin: 12px 0;
+
+  border-style: solid;
+  border-width: 2px;
+
+  font-style: normal;
+
+}
+
+.example:before {
+  white-space: pre-wrap;
+  content: "Example (" attr(title) ") \A\A";
+
+  font-size: 1.1em;
+
+  font-weight: bold;
+
+  font-style: normal;
+}
+
 mjx-container{
   min-width:0 !important;
   overflow-x: auto;

@@ -1,0 +1,53 @@
+\chapter{Basics of Quantum Information}
+
+\section{Mixed states}
+
+\subsection{Density Matrix}
+
+The density matrix formalism is another way of representing quantum states. If we have a given quantum state 
+\( \ket{\psi} \) we define its density matrix as 
+\( \rho = \ket{\psi}\bra{\psi} \). This formalism allows us to study not only what are called \textbf{pure states} but also \textbf{mixed states}. \textbf{Pure states} are the kinds of states that you study in introductory quantum mechanics, which are denoted by a ket vector 
+\( \ket{\psi} \). A \textbf{mixed state} is a statistical ensemble of pure states, i.e. if we had 
+\( \ket{\psi_{i}} \) states each with a (classical) probability 
+\( p_{i} \) of occurring, then its density matrix is given by 
+\( \rho = \sum_{i} p_{i} \ket{\psi_{i}} \bra{\psi_{i}}\ , p_{i} \geq 0 \). Note that they are fundamentally two different types of states, let us analyze them in the following example: 
+
+\begin{example}[One Qubit System]
+    If we have the following superposition of states of a one qubit system 
+    \[ \ket{\psi} = \frac{1}{\sqrt{2} } \left( \ket{0} + \ket{1}\right)\ , \]
+    then its corresponding density matrix is given by 
+    \[ \rho = \ket{\psi}\bra{\psi} = \frac{1}{2} \left( \ket{0}\bra{0} + \ket{0}\bra{1} + \ket{1} \bra{0} + \ket{1 } \bra{1} \right)\ , \]  
+    which can be written in matrix form as 
+    \[ \rho = \begin{pmatrix}
+        \frac{1}{2} & \frac{1}{2} \\
+        \frac{1}{2} & \frac{1}{2}
+    \end{pmatrix}\ . \]
+
+    Now let us imagine that we want to prepare a statistical ensemble of a one qubit system such that all possible eigenstates are equiprobable. Then we would have 
+    \[ \rho = \frac{1}{2} \ket{0}\bra{0} + \frac{1}{2} \ket{1} \bra{1} = \operatorname{diag} \left( \frac{1}{2}, \frac{1}{2} \right)\ . \] 
+
+    As we can see, we obtain two very different matrices! In the first case, where we have a pure state, the system is in a state such that, when observed it has equal probability of either being in the 
+    \( 0 \) or 
+    \( 1 \) state. However, on the second case we have a very different setup, what is happening is that we have equal probability for the system to be in either of those states, i.e., there is no collapse of the wave function happening here, in fact, we do not even know what is the state of the system to begin with, in that sense, in mixed states we do not have the complete information about the system.
+\end{example}
+
+Another way of producing mixed states is by focusing on a subsystem of a composite system. For example, assume that the Hilbert space is a direct product of system A and B with orthonormal base given by 
+\( \ket{\phi_{i}^{A}} \otimes \ket{\phi_{j}^{B}} \), and that this system is in a pure state 
+\( \ket{\psi} = \sum_{ij} \psi_{ij} \ket{\phi_{i}^{A}} \otimes \ket{\phi_{j}^{B}} \). If we only look into subsystem A we have, for an observable 
+\( O_{A} \) that only acts on subsystem A, that
+\[ \left< O_{A}\right> = \bra{\psi}O_{A}\ket{\psi} = \operatorname{Tr} \left( O_{A} \ket{\psi} \bra{\psi} \right) = \operatorname{Tr}_{A} \left(O_{A} \rho_{A}\right)\ , \]
+with 
+\( \rho^{A} = \operatorname{Tr}_{B} \rho =  \sum_{i i' j} \psi_{ij} \bar{\psi}_{i' j} \ket{\phi_{i}^{A}} \bra{\phi_{i'}^{A}} \). If 
+\( \psi_{ij} = \sqrt{p_{i}} \delta_{ij}  \), then 
+\( \rho_{A} \) is diagonal.
+
+This density matrix has several properties:
+\begin{enumerate}
+    \item Hermiticity: this can be seen directly from the definition of both the density matrix as well as the reduced one.
+    \item Positivity: 
+    \( \bra{\varphi} \rho_{A} \ket{\varphi} \geq 0 \), for densities matrices this can also be seen directly from the definitions.
+    \item Unit Trace: 
+    \( \operatorname{Tr}\rho_{A} = 1 \).  
+\end{enumerate}
+
+Bla
