@@ -128,9 +128,12 @@ In the diagonal basis of the density matrix, we can interpret the diagonal eleme
 
 This quantity has a remarkable number of properties:
 \begin{enumerate}
-    \item flsdfa
-    \item sfasfaf
-    \item asfasfasfas fm,
-    \( x^{2} \) 
-    \item dwedwdw
+    \item This quantity represents the amount of information (number of bits if we replace 
+    \( \ln \rightarrow \log_{2} \) ) needed to encode a message if the letter 
+    \( x \) occurs with probability 
+    \( p_{x} \).
+    \item It is maximized by the uniform distribution 
+    \( q_{x} = \frac{1}{\Omega} \), with 
+    \( \Omega = \sum_{x} 1 \). Defining 
+    \( s(p) \).   
 \end{enumerate}

@@ -45,7 +45,7 @@ function replaceList(data, env, tag){
 //MAYBE Does not work with nested lists
 function replaceItem(text){
 
-    let reg = /\\item\s(((?!\\item )(.|\n))+$)/gm;
+    let reg = /\\item\s(((?!\\item )(.|\n))+)/gms;
 
     text = text.replace(reg,
         function(match, p1){
