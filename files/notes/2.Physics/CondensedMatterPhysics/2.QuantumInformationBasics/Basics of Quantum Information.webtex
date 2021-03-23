@@ -43,11 +43,94 @@ with
 
 This density matrix has several properties:
 \begin{enumerate}
-    \item Hermiticity: this can be seen directly from the definition of both the density matrix as well as the reduced one.
-    \item Positivity: 
-    \( \bra{\varphi} \rho_{A} \ket{\varphi} \geq 0 \), for densities matrices this can also be seen directly from the definitions.
-    \item Unit Trace: 
-    \( \operatorname{Tr}\rho_{A} = 1 \).  
+    \item Hermiticity: \( \rho_{A} = \rho_{A}^{\dagger} \), which can be seen directly from the definition of both the density matrix as well as the reduced one.
+    \item Positivity: \( \bra{\varphi} \rho_{A} \ket{\varphi} \geq 0 \), for densities matrices this can also be seen directly from the definitions.
+    \item Unit Trace: \( \operatorname{Tr}\rho_{A} = 1 \), also follows from both the definition of the density matrix and the reduced density matrix. 
 \end{enumerate}
 
-Bla
+To see that the reduced density matrix also has the positivity property see the below:
+\begin{spoiler}[Positivity of reduced density matrix]
+    Note that 
+    \( \bra{\phi}\rho_{A}\ket{\phi} = \bra{\phi} \operatorname{Tr}_{B} \rho \ket{\phi} \). We can rewrite this as 
+    \[ \bra{\phi}\rho_{A}\ket{\phi} = \sum_{i} \left( \bra{\phi} \otimes \bra{\phi_{i}^{B}} \right) \rho \left( \ket{\phi} \otimes \ket{\phi_{i}^{B}} \right) \geq 0\ ,  \]
+    where in the end we used the fact that the density matrix 
+    \( \rho \) is semi definite positive to argue that each term of the sum must be non negative.  
+\end{spoiler}
+
+The aforementioned conditions imply that any density matrix can be \textbf{diagonalized} in some orthogonal basis 
+\( \ket{\tilde{\phi}_{i}} \), being given by 
+\( \rho = \sum_{i} \ket{\tilde{\phi}_{i}} \bra{\tilde{\phi}_{i}} \). The density matrix obtained this way is the same one that would be obtain via a statistical ensemble using this orthogonal basis of states. Note, however, just because the density matrix is diagonal, it does not imply we will have state 
+\( \ket{\tilde{\phi}_{i}} \) with probability 
+\( p_{i} \)! This is because we can write a given mixed density matrix in multiple ways, i.e. \textbf{multiple ensembles can lead to the same density matrix}.
+
+There is a criterion to see if a given density matrix represents a pure or a mixed state. We compute what is called the \textbf{purity} of the density matrix, which is given by 
+\( \operatorname{Tr} \rho^{2} \). For pure states, as we can write 
+\( \rho = \ket{\psi}\bra{\psi} \implies \rho^{2} = \rho \implies \operatorname{Tr} \rho^{2} = 1 \). For mixed states, remembering that the trace operation is basis independent, by going to the orthonormal basis of the density operator we will have 
+\[ \operatorname{Tr} \rho^{2} = \sum_{i} \rho_{ii}^{2}\ , \] 
+because 
+\( \operatorname{Tr} \rho = 1 \) and the entries on the diagonal must be non-negative (this follows from positivity), if only one entry is positive, then we have that entry equal to unity and we have a pure state. However, if more than one entry is positive, then both entries are less than one and as such 
+\( \rho_{ii}^{2} < \rho^{ii} \) which implies 
+\(  \operatorname{Tr} \rho^{2} = \sum_{i} \rho_{ii}^{2} < 1 \). Thus, we see that a \textbf{pure state} has purity equal to one, with a \textbf{mixed state} having less purity. An equivalent criterion would be to check if 
+\( \rho = \rho^{2} \) to see if it is pure, being mixed otherwise.
+
+\subsection{Schmidt Decomposition}
+
+The Schmidt decomposition is a procedure to obtain an orthogonal basis for A and B such that a state of the system can be written as 
+\( \ket{\psi} = \sum_{i} \sqrt{p_{i}} \ket{\tilde{\phi}_{i}^{A}} \otimes \ket{\tilde{\phi}_{i}^{B}} \). An advantage of this is that both the reduced density matrices of the subsystems A and B will be diagonal. Another advantage is that this gives us a canonical basis to study entanglement between two systems. 
+
+To see how we can construct this basis let us start with an initial state of the system given by 
+\( \ket{\psi} = \sum_{ij} \psi_{ij} \ket{\phi_{i}^{A}} \otimes \ket{\phi_{j}^{B}} \), where the state is written in eigenbasis of each subsystem. We consider the amplitudes 
+\( \psi_{ij} \) as a 
+\( m \times n \)  matrix and we perform its singular value decomposition (SVD) from where we obtain 
+\( \psi = U D V^{\dagger} \) where 
+\( U, V \) are unitary with dimension 
+\( m \times m, n \times n \), respectively, and 
+\( D \) is a 
+\( m \times n \) diagonal matrix with non-negative entries (we have freedom to choose this). Using this decomposition we thus have 
+\[ \ket{\psi} = \sum_{ijk} U_{ik} D_{kk} V^{\dagger}_{kj} \ket{\phi^{A}_{i}} \otimes \ket{\phi_{j}^{B}} = \sum_{k} \underbrace{D_{kk}}_{\sqrt{p_{k}}} \underbrace{\left( \sum_{i} U_{ik} \ket{\phi_{i}^{A}}\right)}_{ \ket{\tilde{\phi}_{k}^{A}}} \otimes \underbrace{\left( \sum_{j} V^{\dagger}_{kj} \ket{\phi_{j}^{B}}\right)}_{\ket{\tilde{\phi}_{k}^{B}}} \] 
+
+\begin{spoiler}[Proof of orthogonality]
+    Take 
+    \( \ket{\tilde{\phi}_{k}^{A}} = \sum_{i} U_{ik} \ket{\phi_{i}^{A}} \) then we have that 
+    \[ \bra{\tilde{\phi}_{j}^{A}} \ket{\tilde{\phi}_{k}^{A}} = \sum_{i i'} \bra{\phi_{i'}^{A}} \ket{\phi_{i}^{A}} U^{\dagger}_{j i'}U_{i k} = \sum_{i} U^{\dagger}_{j i} U_{i k} = \left[ U^{\dagger} U \right]_{j k} = \delta_{j k}\ . \]
+    
+    Thus unitary of 
+    \( U \) ensures orthogonality. The calculations are similar for the other subsystem.
+\end{spoiler}
+
+One remark worth mentioning here is that the Schmidt decomposition allows one to reduce any state to being described by 
+\( \min(m, n) \) complex numbers.
+
+\subsection{Purification}
+
+The purification of a state is the converse of the Schmidt decomposition, in the sense that we want to go from a subsystem to the pure state of a bigger composite system, i.e. find a density matrix of the composite system such that, when reduced to our initial subsystem we obtain the previous density matrix, 
+\( \rho_{A} = \operatorname{Tr}_{B} \left[\bra{\psi}\ket{\psi}\right] \).
+
+From the previous subsection we know that we can write 
+\( \ket{\psi} \) as 
+\[ \ket{\psi} = \sum_{i} \sqrt{p_{i}} \ket{\tilde{\phi}_{i}^{A}} \otimes \ket{\tilde{\phi}_{i}^{B}}\ , \] 
+however, as we do not really care about the subsystem B, the states 
+\( \ket{\tilde{\phi}_{i}^{B}} \) are defined up to an arbitrary unitary transformation, since the set of states 
+\( U \ket{\tilde{\phi}_{i}^{B}} \) would give an equally good purification. The only condition is that the basis of states must be orthogonal. 
+
+It is of note that the dimension of 
+\( B \) must be equal or greater to that of 
+\( A \) \footnote{If it would be less then we would not be able to purify the state without going to another basis of states in A.}.
+
+\section{Quantifying information}
+
+\subsection{Shannon entropy (classical)}
+
+In the diagonal basis of the density matrix, we can interpret the diagonal elements as a classical probability distribution since we have 
+\( \left< A\right> = \sum_{i} p_{i} A_{i}, A_{i} = \bra{\tilde{\phi_{i}}} A \ket{\tilde{\phi}_{i}} \). A useful notion to qunatify the degree of uncertainty of such a probability distribution is the \textbf{Shannon entropy} of a random process 
+\( X = \left\{ x, p_{x} \right\}  \), given by 
+\[ H(X) = - \sum_{x} p_{x} \ln p_{x}\ . \]
+
+This quantity has a remarkable number of properties:
+\begin{enumerate}
+    \item flsdfa
+    \item sfasfaf
+    \item asfasfasfas fm,
+    \( x^{2} \) 
+    \item dwedwdw
+\end{enumerate}

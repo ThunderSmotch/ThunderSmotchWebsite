@@ -42,9 +42,10 @@ function replaceList(data, env, tag){
 }
 
 //Replaces item by the tag li
-//Fix this to work with multiline
+//MAYBE Does not work with nested lists
 function replaceItem(text){
-    let reg = /\\item (.+)/g;
+
+    let reg = /\\item\s(((?!\\item )(.|\n))+$)/gm;
 
     text = text.replace(reg,
         function(match, p1){
