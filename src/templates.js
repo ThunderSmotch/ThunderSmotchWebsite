@@ -75,7 +75,7 @@ function buildSidebar(pages, urlpath, pageNames){
 
     for(let i = 0; i < pages.length; i++){
         item_id++;
-        listitems += `<a n="${item_id}" href="/${urlpath}/${pages[i]}/">${pageNames[i]}</a></br>`
+        listitems += `<a n="${item_id}" href="/${urlpath}/${builder.parseDirText(pages[i])}/">${pageNames[i]}</a></br>`
     }
 
     let sidebar = `

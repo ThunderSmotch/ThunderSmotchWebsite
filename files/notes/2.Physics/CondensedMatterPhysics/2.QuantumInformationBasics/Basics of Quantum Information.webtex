@@ -122,7 +122,7 @@ It is of note that the dimension of
 \subsection{Shannon entropy (classical)}
 
 In the diagonal basis of the density matrix, we can interpret the diagonal elements as a classical probability distribution since we have 
-\( \left< A\right> = \sum_{i} p_{i} A_{i}, A_{i} = \bra{\tilde{\phi_{i}}} A \ket{\tilde{\phi}_{i}} \). A useful notion to qunatify the degree of uncertainty of such a probability distribution is the \textbf{Shannon entropy} of a random process 
+\( \left< A\right> = \sum_{i} p_{i} A_{i}, A_{i} = \bra{\tilde{\phi_{i}}} A \ket{\tilde{\phi}_{i}} \). A useful notion to quantify the degree of uncertainty of such a probability distribution is the \textbf{Shannon entropy} of a random process 
 \( X = \left\{ x, p_{x} \right\}  \), given by 
 \[ H(X) = - \sum_{x} p_{x} \ln p_{x}\ . \]
 
@@ -134,6 +134,165 @@ This quantity has a remarkable number of properties:
     \( p_{x} \).
     \item It is maximized by the uniform distribution 
     \( q_{x} = \frac{1}{\Omega} \), with 
-    \( \Omega = \sum_{x} 1 \). Defining 
-    \( s(p) \).   
+    \( \Omega = \sum_{x} 1 \). 
+    \begin{spoiler}[Maximizing entropy.]
+    Defining \( s(p) = - p \ln p \) we have that 
+    \( s(\sum_{n} \lambda_{n} p_{n})  \geq \sum_{n}  \lambda_{n} s(p_{n}) \) where 
+    \( \sum_{n} \lambda_{n} = 1 \), this follows from Jensen's inequality for convex function. Thus we get
+    \( \frac{1}{\Omega} \sum_{x} s(q_{x}) \leq s\left(\frac{1}{\Omega} \sum_{x} q_{x}\right) \).
+    
+    \todo{Link to future article on Jensen's inequality.}
+    
+    Another method would be to use Lagrange multipliers to maximize the entropy with the restriction that 
+    \( \sum_{i} p_{i} = 1 \). For that, construct the function 
+    \[ F(p_{x}, \lambda) = - \sum_{x} p^{x} \ln p_{x}  - \lambda \left( \sum_{x} p_{x} - 1 \right)\ . \]  
+    Note that 
+    \[ \frac{dF}{dp_{x}} = 0 \Leftrightarrow - \lambda - 1 - \ln p_{x} = 0 \Leftrightarrow p_{x} = e^{ - (1 + \lambda)}\ , \] 
+    and so because 
+    \( \sum_{x} p_{x} = 1 \) we have that 
+    \( N e^{ - (1 + \lambda)} = 1 \implies p_{x} = \frac{1}{N}\ , \forall x \), thus proving that the uniform distribution is the one that maximizes the entropy. 
+    \end{spoiler}
+
+    \item The entropy is stable against the addition of other outcomes with zero probability: 
+    \( H(p_{1}, \dots, p_{\Omega}) = H(p_{1}, \dots, p_{\Omega}, p_{\Omega + 1}) \) if 
+    \( p_{\Omega + 1} = 0 \). This makes sense by defining 
+    \( 0 ln 0 = 0 \), which makes sense when one takes the limit coming from positive 
+    \( p_{x} \).
+    
+    \item Tells us that information is extensive. Let 
+    \( XY = \left\{ \left(x, y\right), p_{x,y} \right\}  \) be a stochastic process. Describe an element 
+    \( \left(x, y\right) \) as being the event of an object 
+    \( x \) belonging to a box 
+    \( y \). 
+    \( Y = \left\{ y, p_{y} = \sum_{x} p_{x, y} \right\}  \) is the probability of any element being on box 
+    \( y \) and 
+    \( X_{y} = \left\{ x, p_{x|y} = \frac{p_{x,y}}{\sum_{x} p_{x,y}} \right\}  \)  the probability of a particular element being in box 
+    \( y \). 
+
+    Then the following equality is true 
+    \[ H(XY) = H(Y) + \sum_{y} p_{y} H(X_{y})\ , \] 
+    i.e, the entropy of knowing the entire distribution of elements inside boxes is the same entropy as knowing the distributions of the boxes added to the average entropy of objects being inside each box.
+
+    \item Information decreases ignorance, thus entropy. For the random process 
+    \( XY, Y, X_{y} \) defined on the previous point, the average entropy over the possible values of 
+    \( y \) is given by 
+    \[ H(X|Y) = \sum_{y} p_{y} H(X_{y}) = H(XY) - H(Y) < H(XY)\ , \] 
+    called the conditional entropy of 
+    \( x \) given 
+    \( y \). This quantity represents the amount of information (number of bits per letter) needed to specify both 
+    \( x \) and 
+    \( y \) once 
+    \( y \) is known. The amount of information learned on 
+    \( x \) by knowing 
+    \( y \) is obtained by 
+    \[ I(X;Y) = H(X) - H(X|Y) = H(X) + H(Y) - H(XY)\ , \]  
+    which is a symmetric quantity in 
+    \( x \) and 
+    \( y \) called the \textbf{mutual information}. If 
+    \( I(X;Y) = 0 \) then 
+    \( X \) and 
+    \( Y \) are uncorrelated, i.e. independent processes, 
+    \( p_{x,y} = p_{x} p_{y} \).
 \end{enumerate}
+
+\subsection{Von Neumann entropy (quantum)}
+
+The Von Neumann entropy is the quantum generalization of the Shannon entropy for a density matrix 
+\( \rho = \sum_{x} p_{x} \ket{\tilde{\phi}_{x}} \bra{\tilde{\phi}_{x}} \): 
+\[ S(\rho) = - \operatorname{Tr} \left[ \rho \ln \rho \right] = - \sum_{x} p_{x} \ln p_{x}\ , \] 
+where we can make the second equality by noting that for 
+\( \rho \) in its diagonal form we have 
+\[ \rho^{n} = \sum_{x} p_{x}^{n} \ket{\tilde{\phi}_{x}}\bra{\tilde{\phi}_{x}}\ , \] 
+and as such, analytic functions of 
+\( \rho \), 
+\( f(\rho) \), can be written as 
+\( f(\rho) = \sum_{x} f(p_{x})  \ket{\tilde{\phi}_{x}}\bra{\tilde{\phi}_{x}} \).
+
+It also has a list of remarkable properties:
+\begin{enumerate}
+    \item 
+    \( S(\ket{\psi}\bra{\psi}) = 0 \), i.e a pure state has no entropy.
+    \item 
+    \( S(U\rho U^{\dagger}) = S(\rho) \) where 
+    \( U \) is an unitary matrix. Because any power of 
+    \( \left(U \rho U^{\dagger}\right)^{n} = U \rho^{n} U^{\dagger} \), if you write the logarithm in its Taylor series form and use the cyclic property of the trace every unitary matrix cancels out. This statement is intuitive because we can look at 
+    \( U \rho U^{\dagger} \) as just being a redefinition of the basis in which the density matrix is written, thus the entropy should not change with it.
+    \item 
+    \( S(\rho) \leq \ln d \), with 
+    \( d \) being the dimension of the Hilbert space.
+    \item 
+    \( S\left(\sum_{n} \lambda_{n} \rho_{n} \geq \sum_{n} \lambda_{n} S(\rho_{n}), \sum_{n} \lambda_{n} = 1 \right) \) by the same argument as for the Shannon entropy.
+    \item 
+    \( S(\rho_{AB}) \leq S\left(\rho_{A}\right) + S(\rho_{B}) \), called the subadditivity, which states that we have more information if we have the correlations instead of both density matrices of the subsystems.
+    \item For pure states 
+    \( \rho_{AB} = \ket{\psi}\bra{\psi} \) we have that 
+    \( S(\rho_{A}) = S(\rho_{B}) \).
+    \begin{spoiler}[Proof]
+        Let 
+        \( \ket{\varphi} \) be the pure state the system is in. Performing the Schmidt decomposition of this state we arrive at the following density matrix 
+        \[ \rho = \sum_{ij} \sqrt{p_{i} p_{j}} \left( \ket{\tilde{\phi}_{i}^{A}} \otimes \ket{\tilde{\phi}_{i}^{B}} \right) \left( \bra{\tilde{\phi}_{j}^{A}} \otimes \bra{\tilde{\phi}_{j}^{B}}\right)\ , \]
+        where the density matrix is written in an orthonormal basis of both A and B.
+        
+        Performing the partial trace of 
+        \( \rho \) in either A or B leads us to
+        \begin{align}
+            & \rho_{A} = \operatorname{Tr}_{B} \left[\rho \right] = \sum_{k} p_{k} \ket{\tilde{\phi}_{k}^{A}} \bra{\tilde{\phi}_{k}^{A}} \\
+            & \rho_{B} = \operatorname{Tr}_{A} \left[\rho \right] = \sum_{k} p_{k} \ket{\tilde{\phi}_{k}^{B}} \bra{\tilde{\phi}_{k}^{B}}\ , 
+        \end{align}
+        thus, as both of the above are density matrices written in a diagonal form, when we compute their Von Neumann entropy we will reach at the same result 
+        \[ S(\rho_{A}) = S(\rho_{B}) = - \sum_{k} p_{k} \ln{p_{k}} \] 
+
+    \end{spoiler} 
+
+    \item The mutual information 
+    \( I(A;B) = S(\rho_{A}) + S(\rho_{B}) - S(\rho_{AB}) \) is non negative.
+    
+    \item Triangle inequality 
+    \( S(\rho_{AB}) \geq \left|S(\rho_{A}) - S(\rho_{B})\right| \). 
+    
+    \begin{spoiler}[Proof]
+        Let us purify the state the system AB is in by considering the system ABC. As ABC is in a pure state then we know from previous properties that 
+        \( S(\rho_{AB}) = S(\rho_{C}) \), 
+        \( S(\rho_{A}) = S(\rho_{BC}) \) and 
+        \( S(\rho_{AC}) = S(\rho_{B})  \). As such, using subadditivity, we have 
+        \begin{align}
+            &S(\rho_{BC}) \geq S(\rho_{B}) + S(\rho_{C}) \Leftrightarrow S(\rho_{AB}) \geq S(\rho_{A}) - S(\rho_{B}) \\
+            &S(\rho_{AC}) \geq S(\rho_{A}) + S(\rho_{C}) \Leftrightarrow S(\rho_{AB}) \geq S(\rho_{B}) - S(\rho_{A})\ .
+        \end{align}
+        Thus leading to the intended result.
+    \end{spoiler}
+    
+    This contrasts with 
+    \( H(XY) \geq H(X), H(Y) \) for the Shannon entropy, which states that the entropy of a part cannot be larger than that of the whole system. In the quantum case this is not true! For example, in a pure state we will have 
+    \( S(\rho_{AB}) = 0 \) but, in general, 
+    \( S(\rho_{A}) = S(\rho_{B}) \neq 0 \). The same can be said for the quantum conditional entropy, defined as 
+    \[ S(A|B) = S(\rho_{AB}) - S(\rho_{B})\ , \]   
+    which classically was always non negative, describing that information decreases ignorance. However, in the quantum case it is also violated by a pure state, with the possibility of being a negative number in that case.
+\end{enumerate}
+
+\section{State distinguishability - Fidelity}
+
+On the space of pure states, the similarity between two states 
+\( \ket{\psi} \) and 
+\( \ket{\varphi} \) can be given by their overlap 
+\( \left|\bra{\psi}\ket{\varphi}\right|^2 \), also called \textbf{fidelity}. For density matrices it is not so easy to come up with a generalization of this simple notion. A quantity that does the trick is 
+\[ F(\rho, \sigma) = \left(\operatorname{Tr}\left[\sqrt{\rho^{\frac{1}{2}}\sigma\rho^{\frac{1}{2}}} \right]\right)^{2} = \left|\left|\sigma^{\frac{1}{2}}\rho^{\frac{1}{2}}\right|\right|^2\ , \]
+with 
+\( \left|\left|A\right|\right| = \operatorname{Tr}\left[A^{\dagger}A\right] \) the trace norm.
+
+\begin{spoiler}[How to arrive at the fidelity?]
+    Imagine we want to calculate the fidelity between two density matrices, 
+    \( \rho, \sigma \). As we know how to do this process for quantum states one possible idea is to perform the purification of both density matrices and then calculate the fidelity of those pure states. Doing the purification we get 
+    \begin{align}
+        &\rho \rightarrow \ket{\psi_{\rho}(U)} = \sum_{i} \sqrt{p_{i}} \ket{{\phi}_{i}^{A}} \otimes U \ket{{\phi}_{i}^{B}} = \left(\rho^{\frac{1}{2}} \otimes U \right) \ket{{\phi}_{i}^{A}} \otimes \ket{{\phi}_{i}^{B}} \\
+        &\sigma \rightarrow \ket{\psi_{\sigma}(U')} = \sum_{i} \sqrt{p_{i}} \ket{\tilde{\phi}_{i}^{A}} \otimes U' \ket{\tilde{\phi}_{i}^{B}} = \left(\sigma \otimes U'\right) \ket{\tilde{\phi}_{i}^{A}} \otimes U' \ket{\tilde{\phi}_{i}^{B}}\ ,
+    \end{align} 
+    where 
+    \( U, U' \) are two unitary transformations of the eigenbasis of the auxiliary space B, which we have freedom in setting during the purification process.
+
+    Afterwards, we calculate the usual fidelity between the purified states.
+    
+    
+\end{spoiler}
+
+The fidelity has a number of interesting properties.

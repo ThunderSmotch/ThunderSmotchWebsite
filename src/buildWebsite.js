@@ -94,18 +94,17 @@ function parseDirectory(pageTree, dir='', parentSidebar = ''){
     
     //Grab metadata first off
     let metadata = getMetadata(dir);
-
-    //If hidden skip this directory
-    //BUG Hidden pages appearing in sidebar
-    if(metadata.hidden == true){
-    return;
-    }
-    
     makeDirectory(dir);
     
     //Build sidebar (maybe move this to the file parser)
     let subpages = getSubPages(pageTree); //Can be empty
-
+    
+    //If hidden skip this directory
+    //BUG Hidden pages appearing in sidebar
+    //TO solve the bug we need to not give this page to the sidebar builder
+    //if(metadata.hidden == true){
+    //    return;
+    //}
 
     //Sidebar logic
     // True means it's the parent page
