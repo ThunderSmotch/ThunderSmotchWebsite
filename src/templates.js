@@ -46,7 +46,7 @@ function build404HTML(){
         "url": "https://thundersmotch.com/404.html"
     }
     
-        return buildHTML(content, metadata);
+    return buildHTML(content, metadata);
 }
 
 //Build HTML index page

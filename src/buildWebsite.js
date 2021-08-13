@@ -1,5 +1,6 @@
 module.exports = {getMetadata, parseDirText};
 const fs = require("fs");
+const fm = require("front-matter");
 const path = require("path");
 
 const config = require("./config");
@@ -91,6 +92,40 @@ function parseDirText(dir){
 //Creates and parses this directory
 //URL has no slash at the end
 function parseDirectory(pageTree, dir='', parentSidebar = ''){
+
+    //Make directory on output dir
+    makeDirectory(dir);
+    
+    //Build sidebar (maybe MOVE THIS to the file parser)
+    let subpages = getSubPages(pageTree); //Can be empty
+    
+    //If hidden skip this directory
+    //BUG Hidden pages appearing in sidebar
+    //TO solve the bug we need to not give this page to the sidebar builder
+    //if(metadata.hidden == true){
+    //    return;
+    //}
+
+    //Sidebar logic
+    //TODO CHANGE THIS THIS IS BROKEN NOW
+    // True means it's the parent page
+    //HACK this is so fucking stupid but it works...
+    let sidebar = parentSidebar;
+    if(metadata.sidebar == true){
+        sidebar = templates.buildSidebar(subpages, parseDirText(dir), getPageNames(subpages, dir));
+    }
+
+    //Convert files
+    parseFiles(dir, sidebar);
+
+    for(let page in pageTree){
+        let newDir = dir == '' ? page : dir + '/' + page;
+        parseDirectory(pageTree[page], newDir, sidebar);
+    }
+}
+
+
+function parseDirectoryOld(pageTree, dir='', parentSidebar = ''){
     
     //Grab metadata first off
     let metadata = getMetadata(dir);
@@ -177,36 +212,38 @@ function getPageNames(pages, dir){
 }
 
 //Check and parse all files inside given dir
-function parseFiles(dir, metadata, sidebar) {
-
+function parseFiles(dir, sidebar) {
     let url = parseDirText(dir);
     let res = getFiles(config.dev.filesdir + '/' + dir);
 
     //Check if the output path exists
     let outpath = url == '' ? config.dev.outdir : config.dev.outdir + '/' + url;
     ensureDirectoryExists(outpath);
-
-    //Ignore data.json files
-    res = res.filter(name => {return name != 'data.json';});
     
-    res.forEach(file => parseFile(file, dir, outpath, metadata, sidebar))
+    res.forEach(file => parseFile(file, dir, outpath, sidebar))
 }
 
 //Parses a single file
-function parseFile(name, dir, outpath, metadata, sidebar) {
+function parseFile(name, dir, outpath, sidebar) {
+
     let ext = path.extname(name);
     let filepath = dir == '' ? config.dev.filesdir + '/' + name : config.dev.filesdir + '/' + dir + '/' + name;
 
     if (ext == '.webtex') {
-        let content = fs.readFileSync(filepath, 'utf8');
-        let data = parser.parseWebtex(content);
-        fs.writeFileSync(outpath + '/index.html', templates.buildHTML(data, metadata, sidebar));
-        sitemap.addURL(metadata.url); //Helps building the sitemap
+        let content = fm(fs.readFileSync(filepath, 'utf8'));
+        let data = parser.parseWebtex(content.body);
+
+        fs.writeFileSync(outpath + '/index.html', templates.buildHTML(data, content.attributes, sidebar));
+        
+        //FIXME
+        //sitemap.addURL(metadata.url); //Helps building the sitemap
     }
     else if (ext == '.html') {
-        var content = fs.readFileSync(filepath, 'utf8');
-        fs.writeFileSync(outpath + '/index.html', templates.buildHTML(content, metadata, sidebar));
-        sitemap.addURL(metadata.url); //Helps building the sitemap
+        var content = fm(fs.readFileSync(filepath, 'utf8'));
+        fs.writeFileSync(outpath + '/index.html', templates.buildHTML(content.body, content.attributes, sidebar));
+        
+        //FIXME
+        //sitemap.addURL(metadata.url); //Helps building the sitemap
     }
     else if (ext == '.js' || ext == '.png' || ext == '.jpg') {
         fs.copyFileSync(filepath, outpath + '/' + name);
