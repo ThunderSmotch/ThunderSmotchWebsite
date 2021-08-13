@@ -1,4 +1,4 @@
-module.exports = {getMetadata, parseDirText, SplitStringUppercase};
+module.exports = {parseDirText, SplitStringUppercase};
 const fs = require("fs");
 const fm = require("front-matter");
 const path = require("path");
@@ -189,6 +189,11 @@ function getPageTreeMetadata(metadata, dirname){
     //Read sidebar flag
     if(metadata.hasOwnProperty('sidebar')){
         data.sidebar = metadata.sidebar;
+    }
+
+    //Read hidden flag
+    if(metadata.hasOwnProperty('hidden')){
+        data.hidden = metadata.hidden;
     }
 
     return data;

@@ -74,6 +74,13 @@ function buildSidebar(pages, urlpath){
     listitems +=  `<a n="${item_id}" href="/${urlpath}/">Index</a></br>`;
 
     for(let page in pages){
+        
+        //If page is hidden skip this iteration
+        if(pages[page].metadata.hasOwnProperty('hidden')){
+            if(pages[page].metadata.hidden)
+                continue;
+        }
+
         let pageURL = builder.parseDirText(page);
         let pageName = pages[page].metadata.title;
     
