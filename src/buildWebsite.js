@@ -107,6 +107,7 @@ function parseDirectory(pageTree, dir='', parentSidebar = ''){
     //}
 
     //Sidebar logic
+    //FIXME
     //TODO CHANGE THIS THIS IS BROKEN NOW
     // True means it's the parent page
     //HACK this is so fucking stupid but it works...
