@@ -194,6 +194,11 @@ function getPageTreeMetadata(metadata, dirname){
         data.navbar = metadata.navbar;
     }
 
+    //Read navbar subpages flag
+    if(metadata.hasOwnProperty('tags')){
+        data.tags = metadata.tags;
+    }
+
     return data;
 }
 

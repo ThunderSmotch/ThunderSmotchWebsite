@@ -134,17 +134,19 @@ function buildNavbar(pageTree){
 
 //Builds the problems list from the page tree.
 //TEMP maybe
+//TODO refactor tags
 function buildProblemsList(pageTree){
     try {
-        let html = '<ul>';
+        let html = '<ol>';
 
         let problems = pageTree.pages['Problems'].pages;
-
+        
         for(let ex in problems){
-            html += `<li>${problems[ex].metadata.title}</li>`
+            let url = './' + ex + '/';
+            html += `<li><a href=${url}>${problems[ex].metadata.title}</a> - Tags: ${problems[ex].metadata.tags}</li>`
         }
 
-        html += '</ul>';
+        html += '</ol>';
         problemsList = html;
     } catch (err) {
         console.log("Could not build problems list:" + err);
