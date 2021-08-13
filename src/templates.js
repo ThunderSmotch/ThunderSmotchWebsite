@@ -311,12 +311,12 @@ function problemPageTemplate(content, metadata){
 
     let source = '';
     if(metadata.hasOwnProperty('source')){
-        source = "<p><b>Source:</b> " + metadata.source + "<p>";
+        source = "</br><b>Source:</b> " + metadata.source;
     }
 
     let tags = '';
     if(metadata.hasOwnProperty('tags')){
-        tags = "<p><b>Tags:</b> " + metadata.tags + "<p>"
+        tags = "</br><b>Tags:</b> " + metadata.tags
     }
 
     //Return HTML
@@ -331,9 +331,13 @@ function problemPageTemplate(content, metadata){
 <div class="navbar">${navbarHTML}</div>
 <div id="main">
     <div class="content nosidebar">
+    <h3>${metadata.title}</h3>
     ${content}
     ${source}
     ${tags}
+
+    <br>
+     ${commentSection}
     </div>
 </div>
 

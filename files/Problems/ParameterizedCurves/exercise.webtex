@@ -7,11 +7,9 @@ source: "Differential Geometry of Curves and Surfaces by Manfredo P. Do Carmo"
 tags: [curves, graphs]
 ---
 
-\textbf{Problem}
-
 Find 
 \( x \).
 
-\textbf{Solution}
-
-\( x \) is right \textbf{here!}
+\begin{spoiler}[Solution]
+    \( x \) is right \textbf{here!}
+\end{spoiler}

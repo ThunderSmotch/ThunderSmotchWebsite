@@ -8,3 +8,7 @@ tags: [curves, length]
 ---
 Testing this.
 \[ x^{2} + y^{2} = a^{2} \] 
+
+\begin{spoiler}[Solution]
+    This works!
+\end{spoiler}
