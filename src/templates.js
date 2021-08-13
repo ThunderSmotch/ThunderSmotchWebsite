@@ -97,7 +97,10 @@ function buildNavbar(pageTree){
         let dir = page;
         let url = '/' + builder.parseDirText(dir);
         
-        let title = builder.getMetadata(dir).title;
+        //FIXME
+        //let title = builder.getMetadata(dir).title;
+        let title = page;
+
         //If it's the last page then make a <a> link
         if( Object.keys(pageTree[page]).length === 0){
             html += `<a href="${url}/">${title}</a>\n`;
@@ -111,7 +114,8 @@ function buildNavbar(pageTree){
             for(let subpage in dropPage){
 
                 let subdir = dir + '/' + subpage;
-                let subtitle = builder.getMetadata(subdir).title;
+                //FIXME
+                let subtitle = subpage; //builder.getMetadata(subdir).title;
                 
                 html+=`
                 <div class="column">
@@ -134,7 +138,8 @@ function getSubpageButtons(pages, dir){
         for(let page in pages){
 
             let subdir = dir + '/' + page;
-            let title = builder.getMetadata(subdir).title;
+            //FIXME
+            let title = page; //builder.getMetadata(subdir).title;
             html += `<a href="/${builder.parseDirText(subdir)}/">${title}</a>\n`
         }
     }

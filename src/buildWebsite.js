@@ -111,46 +111,12 @@ function parseDirectory(pageTree, dir='', parentSidebar = ''){
     // True means it's the parent page
     //HACK this is so fucking stupid but it works...
     let sidebar = parentSidebar;
-    if(metadata.sidebar == true){
+    /*if(metadata.sidebar == true){
         sidebar = templates.buildSidebar(subpages, parseDirText(dir), getPageNames(subpages, dir));
-    }
+    }*/
 
     //Convert files
     parseFiles(dir, sidebar);
-
-    for(let page in pageTree){
-        let newDir = dir == '' ? page : dir + '/' + page;
-        parseDirectory(pageTree[page], newDir, sidebar);
-    }
-}
-
-
-function parseDirectoryOld(pageTree, dir='', parentSidebar = ''){
-    
-    //Grab metadata first off
-    let metadata = getMetadata(dir);
-    makeDirectory(dir);
-    
-    //Build sidebar (maybe move this to the file parser)
-    let subpages = getSubPages(pageTree); //Can be empty
-    
-    //If hidden skip this directory
-    //BUG Hidden pages appearing in sidebar
-    //TO solve the bug we need to not give this page to the sidebar builder
-    //if(metadata.hidden == true){
-    //    return;
-    //}
-
-    //Sidebar logic
-    // True means it's the parent page
-    //HACK this is so fucking stupid but it works...
-    let sidebar = parentSidebar;
-    if(metadata.sidebar == true){
-        sidebar = templates.buildSidebar(subpages, parseDirText(dir), getPageNames(subpages, dir));
-    }
-
-    //Convert files
-    parseFiles(dir, metadata, sidebar);
 
     for(let page in pageTree){
         let newDir = dir == '' ? page : dir + '/' + page;
@@ -181,21 +147,34 @@ function getSubPages(pages) {
 }
 
 //Check inside this dir for metadata
+//LEGACY THIS SHOULD IDEALLY NOT BE USED
 function getMetadata(dir){
+
+    //Find webtex/html file and use that for the metadata
     let metadata;
     let url = parseDirText(dir);
 
-    let fpath = config.dev.filesdir + '/' + dir + '/data.json';
-    if(fs.existsSync(fpath)){
-        metadata = require('../' + fpath);
-        metadata["url"] = url == '' ? "https://thundersmotch.com/" : "https://thundersmotch.com/" + url + '/';
-    } else{
+    let dirpath = config.dev.filesdir + '/' + dir;
+
+    let files = getFiles(dirpath).filter(file => { 
+        let ext = path.extname(file);
+        return ext == "webtex" || ext == "html";
+    });
+
+    if(files.length == 0){
+        console.log("ERROR GETTING METADATA FROM: " + dirpath)
         metadata = {
             "title": "Default Title",
             "description": "I should've written a description for this...",
             "url": "https://thundersmotch.com"
         };
     }
+    else {
+        let fpath = dirpath + '/' + files[0];
+        metadata = fm(fs.readFileSync(fpath, 'utf8')).attributes;
+        metadata["url"] = url == '' ? "https://thundersmotch.com/" : "https://thundersmotch.com/" + url + '/';
+    }
+
     return metadata;
 }
 
