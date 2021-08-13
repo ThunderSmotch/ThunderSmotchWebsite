@@ -20,8 +20,6 @@ const sitemap = require("./sitemapBuilder");
 
 //MAYBE make a subject page with navigation towards the several topics
 
-//MAYBE change the looks/text of the nav buttons
-
 //////////////////////Building the Website//////////////////////////////
 ensureDirectoryExists(config.dev.outdir);
 moveFilesFrom('js');
