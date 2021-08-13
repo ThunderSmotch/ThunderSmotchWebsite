@@ -1,4 +1,4 @@
-module.exports = {buildNavbar, buildHTML, buildSubjectHTML, buildSidebar, build404HTML}
+module.exports = {buildNavbar, buildHTML, buildSidebar, build404HTML, buildProblemsList}
 const path = require("path");
 const { config } = require("process");
 
@@ -6,6 +6,9 @@ const builder = require('./buildWebsite.js');
 
 //Navbar HTML to be set during build
 let navbarHTML = '';
+
+//Problems List
+let problemsList = '';
 
 //Comment Section (powered by Hyvor Talk)
 let commentSection = `
@@ -25,7 +28,12 @@ function buildHTML(content, metadata, sidebar=''){
     
     if(metadata.type == 'post'){
         return postPageTemplate(content, metadata, sidebar);
-    } else {
+    } else if (metadata.type == 'problem'){
+        return problemPageTemplate(content, metadata);
+    } else if (metadata.type == 'problems'){
+        return problemsListPageTemplate(content, metadata);
+    }
+    else {
         return defaultPageTemplate(content, metadata, sidebar);
     }
 }
@@ -48,23 +56,6 @@ function build404HTML(){
     
     return buildHTML(content, metadata);
 }
-
-//Build HTML index page
-function buildSubjectHTML(subject, sidebar, html){
-
-    let content = `
-    <h3>${subject}</h3>
-    ${html}
-    `;
-
-    let metadata = {
-        "title": subject,
-        "description": "Main page for" + subject + ". Needs additional metadata.",
-        "url": "https://thundersmotch.com"
-    };
-
-    return buildHTML(content, metadata, sidebar);
-};
 
 //Builds sidebar from a list of subpages
 function buildSidebar(pages, urlpath){
@@ -98,7 +89,7 @@ function buildSidebar(pages, urlpath){
 }
 
 //Builds the HTML for the navbar from the pageTree and sets it to the global constant
-//MAYBE see wha't up with the fa caret thing & refactor this function
+//MAYBE see what's up with the fa caret thing & refactor this function
 function buildNavbar(pageTree){
 
     let html = '<a href="/">ThunderSmotch</a>\n';
@@ -109,8 +100,12 @@ function buildNavbar(pageTree){
         
         let title = builder.SplitStringUppercase(builder.parseDirText(page));
 
+        let nav = true;
+        if(pageTree.pages[page].metadata.hasOwnProperty('navbar'))
+            nav = pageTree.pages[page].metadata.navbar;
+
         //If it's the last page then make a <a> link
-        if( Object.keys(pageTree.pages[page].pages).length === 0){
+        if( Object.keys(pageTree.pages[page].pages).length === 0 || !nav){
             html += `<a href="${url}/">${title}</a>\n`;
         } else {
             html += `<div id='${page}' class="dropdown">
@@ -135,6 +130,25 @@ function buildNavbar(pageTree){
         }
     }
     navbarHTML = html;
+}
+
+//Builds the problems list from the page tree.
+//TEMP maybe
+function buildProblemsList(pageTree){
+    try {
+        let html = '<ul>';
+
+        let problems = pageTree.pages['Problems'].pages;
+
+        for(let ex in problems){
+            html += `<li>${problems[ex].metadata.title}</li>`
+        }
+
+        html += '</ul>';
+        problemsList = html;
+    } catch (err) {
+        console.log("Could not build problems list:" + err);
+    }
 }
 
 //Returns HTML for a given topic inside a subject
@@ -288,4 +302,72 @@ function postPageTemplate(content, metadata, sidebar){
  </body>
  </html>
      `;
+}
+
+//Problem template
+function problemPageTemplate(content, metadata){
+
+    let source = '';
+    if(metadata.hasOwnProperty('source')){
+        source = "<p><b>Source:</b> " + metadata.source + "<p>";
+    }
+
+    let tags = '';
+    if(metadata.hasOwnProperty('tags')){
+        tags = "<p><b>Tags:</b> " + metadata.tags + "<p>"
+    }
+
+    //Return HTML
+    return `
+<!DOCTYPE html>
+<html>
+<head>
+    ${getHead(metadata.title, metadata.description, metadata.url)}
+</head>
+
+<body>
+<div class="navbar">${navbarHTML}</div>
+<div id="main">
+    <div class="content nosidebar">
+    ${content}
+    ${source}
+    ${tags}
+    </div>
+</div>
+
+<div class="footer">
+  ${getFooter()}
+</div>
+
+</body>
+</html>
+    `
+}
+
+//Problems list template
+function problemsListPageTemplate(content, metadata){
+    //Return HTML
+    return `
+<!DOCTYPE html>
+<html>
+<head>
+    ${getHead(metadata.title, metadata.description, metadata.url)}
+</head>
+
+<body>
+<div class="navbar">${navbarHTML}</div>
+<div id="main">
+    <div class="content nosidebar">
+    ${content}<br>
+    ${problemsList}
+    </div>
+</div>
+
+<div class="footer">
+  ${getFooter()}
+</div>
+
+</body>
+</html>
+    `
 }

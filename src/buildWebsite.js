@@ -27,6 +27,7 @@ moveFilesFrom('style');
 //Gets the page tree for the website
 let pageTree = getPageTree();
 templates.buildNavbar(pageTree);
+templates.buildProblemsList(pageTree);
 sitemap.startSitemap();
 //Build 404 page
 build404Page();
@@ -188,6 +189,11 @@ function getPageTreeMetadata(metadata, dirname){
         data.hidden = metadata.hidden;
     }
 
+    //Read navbar subpages flag
+    if(metadata.hasOwnProperty('navbar')){
+        data.navbar = metadata.navbar;
+    }
+
     return data;
 }
 
@@ -213,13 +219,20 @@ function parseFile(name, dir, outpath, sidebar) {
         let content = fm(fs.readFileSync(filepath, 'utf8'));
         let data = parser.parseWebtex(content.body);
 
-        fs.writeFileSync(outpath + '/index.html', templates.buildHTML(data, content.attributes, sidebar));
+        let metadata = content.attributes;
+        metadata.url = getPageURL(dir);
+
+        fs.writeFileSync(outpath + '/index.html', templates.buildHTML(data, metadata, sidebar));
         
         sitemap.addURL(getPageURL(dir)); //Helps building the sitemap
     }
     else if (ext == '.html') {
         var content = fm(fs.readFileSync(filepath, 'utf8'));
-        fs.writeFileSync(outpath + '/index.html', templates.buildHTML(content.body, content.attributes, sidebar));
+
+        let metadata = content.attributes;
+        metadata.url = getPageURL(dir);
+
+        fs.writeFileSync(outpath + '/index.html', templates.buildHTML(content.body, metadata, sidebar));
         
         sitemap.addURL(getPageURL(dir)); //Helps building the sitemap
     }
