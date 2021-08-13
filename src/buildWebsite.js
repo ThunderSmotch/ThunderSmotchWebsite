@@ -22,8 +22,6 @@ const sitemap = require("./sitemapBuilder");
 
 //MAYBE Anki flashcards repositoriums for each file
 
-//MAYBE Refactor code so that instead of data.json we use yaml metadata at the top of each file...
-
 //////////////////////Building the Website//////////////////////////////
 ensureDirectoryExists(config.dev.outdir);
 moveFilesFrom('js');
@@ -180,6 +178,7 @@ function getMetadata(dir){
 }
 
 //Check inside subdirs for the title of each subpage and returns an array of them
+//TODO SEE what this was for
 function getPageNames(pages, dir){
     let pageNames = [];
 
