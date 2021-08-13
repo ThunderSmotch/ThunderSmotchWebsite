@@ -97,9 +97,7 @@ function buildNavbar(pageTree){
         let dir = page;
         let url = '/' + builder.parseDirText(dir);
         
-        //FIXME
-        //let title = builder.getMetadata(dir).title;
-        let title = page;
+        let title = SplitStringUppercase(builder.parseDirText(page));
 
         //If it's the last page then make a <a> link
         if( Object.keys(pageTree[page]).length === 0){
@@ -114,8 +112,7 @@ function buildNavbar(pageTree){
             for(let subpage in dropPage){
 
                 let subdir = dir + '/' + subpage;
-                //FIXME
-                let subtitle = subpage; //builder.getMetadata(subdir).title;
+                let subtitle = SplitStringUppercase(builder.parseDirText(subpage));
                 
                 html+=`
                 <div class="column">
@@ -138,8 +135,7 @@ function getSubpageButtons(pages, dir){
         for(let page in pages){
 
             let subdir = dir + '/' + page;
-            //FIXME
-            let title = page; //builder.getMetadata(subdir).title;
+            let title = SplitStringUppercase(builder.parseDirText(page));
             html += `<a href="/${builder.parseDirText(subdir)}/">${title}</a>\n`
         }
     }
@@ -282,4 +278,15 @@ function postPageTemplate(content, metadata, sidebar){
  </body>
  </html>
      `;
+}
+
+//Split string on uppercase letters and return with spaces
+function SplitStringUppercase(str){
+    let res = str.match(/[A-Z][a-z]+|[0-9]+/g);
+    try{
+        return res.join(" ");
+    } 
+    catch{
+        return str;
+    }
 }
