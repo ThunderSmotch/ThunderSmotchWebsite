@@ -66,16 +66,19 @@ function buildSubjectHTML(subject, sidebar, html){
     return buildHTML(content, metadata, sidebar);
 };
 
-//Builds sidebar from a list of pages
-function buildSidebar(pages, urlpath, pageNames){
+//Builds sidebar from a list of subpages
+function buildSidebar(pages, urlpath){
     let listitems = '';
     let item_id = 0;
 
     listitems +=  `<a n="${item_id}" href="/${urlpath}/">Index</a></br>`;
 
-    for(let i = 0; i < pages.length; i++){
+    for(let page in pages){
+        let pageURL = builder.parseDirText(page);
+        let pageName = pages[page].metadata.title;
+    
         item_id++;
-        listitems += `<a n="${item_id}" href="/${urlpath}/${builder.parseDirText(pages[i])}/">${pageNames[i]}</a></br>`
+        listitems += `<a n="${item_id}" href="/${urlpath}/${pageURL}/">${pageName}</a></br>`
     }
 
     let sidebar = `
@@ -93,14 +96,14 @@ function buildNavbar(pageTree){
 
     let html = '<a href="/">ThunderSmotch</a>\n';
 
-    for(let page in pageTree){
+    for(let page in pageTree.pages){
         let dir = page;
         let url = '/' + builder.parseDirText(dir);
         
-        let title = SplitStringUppercase(builder.parseDirText(page));
+        let title = builder.SplitStringUppercase(builder.parseDirText(page));
 
         //If it's the last page then make a <a> link
-        if( Object.keys(pageTree[page]).length === 0){
+        if( Object.keys(pageTree.pages[page].pages).length === 0){
             html += `<a href="${url}/">${title}</a>\n`;
         } else {
             html += `<div id='${page}' class="dropdown">
@@ -108,16 +111,16 @@ function buildNavbar(pageTree){
             <div class="dropdown-content">
             <div class="row">`;
 
-            let dropPage = pageTree[page];
+            let dropPage = pageTree.pages[page].pages;
             for(let subpage in dropPage){
 
                 let subdir = dir + '/' + subpage;
-                let subtitle = SplitStringUppercase(builder.parseDirText(subpage));
+                let subtitle = builder.SplitStringUppercase(builder.parseDirText(subpage));
                 
                 html+=`
                 <div class="column">
                 <h4>${subtitle}</h4>
-                ${getSubpageButtons(dropPage[subpage], subdir)}
+                ${getSubpageButtons(dropPage[subpage].pages, subdir)}
                 </div>
                 `;
             }
@@ -135,7 +138,7 @@ function getSubpageButtons(pages, dir){
         for(let page in pages){
 
             let subdir = dir + '/' + page;
-            let title = SplitStringUppercase(builder.parseDirText(page));
+            let title = builder.SplitStringUppercase(builder.parseDirText(page));
             html += `<a href="/${builder.parseDirText(subdir)}/">${title}</a>\n`
         }
     }
@@ -278,15 +281,4 @@ function postPageTemplate(content, metadata, sidebar){
  </body>
  </html>
      `;
-}
-
-//Split string on uppercase letters and return with spaces
-function SplitStringUppercase(str){
-    let res = str.match(/[A-Z][a-z]+|[0-9]+/g);
-    try{
-        return res.join(" ");
-    } 
-    catch{
-        return str;
-    }
 }

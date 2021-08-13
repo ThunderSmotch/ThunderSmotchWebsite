@@ -1,4 +1,4 @@
-module.exports = {getMetadata, parseDirText};
+module.exports = {getMetadata, parseDirText, SplitStringUppercase};
 const fs = require("fs");
 const fm = require("front-matter");
 const path = require("path");
@@ -10,17 +10,19 @@ const sitemap = require("./sitemapBuilder");
 
 //////////////// T O D O S ////////////////
 
-//MAYBE make a subject page with navigation towards the several topics
-
-//MAYBE change the looks/text of the nav buttons
-
 //TODO Build sitemap.xml (USE THE PAGE TREE FOR THIS)
 
 //TODO someway of navigating between h2 h3 h4 headers on a page
 
-//TODO some sort of bidirectional links (WIP)
+//MAYBE Refactor sidebar creation
+
+//MAYBE some sort of bidirectional links (WIP)
 
 //MAYBE Anki flashcards repositoriums for each file
+
+//MAYBE make a subject page with navigation towards the several topics
+
+//MAYBE change the looks/text of the nav buttons
 
 //////////////////////Building the Website//////////////////////////////
 ensureDirectoryExists(config.dev.outdir);
@@ -34,6 +36,7 @@ sitemap.startSitemap();
 build404Page();
 
 parseDirectory(pageTree, '');
+
 fs.writeFileSync(config.dev.outdir + '/sitemap.xml', sitemap.endSitemap());
 ////////////////////////////// HELPER FUNCTIONS /////////////////////////////////////////
 
@@ -64,20 +67,33 @@ function moveFilesFrom(folder) {
 }
 
 //Returns a json object with the tree of all dirs and subdirs
+//Also returns the pageName and if they should show on a sidebar or not
 function getPageTree(dir=''){
     let fpath = dir == '' ? config.dev.filesdir : config.dev.filesdir + '/' + dir;
-    let subDirs = getSubDirs(fpath).sort();
-    if(subDirs.length == 0) return null;
+    
+    let data = {
+        metadata: {},
+        pages: {}
+    };
+    
+    //Try to find metadata for this page and save it on pageTree
+    //MAYBE change this to just save sidebar flag
+    dirname = parseDirText(dir.split('/').pop());
+    data.metadata = getPageTreeMetadata(getMetadata(dir), dirname);
 
-    let data = {};
+    //Find subdirs and store them on subpages property
+    let subDirs = getSubDirs(fpath).sort();
+    if(subDirs.length == 0) return data;
 
     subDirs.forEach( subDir => {
-        let subDirPath = dir + '/' + subDir;
-        data[subDir] = {};
+        let subDirPath = dir == '' ? subDir : dir + '/' + subDir;
+        data.pages[subDir] = {};
         let page = getPageTree(subDirPath);
         if(page != null)
-            data[subDir] = page;
+            data.pages[subDir] = page;
     });
+
+    //if (dir == '') console.log(data.pages['Notes']);
 
     return data;
 }
@@ -94,32 +110,18 @@ function parseDirectory(pageTree, dir='', parentSidebar = ''){
     //Make directory on output dir
     makeDirectory(dir);
     
-    //Build sidebar (maybe MOVE THIS to the file parser)
-    let subpages = getSubPages(pageTree); //Can be empty
-    
-    //If hidden skip this directory
-    //BUG Hidden pages appearing in sidebar
-    //TO solve the bug we need to not give this page to the sidebar builder
-    //if(metadata.hidden == true){
-    //    return;
-    //}
-
-    //Sidebar logic
-    //FIXME
-    //TODO CHANGE THIS THIS IS BROKEN NOW
-    // True means it's the parent page
-    //HACK this is so fucking stupid but it works...
+    //Build sidebar
     let sidebar = parentSidebar;
-    /*if(metadata.sidebar == true){
-        sidebar = templates.buildSidebar(subpages, parseDirText(dir), getPageNames(subpages, dir));
-    }*/
+    if(pageTree.metadata.sidebar == true){
+        sidebar = templates.buildSidebar(pageTree.pages, parseDirText(dir));
+    }
 
     //Convert files
     parseFiles(dir, sidebar);
 
-    for(let page in pageTree){
+    for(let page in pageTree.pages){
         let newDir = dir == '' ? page : dir + '/' + page;
-        parseDirectory(pageTree[page], newDir, sidebar);
+        parseDirectory(pageTree.pages[page], newDir, sidebar);
     }
 }
 
@@ -134,19 +136,8 @@ function makeDirectory(dir){
     fs.mkdirSync(config.dev.outdir+'/'+parseDirText(dir), { recursive: true }, (err) => {if (err) throw err;});
 }
 
-//Returns array with subpages
-function getSubPages(pages) {
-
-    let array = [];
-
-    for(let page in pages)
-        array.push(page);
-
-    return array;
-}
-
-//Check inside this dir for metadata
-//LEGACY THIS SHOULD IDEALLY NOT BE USED
+//Check inside this dir for a file with metadata and return it
+//FIXME URL not working
 function getMetadata(dir){
 
     //Find webtex/html file and use that for the metadata
@@ -157,15 +148,16 @@ function getMetadata(dir){
 
     let files = getFiles(dirpath).filter(file => { 
         let ext = path.extname(file);
-        return ext == "webtex" || ext == "html";
+        return ext == ".webtex" || ext == ".html";
     });
 
     if(files.length == 0){
-        console.log("ERROR GETTING METADATA FROM: " + dirpath)
+        //console.log("NO METADATA FOUND ON: " + dirpath)
         metadata = {
             "title": "Default Title",
             "description": "I should've written a description for this...",
-            "url": "https://thundersmotch.com"
+            "url": "https://thundersmotch.com",
+            "sidebar": false
         };
     }
     else {
@@ -177,17 +169,29 @@ function getMetadata(dir){
     return metadata;
 }
 
-//Check inside subdirs for the title of each subpage and returns an array of them
-//TODO SEE what this was for
-function getPageNames(pages, dir){
-    let pageNames = [];
+//Extract only relevant metadata flags for pageTree
+function getPageTreeMetadata(metadata, dirname){
+    
+    //Default values
+    let data = {
+        title: "ThunderSmotch's Scribbles",
+        sidebar: false,
+    };
 
-    pages.forEach(page => {
-        let metadata = getMetadata(dir + '/' + page);
-        pageNames.push(metadata.title);
-    });
+    //Read title prop
+    if(metadata.hasOwnProperty('title')){
+        data.title = metadata.title;
 
-    return pageNames;
+        if(data.title == 'Default Title')
+            data.title = SplitStringUppercase(dirname);
+    }
+
+    //Read sidebar flag
+    if(metadata.hasOwnProperty('sidebar')){
+        data.sidebar = metadata.sidebar;
+    }
+
+    return data;
 }
 
 //Check and parse all files inside given dir
@@ -199,10 +203,10 @@ function parseFiles(dir, sidebar) {
     let outpath = url == '' ? config.dev.outdir : config.dev.outdir + '/' + url;
     ensureDirectoryExists(outpath);
     
-    res.forEach(file => parseFile(file, dir, outpath, sidebar))
+    res.forEach(file => parseFile(file, dir, outpath, sidebar));
 }
 
-//Parses a single file
+//Parses a single file according to its extension
 function parseFile(name, dir, outpath, sidebar) {
 
     let ext = path.extname(name);
@@ -267,6 +271,17 @@ function getSubDirs(dir){
 //Get Files inside this Dir
 function getFiles(dir){
     return fs.readdirSync(dir, {withFileTypes: true}).filter(dirent => !dirent.isDirectory()).map(dirent => dirent.name);
+}
+
+//Split string on uppercase letters and return with spaces
+function SplitStringUppercase(str){
+    let res = str.match(/[A-Z][a-z]+|[0-9]+/g);
+    try{
+        return res.join(" ");
+    } 
+    catch{
+        return str;
+    }
 }
 
 //Ensures Directory Exists
