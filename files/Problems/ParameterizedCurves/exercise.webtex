@@ -1,6 +1,6 @@
 ---
 title: Parameterized curves
-description: "From Manfredo's book."
+description: "Some problems from Manfredo's book."
 date: 13/08/2021
 type: problem
 source: "Differential Geometry of Curves and Surfaces by Manfredo P. Do Carmo"
@@ -13,3 +13,7 @@ Find
 \begin{spoiler}[Solution]
     \( x \) is right \textbf{here!}
 \end{spoiler}
+
+
+\[ 2x^{2} + ax^{34} \because x^{2} \implies x \int_{0}^{1} \]
+

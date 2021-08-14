@@ -1,14 +1,17 @@
 ---
 title: Arc Length
-description: "From Manfredo's book."
+description: "Some problems from Manfredo's book."
 date: 13/08/2021
 type: problem
 source: "Differential Geometry of Curves and Surfaces by Manfredo P. Do Carmo"
 tags: [curves, length]
 ---
-Testing this.
-\[ x^{2} + y^{2} = a^{2} \] 
+TODO Exercise
 
 \begin{spoiler}[Solution]
     This works!
 \end{spoiler}
+
+This is a test of the conceal and snippets functionalities.
+$x^2 + y^2 \leq a^2$
+Omg it works!
