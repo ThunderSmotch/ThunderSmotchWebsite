@@ -1,0 +1,85 @@
+---
+title: Sliding Coins
+description: "A problem proposed by Rodrigo from mathspp."
+date: 07/07/2022
+type: problem
+source: "https://mathspp.com/blog/problems/sliding-coins"
+tags: [invariants]
+---
+
+To read the problem statement, I encourage you to go to Rodrigo's blog post \href{https://mathspp.com/blog/problems/sliding-coins}{here}. Now for the solution.
+
+Let 
+\( d_{i} \) be the distance from the coin 
+\( i \) to the right column. A coin one unit away thus would have 
+\( d = 1 \). For every legal move you make, you shift the sum of all coin distances by 2 units. Furthermore, in the desired final configuration, the sum of all distances is zero. Thus there is a \textbf{\textit{parity} invariant} in this problem, if you start with an odd configuration you'll never reach the final one using only legal moves!
+
+For the case with 
+\( n \)  coins in the diagonal, we have that the sum is 
+\[ D = \sum_{i = 1}^{n} d_{i} = \sum_{i = 1}^{n} i  = \frac{(n + 1)n}{2} \]
+
+You will notice that these are the \href{https://mathworld.wolfram.com/TriangularNumber.html}{triangular numbers}! For 
+\( n = 3\) we have \( D = 6 \) and there might be a solution -- in fact it is quite easy to find it. For 
+\( n = 5 \) we now have \( D = 15 \) and so there is no solution!
+
+Now, we know that for 
+\( n = 5 \) there is no solution. Can we generalize this result? Can we always find solutions when 
+\( D \) is even? Of course not, take the two coin case where one is at the finishing column and the other an even number of steps away. It is impossible. But what if we always start with this initial diagonal configuration?
+
+If we analyze the parity of the triangular numbers we see that they follow a nice sequence, the first two are odd, and the following two are even.  And this keeps repeating for every four new numbers. If we put this in modular arithmetic terms
+(\(n \mod 4\)) this means that only 
+\( n \mod 4 = 0 \) or 
+\( n \mod 4 = 3 \) can possibly have solutions. Can we find a method that works for each case? Let us try!
+
+\begin{spoiler}[Case where \(n \mod 4 = 0\)]
+If 
+\( n \mod 4 = 0 \) then not only do we have an even number of coins, but we also have an even number of pairs of coins. Why is this important? Let us look at the 
+\( n = 4 \) case
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{4coins.png}
+    \caption{Solution to the four coins problem.}
+    \label{fig:4coins}
+\end{figure}
+
+As you can see, we first try to pair coins so that they are at the same distance, and then we can just move each grouped pair to the right until we reach the end. As a remark, notice that it does not matter how far away the coins are from the right column, we can always reach the end!
+
+Okay, but then what goes wrong for the 
+\( n = 6 \) case? This is where we cannot pair up pairs of coins. For this strategy to work, we need to move half the coins in the first steps, because we need to move them two by two. We can only move half the coins if this number is even and so it is impossible to apply this strategy.
+
+Okay, so for any 
+\( n \in \mathbb{N}\) such that \( n \mod 4 = 0 \) this is the strategy:
+\begin{itemize}
+    \item Suppose we number the coins so that coin number 
+    \( 1 \) is the farthest away from the right and coin number 
+    \( n \) is the closest.
+    \item In the first step we will move coin 
+    \( 1 \) and 
+    \( 3 \), then 
+    \( 5 \) and 
+    \( 7 \); and so on until we move 
+    \( n - 3, n \). Because 
+    \( n \mod 4 = 0 \) we know that this is always possible, as half the coins is still an even number.
+    \item   After these steps we get a configuration where each coin in a pair is always the same distance away from the right. And so we can just move each pair seperately until the end!
+\end{itemize}
+\end{spoiler}
+
+\begin{spoiler}[Case where \(n \mod 4 = 3 \)]
+    Let us do a neat trick. If we compare this configuration to the previous one, we have something like this <br>
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{n3coins.png}
+    \caption{Configuration with 
+    \( n \) coins where \(n \mod 4  = 3\).}
+    \label{fig:n3coins}
+\end{figure}
+
+    What happens if we just move the first and last coin? The last coin reaches the end column. And the first gets paired up with the second. As we know, we can just bring this pair of coins to the end together. What about the other 
+    \( n - 3 \) coins? 
+    
+    Well, 
+    \( n - 3 \mod 4 = 0 \). I previously remarked that it did not matter how far away a configuration is, as long as it has a number of coins which is a multiple of four. So in fact, to bring the middle coins to the end, we just apply the previous strategy!
+\end{spoiler}
+
+And that is it! We now know if it is possible to solve this initial diagonal configuration of coins, for any 
+\( n \).
