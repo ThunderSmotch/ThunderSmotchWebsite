@@ -27,13 +27,13 @@ Now, we know that for
 \( D \) is even? Of course not, take the two coin case where one is at the finishing column and the other an even number of steps away. It is impossible. But what if we always start with this initial diagonal configuration?
 
 If we analyze the parity of the triangular numbers we see that they follow a nice sequence, the first two are odd, and the following two are even.  And this keeps repeating for every four new numbers. If we put this in modular arithmetic terms
-(\(n \mod 4\)) this means that only 
-\( n \mod 4 = 0 \) or 
-\( n \mod 4 = 3 \) can possibly have solutions. Can we find a method that works for each case? Let us try!
+(\(n \bmod 4\)) this means that only 
+\( n \bmod 4 = 0 \) or 
+\( n \bmod 4 = 3 \) can possibly have solutions. Can we find a method that works for each case? Let us try!
 
-\begin{spoiler}[Case where \(n \mod 4 = 0\)]
+\begin{spoiler}[Case where \(n \bmod 4 = 0\)]
 If 
-\( n \mod 4 = 0 \) then not only do we have an even number of coins, but we also have an even number of pairs of coins. Why is this important? Let us look at the 
+\( n \bmod 4 = 0 \) then not only do we have an even number of coins, but we also have an even number of pairs of coins. Why is this important? Let us look at the 
 \( n = 4 \) case
 \begin{figure}[H]
     \centering
@@ -48,7 +48,7 @@ Okay, but then what goes wrong for the
 \( n = 6 \) case? This is where we cannot pair up pairs of coins. For this strategy to work, we need to move half the coins in the first steps, because we need to move them two by two. We can only move half the coins if this number is even and so it is impossible to apply this strategy.
 
 Okay, so for any 
-\( n \in \mathbb{N}\) such that \( n \mod 4 = 0 \) this is the strategy:
+\( n \in \mathbb{N}\) such that \( n \bmod 4 = 0 \) this is the strategy:
 \begin{itemize}
     \item Suppose we number the coins so that coin number 
     \( 1 \) is the farthest away from the right and coin number 
@@ -59,18 +59,18 @@ Okay, so for any
     \( 5 \) and 
     \( 7 \); and so on until we move 
     \( n - 3, n \). Because 
-    \( n \mod 4 = 0 \) we know that this is always possible, as half the coins is still an even number.
+    \( n \bmod 4 = 0 \) we know that this is always possible, as half the coins is still an even number.
     \item   After these steps we get a configuration where each coin in a pair is always the same distance away from the right. And so we can just move each pair seperately until the end!
 \end{itemize}
 \end{spoiler}
 
-\begin{spoiler}[Case where \(n \mod 4 = 3 \)]
+\begin{spoiler}[Case where \(n \bmod 4 = 3 \)]
     Let us do a neat trick. If we compare this configuration to the previous one, we have something like this <br>
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{n3coins.png}
     \caption{Configuration with 
-    \( n \) coins where \(n \mod 4  = 3\).}
+    \( n \) coins where \(n \bmod 4  = 3\).}
     \label{fig:n3coins}
 \end{figure}
 
@@ -78,7 +78,7 @@ Okay, so for any
     \( n - 3 \) coins? 
     
     Well, 
-    \( n - 3 \mod 4 = 0 \). I previously remarked that it did not matter how far away a configuration is, as long as it has a number of coins which is a multiple of four. So in fact, to bring the middle coins to the end, we just apply the previous strategy!
+    \( (n - 3) \bmod 4 = 0 \). I previously remarked that it did not matter how far away a configuration is, as long as it has a number of coins which is a multiple of four. So in fact, to bring the middle coins to the end, we just apply the previous strategy!
 \end{spoiler}
 
 And that is it! We now know if it is possible to solve this initial diagonal configuration of coins, for any 
