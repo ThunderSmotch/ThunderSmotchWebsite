@@ -32,6 +32,8 @@ function buildHTML(content, metadata, sidebar=''){
         return problemPageTemplate(content, metadata);
     } else if (metadata.type == 'problems'){
         return problemsListPageTemplate(content, metadata);
+    } else if (metadata.type == 'tableofcontents') {
+        return tableOfContentsPageTemplate(content, metadata, sidebar);
     }
     else {
         return defaultPageTemplate(content, metadata, sidebar);
@@ -211,7 +213,7 @@ function getHead(title = 'Home', description = 'ThunderSmotch - Maths/Physics/Pr
 //Returns the footer HTML
 function getFooter(){
     return `
-<p>Made by <a href="https://github.com/ThunderSmotch">ThunderSmotch</a> | 2021 |</p>
+<p>Made by <a href="https://github.com/ThunderSmotch">ThunderSmotch</a> | 2023 |</p>
 `;
 }
 
@@ -376,4 +378,68 @@ function problemsListPageTemplate(content, metadata){
 </body>
 </html>
     `
+}
+
+//Table of contents template
+function tableOfContentsPageTemplate(content, metadata, sidebar){
+    //Handle sidebar
+    let noSidebar = '';
+    if(sidebar == '')
+        noSidebar = 'nosidebar';
+    
+    //Return HTML
+    return `
+<!DOCTYPE html>
+<html>
+<head>
+    ${getHead(metadata.title, metadata.description, metadata.url)}
+</head>
+
+<body>
+<div class="navbar">${navbarHTML}</div>
+<div id="main">
+    <div id="sidebar">${sidebar}</div>
+    <div class="content ${noSidebar}">
+    ${content}
+    <br>
+    <div class="nav_links">
+    <a href='#' class='nav_button' id='nav_previous' style='float:left;'> <- Previous </a>
+    <a href='#' class='nav_button' id='nav_next' style='float:right;'> Next -> </a>
+    
+    <script>
+    let aa = document.querySelector('.sidebar a[href="' + window.location.pathname + '"]');
+    let prev = document.getElementById('nav_previous');
+    let next = document.getElementById('nav_next');
+    let n = aa.getAttribute("n");
+
+    let sidebar_p = document.querySelector('.sidebar a[n="' + (parseInt(n)-1) + '"]');
+    let sidebar_n = document.querySelector('.sidebar a[n="' + (parseInt(n)+1) + '"]');
+
+    if(sidebar_p == null) {
+       prev.style = 'display: none;'
+    } else {
+        prev.innerText = '<- ' + sidebar_p.innerText;
+        prev.href = sidebar_p.href;
+    }
+    if(sidebar_n == null){
+       next.style = 'display:none;'
+    } else {
+       next.innerText = sidebar_n.innerText + ' ->';
+       next.href = sidebar_n.href;   
+    }
+
+    </script>
+    </div>
+    <br>
+    ${commentSection}
+    </div>
+</div>
+
+<div class="footer">
+  ${getFooter()}
+</div>
+
+</body>
+</html>
+    `;
 }
