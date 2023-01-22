@@ -222,7 +222,7 @@ ${p2}
 
 //Replaces \href{link}{text} with <a href='link'>text</a>.
 function replaceHref(data){
-    var reg = new RegExp('\\\\' + 'href' + '\\*?{(.+)}{(.+)}', 'g');
+    var reg = new RegExp('\\\\' + 'href' + '\\*?{(.+?)}{(.+?)}', 'g');
 
     var str = data.replace(reg, 
         function (match, p1, p2){
