@@ -1,0 +1,143 @@
+---
+title: How you could discover 2D rotation matrices
+description: A discovery fiction post about planar rotations
+date: 23/01/2023
+hidden: false
+type: post
+---
+
+\section{How you could have discovered 2D rotation matrices}
+
+\subsection{Introduction}
+
+Recently I was on Twitter and found a discussion by \href{https://twitter.com/michael_nielsen/status/1132063254849527808}{Michael Nielsen} on what he calls \textbf{discovery fiction}. \textbf{Discovery fiction} is an informal writing of how one could stumble upon some concept on their own, starting from \textit{first principles}.
+
+In this post, I will try to indulge you on how 2D rotation matrices could've been discovered by you! We only need to assume that you know Pythagoras' theorem, the definition of the sine, cosine and tangent of the angles of a right triangle and a few relations between angles, regular stuff that you must have learned in high school!
+
+So, what problem do we need to solve?
+
+\subsection{Problem}
+
+Suppose we want to rotate the following drawing around the origin by some angle \( \theta \)? How could we do it mathematically?
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{house.png}
+	\caption{Drawing of a house}
+	\label{fig:house}
+\end{figure}
+First, we could notice that the drawing is made up of a bunch of points that are connected to each other by some lines. Lines, as you may know, are nothing but an infinite collection of points and so, if we could somehow rotate a point around the origin, then we should be able to rotate the drawing.
+
+Let us just focus on this one task, \textit{rotating a point around the origin}. How should we describe the point, let's call it \( A \). Usually we do so by specifying its \( X \)  and \( Y \)  coordinates. But seeing that we want to rotate, and that involves angles, maybe we should specify the point using angular coordinates, as shown below:
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{point.png}
+	\caption{Point that we want to rotate}
+	\label{fig:point}
+\end{figure}
+Here \( r \)  and \( \alpha \) are coordinates much like \( (x, y) \) and we can relate them to each other via the sine and the cosine of \( \alpha \), using \( r \) as the hypotenuse of a right angle triangle:
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{angular.png}
+	\caption{Connection between Cartesian coordinates and the angular ones}
+	\label{fig:angular}
+\end{figure}
+Ok, now suppose we want to rotate the point \( A \) by an angle \( \theta \). In angular coordinates this is very easy todo, as \( r \) stays the same and the new angle is just the sum of the angles, \( \alpha + \theta \). So then \( A' \), which is the name of the rotated point has angular coordinates \( (r, \alpha + \theta) \), but what about its \( X \) and \( Y \) coordinates? For that, we need to know how to do the cosine of the sum!
+
+\subsection{The cosine of the sum}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{sum.png}
+	\caption{The rotated point and original point.}
+	\label{fig:sum}
+\end{figure}
+
+As we can see in the above drawing, the rotated point \( A' \) is also part of a right triangle. Thus, the Cartesian coordinates of \( A' \) are given by \( (r \cos(\alpha+\theta), r \sin(\alpha+\theta)) \). We could call this problem solved and call it a day, we just compute \( r \) using the Pythagorean theorem and then compute both the sine and cosine of the angles to find \( (x', y') \). But can we actually do better? Can we find a simpler way of representing the new coordinates \( (x', y') \) in terms of the old ones \( (x,y) \)? 
+
+Maybe we should try to see if we can simplify \( \cos(\alpha+\theta) \). But how do we do this? Well, let me present a more detailed drawing of the original and rotated points:
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{scale.png}
+	\caption{Scale relation between triangles}
+	\label{fig:scale}
+\end{figure}
+See how the little triangle is a scaled down version of the larger triangle containing \( A \)? Then the ratio between scaled sizes must be the same, and thus we can write 
+\[ \frac{r \cos(\alpha+\theta)}{r \cos(\alpha)} = \frac{d}{r} \leftrightarrow \cos (\alpha + \theta) = \frac{d \cos (\alpha)}{r}\ .  \]
+We got our first equation involving \( \cos(\alpha+\theta) \)! If we figure out an expression for \( d \) then we can simplify the above. Let me try to draw just one more line, going from \( A' \) perpendicular to the line going from the origin to \( A \):
+ \begin{figure}[H]
+ 	\centering
+ 	\includegraphics[width=0.8\textwidth]{new_line.png}
+ 	\caption{A new right triangle appears!}
+ 	\label{fig:new_line}
+ \end{figure}
+ A new right triangle involving \( \theta \) appeared! We can even directly write that \( \cos \theta = (d + l) / r \). But did this help us at all? Now not only do we need an expression for \( d \) but we also have that new side \( l \) to worry about... We should not stress too much though! Can we still extract any additional information from that new line? Maybe something involving the new side \( l \)? Looking at the angles of the drawing, there is something we can do! When two lines meet, the angles that are opposite to one another are the same! This, with the additional fact that right triangles always have acute angles that sum to \( 90^\circ \) means that we can put \( \alpha \) right there at the top:
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{new_alpha.png}
+	\caption{Alpha appears again on the other triangle.}
+	\label{fig:new_alpha}
+\end{figure}
+In fact, we can even write \( \tan(\alpha) = l / r \sin(\theta) \). Time for some algebra! We can rewrite the previous equation as \( l = r \sin (\theta) \sin (\alpha) / \cos (\alpha) \). We now substitute it into the previous equation involving \( d \) and \( l \): 
+\[ \cos (\theta) = \frac{d}{r} + \sin(\theta) \frac{\sin(\alpha)}{\cos(\alpha)} \leftrightarrow d = r \cos(\theta) - r \sin (\theta) \frac{\sin (\alpha)}{\cos(\alpha)} \ . \]
+And finally: 
+\[ \cos (\alpha+\theta) = \frac{d \cos(\alpha)}{r} = \cos(\alpha)\cos(\theta) - \sin(\alpha)\sin(\theta) \ . \]
+There it is! A formula for the cosine of the sum using the individual sines and cosines of the angles! All we needed to discover it was some triangle relations, a little trigonometry and to not be scared to mess around with the triangles until we found something interesting! Still, that took a lot of work. Do we need to repeat the same thing for the sine of the sum? We could, but let's try to leverage the result we just got.
+
+\subsection{The sine of the sum}
+
+I told you at the beginning we would need the Pythagorean theorem, this is why:
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{pythagoras.png}
+	\caption{The Pythagorean theorem and trigonometry}
+	\label{fig:pythagoras}
+\end{figure}
+If we draw a triangle with an hypotenuse of unit length, then not only are the sides given by the sine and cosine of \( \beta \) but we also must have, by Pythagoras' theorem, that 
+\[ \cos^{2}(\beta) + \sin^{2}(\beta) = 1 \]
+But there is nothing special about the angle \( \beta \). In fact we could take \( \beta = \theta + \alpha \) and the above formula still must hold! Time for some algebra: 
+\[ \begin{aligned}
+	&\sin^{2}(\alpha + \theta) = 1 - \cos^{2}(\alpha + \theta)= \\ &= 1 - \cos^{2}(\alpha)\cos^{2}(\theta) - \sin^{2}(\alpha)\sin^{2}(\theta) + 2 \sin(\alpha)\sin(\theta)\cos(\alpha)\cos(\theta)=\\
+	&= \cos^{2}(\alpha)\sin^{2}(\theta)+\sin^{2}(\alpha)\cos^{2}(\theta) + 2 \sin(\alpha)\sin(\theta)\cos(\alpha)\cos(\theta)=\\
+	&= (\cos(\alpha)\sin(\theta) + \sin(\alpha)\cos(\theta))^{2} \\
+	& \leftrightarrow \sin(\alpha+\theta) = \pm (\cos(\alpha)\sin(\theta) + \sin(\alpha)\cos(\theta))
+	\end{aligned}\]
+Now, to decide which of the signs is the correct one, let us take \( \theta = \alpha = 45^{\circ} \), both the sine and cosine then are equal to \( \sqrt{2} / 2 \) and so we must have 
+\[ 1 = \sin(90^{\circ}) = \pm \left( \frac{2}{4} + \frac{2}{4} \right) = \pm 1\ , \]
+which means that the plus sign is the correct one!
+
+\subsection{Onto rotations}
+
+So, in the previous two sections we derived that 
+\[ \begin{cases}
+	\cos(\alpha+\theta) = \cos(\alpha)\cos(\theta) - \sin(\alpha)\sin(\theta) \\
+	\sin(\alpha+\theta) = \cos(\alpha)\sin(\theta) + \sin(\alpha) \cos(\theta)
+\end{cases}\ , \]
+which finally means that we can now write the Cartesian coordinates of \( A' \) as 
+\[ \begin{cases}
+x' = r \cos(\alpha + \theta) = r \cos(\alpha) \cos(\theta) - r \sin(\alpha) \sin(\theta) = x \cos(\theta) - y \sin(\theta) \\
+y' = r \sin(\alpha+\theta) = r \cos(\alpha) \sin(\theta) + r \sin(\alpha) \cos(\theta) = x \sin(\theta) + y \sin(\alpha)
+\end{cases} \]
+or, putting the above in matrix form: 
+\[ \begin{pmatrix} x' \\ y' \end{pmatrix} = \begin{pmatrix} \cos(\theta) & - \sin(\theta) \\ \sin(\theta) & \cos(\theta) \end{pmatrix} \begin{pmatrix} x \\ y \end{pmatrix}\ . \]
+
+We discovered 2 dimensional rotation matrices from scratch! If we were to apply the above matrix to every single point of our drawing we would effectively rotate the drawing by an angle \( \theta \), like we wanted to!
+
+\subsection{Conclusion}
+
+What we have done seemed fairly simple, but we should not berate our efforts! 
+Whenever you see something rotating in your screen, chances are that beneath that is a rotation matrix much like the one we discovered here. 
+Can you devise a simpler way of discovering 2D rotation matrices? Comment below!
+
+\subsubsection{Extra - How knowing more math makes our life easier}
+The skeptics among us might worry that the formula that we proved for the cosine and sine of the sum is only valid when we use angles which add up to something smaller than \( 90^{\circ} \), and you would be correct! Every drawing that I made had that assumption built into it. However, I challenge you to draw those same triangles on a circle of radius \( r \) and to try reduce the problem to one where the angles involved indeed sum to something smaller than \( 90^{\circ} \), allowing us to use the above formulas. You will see that we get the same result.
+
+That is the power of Mathematics, even though we solved a tiny little case, we are able to use it to help prove many more results without having to go through all the effort of starting from scratch all over again! 
+
+Want another proof of it? Look how easy it is to derive the formula for the cosine and sine of the sum, using Euler's formula: 
+\[ e^{i \beta} = \cos(\beta) + i \sin(\beta) \]
+I will do it in three lines: 
+\[ \begin{aligned} e^{i (\alpha + \theta)} &= \cos(\alpha+\theta) + i \sin(\alpha + \theta) = e^{i \alpha} e^{i \theta} =  \\ 
+&= \left( \cos(\alpha) + i \sin(\alpha) \right) \left( \cos(\theta) + i \sin(\theta) \right) = \\
+&= \left( \cos(\alpha) \cos(\theta) - \sin(\alpha) \sin(\theta) \right) + i \left( \cos(\alpha) \sin(\theta) + \sin(\alpha) \cos(\theta) \right)
+\end{aligned}\]
+And done!
