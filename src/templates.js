@@ -2,7 +2,7 @@ module.exports = {buildNavbar, buildHTML, buildSidebar, build404HTML, buildProbl
 const path = require("path");
 const { config } = require("process");
 
-const builder = require('./buildWebsite.js');
+const {RemoveOrderingPrefix, SplitStringUppercase} = require("./Utils");
 
 //Navbar HTML to be set during build
 let navbarHTML = '';
@@ -74,7 +74,7 @@ function buildSidebar(pages, urlpath){
                 continue;
         }
 
-        let pageURL = builder.parseDirText(page);
+        let pageURL = RemoveOrderingPrefix(page);
         let pageName = pages[page].metadata.title;
     
         item_id++;
@@ -94,13 +94,13 @@ function buildSidebar(pages, urlpath){
 //MAYBE see what's up with the fa caret thing & refactor this function
 function buildNavbar(pageTree){
 
-    let html = '<a href="/">ThunderSmotch</a>\n';
+    let html = '<a href="/"><b>ThunderSmotch</b></a>\n';
 
     for(let page in pageTree.pages){
         let dir = page;
-        let url = '/' + builder.parseDirText(dir);
+        let url = '/' + RemoveOrderingPrefix(dir);
         
-        let title = builder.SplitStringUppercase(builder.parseDirText(page));
+        let title = SplitStringUppercase(RemoveOrderingPrefix(page));
 
         let nav = true;
         if(pageTree.pages[page].metadata.hasOwnProperty('navbar'))
@@ -119,7 +119,7 @@ function buildNavbar(pageTree){
             for(let subpage in dropPage){
 
                 let subdir = dir + '/' + subpage;
-                let subtitle = builder.SplitStringUppercase(builder.parseDirText(subpage));
+                let subtitle = SplitStringUppercase(RemoveOrderingPrefix(subpage));
                 
                 html+=`
                 <div class="column">
@@ -163,8 +163,8 @@ function getSubpageButtons(pages, dir){
         for(let page in pages){
 
             let subdir = dir + '/' + page;
-            let title = builder.SplitStringUppercase(builder.parseDirText(page));
-            html += `<a href="/${builder.parseDirText(subdir)}/">${title}</a>\n`
+            let title = SplitStringUppercase(RemoveOrderingPrefix(page));
+            html += `<a href="/${RemoveOrderingPrefix(subdir)}/">${title}</a>\n`
         }
     }
     return html;

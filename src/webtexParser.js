@@ -1,7 +1,7 @@
-module.exports = { parseWebtex }
+module.exports = { Parse }
 
 //TODO: Detect line break as two blank linebreaks on the tex file.
-function parseWebtex(data){
+function Parse(data){
     
     data = removeComments(data);
     data = replaceFigures(data);
