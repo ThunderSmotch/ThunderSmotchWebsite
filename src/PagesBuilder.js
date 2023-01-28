@@ -26,13 +26,15 @@ function BuildPage(outpath, body, metadata, sidebar='')
         case "tableofcontents":
             break; // TODO Incomplete
         default:
-            return BuildDefaultPage(body, metadata);
+            data = BuildDefaultPage(body, metadata);
     }
 
     ok(data, "Page data is empty, maybe you do not handle all metadata types!");
 
     fs.writeFileSync(outpath + '/index.html', data);
-    Sitemap.AddURL(metadata.url);        
+    
+    if(metadata.hidden != true)
+        Sitemap.AddURL(metadata.url);        
 }
 
 function BuildDefaultPage(body, metadata)
