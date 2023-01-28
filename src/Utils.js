@@ -84,11 +84,10 @@ function CatDirs(dir1, dir2)
 }
 
 function MakeDirectory(dpath) {
-    var dirname = path.dirname(dpath);
-    if (fs.existsSync(dirname)) {
+    if (fs.existsSync(dpath)) {
       return true;
     }
-    fs.mkdirSync(dirname, {recursive: true});
+    fs.mkdirSync(dpath, {recursive: true});
     return true;
 }
 
@@ -116,7 +115,7 @@ function GetAllFilesRecursively(dir) {
 
 function MoveFolderToOutput(folder_name)
 {
-    MoveFolderFromTo(folder_name, CatDirs(config.dev.outdir, folder_name));
+    MoveFolderFromTo(folder_name, folder_name);
 }
 
 //Moves files from input folder to output folder
