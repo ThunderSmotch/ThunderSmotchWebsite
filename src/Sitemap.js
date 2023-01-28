@@ -27,7 +27,6 @@ function End()
 }
 
 //Returns sitemap URL xml for a given page
-//MAYBE implement lastmodified (prob not)
 function AddURL(url){
 
     if( url == 'https://thundersmotch.com' ) return;

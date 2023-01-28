@@ -73,7 +73,6 @@ function getSubpageButtons(pages, dir){
 }
 
 //Builds the problems list from the page tree.
-//TEMP maybe
 //TODO refactor tags
 function BuildProblemsList(pageTree){
     try {

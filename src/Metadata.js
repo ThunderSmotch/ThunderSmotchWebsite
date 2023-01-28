@@ -15,7 +15,7 @@ description: "ThunderSmotch - Maths/Physics/Programming",
 sidebar: false, // Should a sidebar be generated at this point
 hidden: false,
 navbar: true, // If navbar should be drawn
-tags: [],     // FIXME check this
+tags: [],     
 url: config.dev.url,
 created:  Utils.GetCurrentDayMonthYear(),
 modified: Utils.GetCurrentDayMonthYear(),
