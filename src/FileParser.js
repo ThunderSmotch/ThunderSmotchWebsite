@@ -4,35 +4,34 @@ const fs = require("fs");
 const path = require("path");
 const fm = require("front-matter");
 
-const templates = require("./templates"); // TODO look at this require
 const config = require("./config");
 const Utils = require("./Utils");
-const Sitemap = require("./SitemapBuilder");
-
+const PagesBuilder = require("./PagesBuilder");
 const WebtexParser = require("./WebtexParser");
 
-function ParseDirectory(pageTree, dir='', parentSidebar = ''){
+let sidebar = '';
 
-    //Make directory on output dir
-    makeDirectory(dir);
+function ParseDirectory(pageTree, dir=''){
+    //Make same directory on output dir
+    Utils.MakeDirectory(Utils.CatDirs(config.dev.outdir, Utils.RemoveOrderingPrefix(dir)));
     
-    //Build sidebar
-    let sidebar = parentSidebar;
+    // Build sidebar for childs
     if(pageTree.metadata.sidebar == true){
-        sidebar = templates.buildSidebar(pageTree.pages, Utils.RemoveOrderingPrefix(dir));
+        sidebar = PagesBuilder.BuildSidebar(pageTree.pages, Utils.RemoveOrderingPrefix(dir));
     }
 
     //Convert files
-    ParseFiles(dir, sidebar);
+    ParseFiles(dir);
 
+    // Recurse into subdirectories
     for(let page in pageTree.pages){
-        let newDir = dir == '' ? page : dir + '/' + page;
-        ParseDirectory(pageTree.pages[page], newDir, sidebar);
+        let new_dir = Utils.CatDirs(dir, page);
+        ParseDirectory(pageTree.pages[page], new_dir, sidebar);
     }
 }
 
 //Check and parse all files inside given dir
-function ParseFiles(dir, sidebar) {
+function ParseFiles(dir) {
     let url = Utils.RemoveOrderingPrefix(dir);
     let res = Utils.GetFilesInsideDir(Utils.CatDirs(config.dev.filesdir, dir));
 
@@ -40,51 +39,38 @@ function ParseFiles(dir, sidebar) {
     let outpath = Utils.CatDirs(config.dev.outdir, url);
     Utils.MakeDirectory(outpath);
     
-    res.forEach(file => parseFile(file, dir, outpath, sidebar));
-}
-
-//Makes the directory structure for a given topic under a given subject
-function makeDirectory(dir){
-    //Check that it is a valid directory
-    if(fs.statSync('./' + config.dev.filesdir + '/' + dir).isDirectory() == false) {
-        console.log("GIVEN DIR IS NOT A DIRECTORY: " + dir);
-        return false;
-    }
-    //If it is, create a new dir
-    fs.mkdirSync(config.dev.outdir+'/'+ Utils.RemoveOrderingPrefix(dir), { recursive: true }, (err) => {if (err) throw err;});
+    res.forEach(file => ParseFile(file, dir, outpath));
 }
 
 //Parses a single file according to its extension
-function parseFile(name, dir, outpath, sidebar) {
-
+function ParseFile(name, dir, outpath) {
     let ext = path.extname(name);
-    let filepath = dir == '' ? config.dev.filesdir + '/' + name : config.dev.filesdir + '/' + dir + '/' + name;
 
-    if (ext == '.webtex') {
+    let filepath = Utils.CatDirs(config.dev.filesdir, dir) + '/' + name;
+
+    if(config.dev.mainexts.includes(ext)) // It's a main file!
+    {
         let content = fm(fs.readFileSync(filepath, 'utf8'));
-        let data = WebtexParser.Parse(content.body);
-
-        let metadata = content.attributes;
-        metadata.url = Utils.GetPageURL(dir);
-
-        fs.writeFileSync(outpath + '/index.html', templates.buildHTML(data, metadata, sidebar));
-        
-        Sitemap.AddURL(Utils.GetPageURL(dir)); //Helps building the sitemap
+        ParseMainFile(ext, content, Utils.GetPageURL(dir), outpath);
     }
-    else if (ext == '.html') {
-        var content = fm(fs.readFileSync(filepath, 'utf8'));
-
-        let metadata = content.attributes;
-        metadata.url = Utils.GetPageURL(dir);
-
-        fs.writeFileSync(outpath + '/index.html', templates.buildHTML(content.body, metadata, sidebar));
-        
-        Sitemap.AddURL(Utils.GetPageURL(dir)); //Helps building the sitemap
-    }
-    else if (ext == '.js' || ext == '.png' || ext == '.jpg') {
+    else if (ext == '.js' || ext == '.png' || ext == '.jpg') { // Copy the file to the folder
         fs.copyFileSync(filepath, outpath + '/' + name);
     }
-    else {
+    else { // If unknown, do nothing to it!
         console.log("File not handled: " + filepath);
     }
+}
+
+function ParseMainFile(type, content, url, outpath)
+{    
+    let data = content.body;
+    if(type == ".webtex")
+    {
+        data = WebtexParser.Parse(data);
+    }
+
+    let metadata = content.attributes;
+    metadata.url = url;
+
+    PagesBuilder.BuildPage(outpath, data, metadata, sidebar);
 }

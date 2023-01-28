@@ -1,4 +1,4 @@
-module.exports = {GetMetadata, GetDefaultMetadata};
+module.exports = {GetMetadata, GetDefaultField};
 const fm = require("front-matter");
 const fs = require("fs");
 
@@ -12,10 +12,12 @@ const Utils = require("./Utils");
 let default_metadata = 
 {
 title: "ThunderSmotch",
-sidebar: false,
+description: "ThunderSmotch - Maths/Physics/Programming",
+sidebar: false, // Should a sidebar be generated at this point
 hidden: false,
-navbar: true, // FIXME check this
+navbar: true, // If navbar should be drawn
 tags: [],     // FIXME check this
+url: config.dev.url
 };
 
 //Check inside this directory for a file with metadata and return the metadata
@@ -34,7 +36,7 @@ function GetMetadata(dir)
     return metadata;
 }
 
-function GetDefaultMetadata()
+function GetDefaultField(field)
 {
-    return default_metadata;
+    return default_metadata[field];
 }

@@ -1,13 +1,12 @@
-const fm = require("front-matter");
 const fs = require("fs");
-const path = require("path");
 
 const config = require("./config");
-const templates = require("./templates");
 
+const TemplatesVars = require("./TemplatesVars");
 const Sitemap = require("./SitemapBuilder");
 const PageTree = require("./PageTree");
 const FileParser = require("./FileParser");
+const PagesBuilder = require("./PagesBuilder");
 const Utils = require("./Utils");
 
 //////////////// T O D O S ////////////////
@@ -22,7 +21,7 @@ const Utils = require("./Utils");
 
 //MAYBE make a subject page with navigation towards the several topics
 
-//////////////////////Building the Website//////////////////////////////
+//////////////////////Building the Website//////////////////
 Utils.MakeDirectory(config.dev.outdir);
 
 // Move files that do not need parsing
@@ -32,13 +31,14 @@ Utils.MoveFolderToOutput('style');
 //Gets the page tree for the website
 let pageTree = PageTree.GetPageTree();
 
-// Building templates
-templates.buildNavbar(pageTree);
-templates.buildProblemsList(pageTree);
+// Building templates variables
+TemplatesVars.BuildNavbar(pageTree);
+TemplatesVars.BuildProblemsList(pageTree);
 
 // Adding pages
 Sitemap.Start();
 //Build 404 page
-fs.writeFileSync(config.dev.outdir + '/404.html', templates.build404HTML());
+PagesBuilder.Build404Page();
 FileParser.ParseDirectory(pageTree, '');
 Sitemap.End();
+///////////////////// SITE BUILT /////////////////////

@@ -4,6 +4,7 @@ const { config } = require("process");
 
 const {RemoveOrderingPrefix, SplitStringUppercase} = require("./Utils");
 
+
 //Navbar HTML to be set during build
 let navbarHTML = '';
 
@@ -23,7 +24,7 @@ let commentSection = `
 <script async type="text/javascript" src="//talk.hyvor.com/web-api/embed"></script>
 `;
 
-//Builds any page by inserting the head and the content
+//Builds any page by inserting the head and the content DONE
 function buildHTML(content, metadata, sidebar=''){
     
     if(metadata.type == 'post'){
@@ -40,13 +41,13 @@ function buildHTML(content, metadata, sidebar=''){
     }
 }
 
-//Builds the 404 page
+//Builds the 404 page DONE
 function build404HTML(){
 
     var content = `
     <h1>This page could not be found!</h1>
     </br>
-    <span>For problems or suggestions please enter in contact with thundersmotch@gmail.com.</span><br>
+    <span>For problems or suggestions please send an email to <b>thundersmotch <i>at</i> gmail <i>dot</i> com</b>.</span><br><br>
     <span>Maybe this page was moved elsewhere. Check the navigation bar above to see if you can still find it!</span>
     `;
 
@@ -90,7 +91,7 @@ function buildSidebar(pages, urlpath){
     return sidebar;
 }
 
-//Builds the HTML for the navbar from the pageTree and sets it to the global constant
+//Builds the HTML for the navbar from the pageTree and sets it to the global constant DONE
 //MAYBE see what's up with the fa caret thing & refactor this function
 function buildNavbar(pageTree){
 
@@ -134,6 +135,7 @@ function buildNavbar(pageTree){
     navbarHTML = html;
 }
 
+//DONE
 //Builds the problems list from the page tree.
 //TEMP maybe
 //TODO refactor tags
@@ -155,7 +157,7 @@ function buildProblemsList(pageTree){
     }
 }
 
-//Returns HTML for a given topic inside a subject
+//Returns HTML for a given topic inside a subject DONE
 function getSubpageButtons(pages, dir){
 
     var html = '';
@@ -170,7 +172,7 @@ function getSubpageButtons(pages, dir){
     return html;
 }
 
-//Returns the HTML for the head html tag
+//Returns the HTML for the head html tag DONE
 function getHead(title = 'Home', description = 'ThunderSmotch - Maths/Physics/Programming', url="https://thundersmotch.com/"){
     title = title + ' | ThunderSmotch';
 
@@ -210,14 +212,14 @@ function getHead(title = 'Home', description = 'ThunderSmotch - Maths/Physics/Pr
     `;
 }
 
-//Returns the footer HTML
+//Returns the footer HTML DONE
 function getFooter(){
     return `
 <p>Made by <a href="https://github.com/ThunderSmotch">ThunderSmotch</a> | 2023 |</p>
 `;
 }
 
-//Default page template
+//Default page template DONE
 function defaultPageTemplate(content, metadata){
      //Return HTML
      return `
@@ -244,7 +246,7 @@ function defaultPageTemplate(content, metadata){
      `
 }
 
-//Post template
+//Post template DONE
 function postPageTemplate(content, metadata, sidebar){
      //Handle sidebar
      let noSidebar = '';
@@ -308,7 +310,7 @@ function postPageTemplate(content, metadata, sidebar){
      `;
 }
 
-//Problem template
+//Problem template DONE
 function problemPageTemplate(content, metadata){
 
     let source = '';
@@ -352,7 +354,7 @@ function problemPageTemplate(content, metadata){
     `
 }
 
-//Problems list template
+//Problems list template DONE
 function problemsListPageTemplate(content, metadata){
     //Return HTML
     return `

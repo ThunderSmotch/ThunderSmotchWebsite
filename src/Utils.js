@@ -8,7 +8,8 @@ module.exports = {RemoveOrderingPrefix,
     GetAllFilesRecursively,
     MoveFolderFromTo,
     MoveFolderToOutput,
-    GetPageURL}
+    GetPageURL,
+    GetFileData}
 
 const fs = require("fs");
 const path = require("path");
@@ -140,4 +141,12 @@ function MoveFolderFromTo(input, output) {
                 throw err;
         });
     });
+}
+
+
+function GetFileData(fpath)
+{
+    ok(fs.existsSync(fpath), "File at" + fpath + " does not exist!");
+    let buffer = fs.readFileSync(fpath, {encoding: 'utf-8'});
+    return buffer;
 }
