@@ -1,11 +1,10 @@
 ---
 title: Posts
-description: "Random posts!"
-date: 22/07/2020
+description: "A collection of random posts!"
+created: 22/07/2020
+modified: 22/07/2020
 type: post
 sidebar: true
 ---
-\chapter{Other}
-
 This is a collection of random posts without much global structure between them.
 Use the sidebar on the left to see the posts.

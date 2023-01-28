@@ -1,13 +1,11 @@
 ---
 title: Binomial Distribution
 description: How to derive the binomial distribution just by thinking a bit on what we want to calculate.
-date: 24/07/2020
+created: 24/07/2020
+modified: 24/07/2020
 type: post
 ---
-
 %TODO swap the pictures with interactive simulations using D3
-
-\chapter{Binomial Distribution}
 
 \section{Problem Definition}
 

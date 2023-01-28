@@ -1,11 +1,10 @@
 ---
 title: Basics of Quantum Information
 description: Some basic information on Quantum Information.
-date: 22/03/2021
+created: 22/03/2021
+modified: 22/03/2021
 type: post
 ---
-\chapter{Basics of Quantum Information}
-
 \section{Mixed states}
 
 \subsection{Density Matrix}

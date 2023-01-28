@@ -1,12 +1,11 @@
 ---
-title: Nature of Quantum Systems
+title: The Nature of Quantum Systems
 description: Some preliminaries on Condensed Matter and Quantum Systems.
-date: 16/03/2021
+created: 16/03/2021
+modified: 16/03/2021
 type: post
 hidden: false
 ---
-\chapter{The Nature of Quantum Systems}
-
 \section{Locality}
 
 The physical systems that will be covered on these notes are made of a collection of local degrees of freedom coupled to each other. In particular, we are interested in studying systems that are a collection of some number of local systems, for example, some number of qubits arranged in a grid.

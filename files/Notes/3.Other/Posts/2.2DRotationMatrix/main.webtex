@@ -1,13 +1,10 @@
 ---
 title: How you could have discovered 2D rotation matrices
-description: A discovery fiction post about planar rotations
-date: 23/01/2023
-hidden: false
+description: A discovery fiction post about planar rotations.
+created: 23/01/2023
+modified: 23/01/2023
 type: post
 ---
-
-\section{How you could have discovered 2D rotation matrices}
-
 \subsection{Introduction}
 
 Recently I was on Twitter and found a discussion by \href{https://twitter.com/michael_nielsen/status/1132063254849527808}{Michael Nielsen} on what he calls \textbf{discovery fiction}. \textbf{Discovery fiction} is an informal writing of how one could stumble upon some concept on their own, starting from \textit{first principles}.
