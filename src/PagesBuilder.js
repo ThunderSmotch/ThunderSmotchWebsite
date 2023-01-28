@@ -4,7 +4,7 @@ const fs = require("fs");
 
 const config = require("./config");
 const TemplatesParser = require("./TemplatesParser");
-const Sitemap = require("./SitemapBuilder");
+const Sitemap = require("./Sitemap");
 const Utils = require("./Utils");
 const { ok } = require("assert");
 

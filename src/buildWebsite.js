@@ -3,7 +3,7 @@ const fs = require("fs");
 const config = require("./config");
 
 const TemplatesVars = require("./TemplatesVars");
-const Sitemap = require("./SitemapBuilder");
+const Sitemap = require("./Sitemap");
 const PageTree = require("./PageTree");
 const FileParser = require("./FileParser");
 const PagesBuilder = require("./PagesBuilder");

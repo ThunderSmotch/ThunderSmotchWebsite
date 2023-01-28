@@ -1,4 +1,4 @@
-module.exports = {Start, End, AddURL}
+module.exports = {Start, End, AddURL};
 
 const { ok } = require("assert");
 const fs = require("fs");
