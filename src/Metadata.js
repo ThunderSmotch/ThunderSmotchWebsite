@@ -17,7 +17,9 @@ sidebar: false, // Should a sidebar be generated at this point
 hidden: false,
 navbar: true, // If navbar should be drawn
 tags: [],     // FIXME check this
-url: config.dev.url
+url: config.dev.url,
+created:  Utils.GetCurrentDayMonthYear(),
+modified: Utils.GetCurrentDayMonthYear(),
 };
 
 //Check inside this directory for a file with metadata and return the metadata

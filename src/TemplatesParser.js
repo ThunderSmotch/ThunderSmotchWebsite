@@ -11,14 +11,14 @@ function Parse(template_name, body="", metadata={}, sidebar="") {
     let data = Utils.GetFileData(Utils.CatDirs(config.dev.templatesdir, template_name));
 
     // Include other template files
-    let reg = new RegExp("(?:<%\\+)+?\\s+(.*)\\s+(?:%>)+?", 'g');
+    let reg = new RegExp("(?:<%\\+)+?\\s+(.*?)\\s+(?:%>)+?", 'g');
     data = data.replace(reg, 
     function(match, p1){
-        return Parse(p1);
+        return Parse(p1, body, metadata, sidebar);
     });
 
     // Include variables
-    let reg2 = new RegExp("(?:<%v)+?\\s+(.*)\\s+(?:%>)+?", 'g');
+    let reg2 = new RegExp("(?:<%v)+?\\s+(.*?)\\s+(?:%>)+?", 'g');
     data = data.replace(reg2, 
     (match, p1) => {
         if(p1 == "body" && body) return body;
@@ -27,7 +27,7 @@ function Parse(template_name, body="", metadata={}, sidebar="") {
     })
 
     // Include metadata
-    let reg3 = new RegExp("(?:<%m)+?\\s+(.*)\\s+(?:%>)+?", 'g');
+    let reg3 = new RegExp("(?:<%m)+?\\s+(.*?)\\s+(?:%>)+?", 'g');
     data = data.replace(reg3, 
     (match, p1) => {
         if(p1 in metadata)

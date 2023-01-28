@@ -6,11 +6,9 @@ let noSidebar = '';
 if(sidebar == '')
     noSidebar = 'nosidebar';
 -->
-
-<div class="navbar"><%v navbarHTML %></div>
-<div id="main">
 <div id="sidebar"><%v sidebar %></div>
 <div class="content ${noSidebar}">
+    <%+ page_header.html %>
     <%v body %>
 <br>
 <div class="nav_links">
@@ -42,8 +40,9 @@ if(sidebar_n == null){
 </script>
 </div>
 <br>
+<br>
+<hr>
 <%+ comments.html %>
-</div>
 </div>
 
 <%+ footer.html %>
