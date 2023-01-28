@@ -16,7 +16,7 @@ body{
 
 .metadata{
   padding-top: 10px;
-  font-style: italic;
+  font-family: monospace;
   font-size: medium;
 }
 
