@@ -4,6 +4,7 @@ const fs = require("fs");
 
 const config = require("./config");
 const Utils = require("./Utils");
+const StringUtils = require("./StringUtils");
 
 let default_metadata = 
 {
@@ -17,8 +18,8 @@ hidden: false,
 navbar: true, // If navbar should be drawn
 tags: [],     
 url: config.dev.url,
-created:  Utils.GetCurrentDayMonthYear(),
-modified: Utils.GetCurrentDayMonthYear(),
+created:  StringUtils.GetCurrentDayMonthYear(),
+modified: StringUtils.GetCurrentDayMonthYear(),
 };
 
 //Check inside this directory for a file with metadata and return the metadata

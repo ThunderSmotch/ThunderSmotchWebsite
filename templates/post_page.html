@@ -7,6 +7,13 @@ if(sidebar == '')
     noSidebar = 'nosidebar';
 -->
 <div id="sidebar"><%v sidebar %></div>
+
+<%if table_of_contents %>
+<div id="TOC">
+    <%v table_of_contents %>
+</div>
+<%endif%>
+
 <div class="content ${noSidebar}">
     <%+ page_header.html %>
     <%v body %>

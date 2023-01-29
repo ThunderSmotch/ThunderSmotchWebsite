@@ -7,14 +7,21 @@ const Metadata = require("./Metadata");
 
 const {GetVar} = require("./TemplatesVars");
 
-function Parse(template_name, body="", metadata={}, sidebar="") {
+function Parse(template_name, body="", metadata={}) {
     let data = Utils.GetFileData(Utils.CatDirs(config.dev.templatesdir, template_name));
+
+    // Check for conditions
+    data = data.replace(/(?:<%if)+?\s+(.*?)\s+(?:%>)+?(.*?)(?:<%endif%>)/gs,
+        (match, condition, body) => {
+            if(GetVar(condition)) return body;
+            return "";
+        });
 
     // Include other template files
     let reg = new RegExp("(?:<%\\+)+?\\s+(.*?)\\s+(?:%>)+?", 'g');
     data = data.replace(reg, 
     function(match, p1){
-        return Parse(p1, body, metadata, sidebar);
+        return Parse(p1, body, metadata);
     });
 
     // Include variables
@@ -22,7 +29,6 @@ function Parse(template_name, body="", metadata={}, sidebar="") {
     data = data.replace(reg2, 
     (match, p1) => {
         if(p1 == "body" && body) return body;
-        if(p1 == "sidebar" && sidebar) return sidebar;
         return GetVar(p1);
     })
 

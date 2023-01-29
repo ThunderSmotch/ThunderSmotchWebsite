@@ -19,7 +19,7 @@ Utils.MoveFolderToOutput('style');
 //Gets the page tree for the website
 let pageTree = PageTree.GetPageTree();
 
-// Building templates variables
+// Building global templates variables
 TemplatesVars.BuildNavbar(pageTree);
 TemplatesVars.BuildProblemsList(pageTree);
 

@@ -8,16 +8,15 @@ const config = require("./config");
 const Utils = require("./Utils");
 const PagesBuilder = require("./PagesBuilder");
 const WebtexParser = require("./WebtexParser");
-
-let sidebar = '';
+const TemplatesVars = require("./TemplatesVars");
 
 function ParseDirectory(pageTree, dir=''){
     //Make same directory on output dir
     Utils.MakeDirectory(Utils.CatDirs(config.dev.outdir, Utils.RemoveOrderingPrefix(dir)));
     
-    // Build sidebar for childs
+    // Build sidebar if sidebar metadata is true
     if(pageTree.metadata.sidebar == true){
-        sidebar = PagesBuilder.BuildSidebar(pageTree.pages, Utils.RemoveOrderingPrefix(dir));
+        TemplatesVars.BuildSidebar(pageTree.pages, Utils.RemoveOrderingPrefix(dir));
     }
 
     //Convert files
@@ -26,7 +25,7 @@ function ParseDirectory(pageTree, dir=''){
     // Recurse into subdirectories
     for(let page in pageTree.pages){
         let new_dir = Utils.CatDirs(dir, page);
-        ParseDirectory(pageTree.pages[page], new_dir, sidebar);
+        ParseDirectory(pageTree.pages[page], new_dir);
     }
 }
 
@@ -72,5 +71,5 @@ function ParseMainFile(type, content, url, outpath)
     let metadata = content.attributes;
     metadata.url = url;
 
-    PagesBuilder.BuildPage(outpath, data, metadata, sidebar);
+    PagesBuilder.BuildPage(outpath, data, metadata);
 }

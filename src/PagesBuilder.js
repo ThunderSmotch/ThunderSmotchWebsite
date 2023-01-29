@@ -1,21 +1,24 @@
-module.exports = {Build404Page, BuildPage, BuildSidebar}
+module.exports = {Build404Page, BuildPage}
 
 const fs = require("fs");
 
 const config = require("./config");
 const TemplatesParser = require("./TemplatesParser");
+const TemplatesVars = require("./TemplatesVars");
 const Sitemap = require("./Sitemap");
 const Utils = require("./Utils");
 const { ok } = require("assert");
 
-function BuildPage(outpath, body, metadata, sidebar='')
+function BuildPage(outpath, body, metadata)
 {
     let data = "";
+
+    body = TemplatesVars.BuildVarsAndUpdateBody(body, metadata);
 
     switch(metadata.type)
     {
         case "post":
-            data = BuildPostPage(body, metadata, sidebar);
+            data = BuildPostPage(body, metadata);
             break;
         case "problems":
             data = BuildProblemsListPage(body, metadata);
@@ -42,9 +45,9 @@ function BuildDefaultPage(body, metadata)
     return TemplatesParser.Parse("default_page.html", body, metadata);
 }
 
-function BuildPostPage(body, metadata, sidebar)
+function BuildPostPage(body, metadata)
 {
-    return TemplatesParser.Parse("post_page.html", body, metadata, sidebar);
+    return TemplatesParser.Parse("post_page.html", body, metadata);
 }
 
 function BuildProblemPage(body, metadata)
@@ -64,36 +67,4 @@ function Build404Page()
         description: "Page was not found!", 
         url: config.dev.url + "404.html"});    
     fs.writeFileSync(config.dev.outdir + '/404.html', data);
-}
-
-//Builds sidebar from a list of subpages
-// TODO Cleanup this function
-function BuildSidebar(pages, urlpath){
-    let listitems = '';
-    let item_id = 0;
-
-    listitems +=  `<a n="${item_id}" href="/${urlpath}/">Index</a></br>`;
-
-    for(let page in pages){
-        
-        //If page is hidden skip this iteration
-        if(pages[page].metadata.hasOwnProperty('hidden')){
-            if(pages[page].metadata.hidden)
-                continue;
-        }
-
-        let pageURL = Utils.RemoveOrderingPrefix(page);
-        let pageName = pages[page].metadata.title;
-    
-        item_id++;
-        listitems += `<a n="${item_id}" href="/${urlpath}/${pageURL}/">${pageName}</a></br>`
-    }
-
-    let sidebar = `
-    <div class='sidebar'>
-    <div class='sidebarTitle'>Navigation</div>
-    ${listitems}
-    </div>`;
-
-    return sidebar;
 }
