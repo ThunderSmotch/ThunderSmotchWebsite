@@ -13,9 +13,9 @@ title: "ThunderSmotch",
 description: "ThunderSmotch - Maths/Physics/Programming",
 
 // Optional fields
-sidebar: false, // Should a sidebar be generated at this point
+sidebar: false, // FIXME Should a sidebar be generated at this point (this should be refactored better)
 hidden: false,
-navbar: true, // If navbar should be drawn
+navbar: true, // FIXME If navbar should be drawn WRONG This actually means if the page should be used in the navbar generation (see TemplateVars BuildNavbar)
 tags: [],     
 url: config.dev.url,
 created:  StringUtils.GetCurrentDayMonthYear(),
