@@ -1,0 +1,41 @@
+---
+title: Workhour Calculator
+description: "A simple workhours calculator."
+date: 22/06/2023
+hidden: true
+---
+<h1>Workhours Calculator</h1></br>
+    <div style="text-align: right; padding-right: 50%;">
+    <span>Duration: 
+    </span><input type="number" id="duration_hours" name="duration_hours" value="7" style="width: 3em; text-align:center"></input> hours
+    <input type="number" id="duration_minutes" name="duration_minutes" value="30"  style="width: 3em; text-align:center"></input> minutes
+    <br>
+    <span>Entry: </span><input type="time" id="entry" name="entry" min="08:00" max="10:30" value="09:00" required></input><br>
+    <span>Lunch Break Entry: </span><input type="time" id="lunch_entry" name="lunch_entry" value="12:30" required></input><br>
+    <span>Lunch Break Exit: </span><input type="time" id="lunch_exit" name="lunch_exit" value="13:30" required></input><br>
+
+    <span>Exit: </span><input type="time" id="exit" name="exit" value="17:30" disabled></input><br>
+    </div>
+<script>
+
+    function updateExitTime(){
+        let duration_hours = document.getElementById("duration_hours").valueAsNumber;
+        let duration_minutes = document.getElementById("duration_minutes").valueAsNumber;
+        let entry = document.getElementById("entry").valueAsNumber;
+        let lunch_entry = document.getElementById("lunch_entry").valueAsNumber;
+        let lunch_exit = document.getElementById("lunch_exit").valueAsNumber;
+
+        let exit = entry + lunch_exit - lunch_entry + duration_hours*3600*1000 + duration_minutes*60*1000;
+        let exit_hours = Math.floor(exit / (3600*1000));
+        let exit_minutes = Math.ceil(exit % (3600*1000))/(60*1000);
+
+        document.getElementById("exit").value = exit_hours + ":" + exit_minutes;
+    }
+
+    document.getElementById("entry").onchange = updateExitTime;
+    document.getElementById("lunch_entry").onchange = updateExitTime;
+    document.getElementById("lunch_exit").onchange = updateExitTime;
+    document.getElementById("duration_hours").onchange = updateExitTime;
+    document.getElementById("duration_minutes").onchange = updateExitTime;
+</script>
+

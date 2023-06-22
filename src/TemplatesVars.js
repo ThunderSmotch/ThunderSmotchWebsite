@@ -32,10 +32,15 @@ function BuildNavbar(pageTree){
         let url = '/' + RemoveOrderingPrefix(dir);
         
         let title = SplitStringUppercase(RemoveOrderingPrefix(page));
+        let metadata = pageTree.pages[page].metadata;
+
+        if(metadata.hasOwnProperty('hidden') && metadata.hidden){
+            continue; // If page is hidden don't show it on navbar
+        }
 
         let nav = true;
-        if(pageTree.pages[page].metadata.hasOwnProperty('navbar'))
-            nav = pageTree.pages[page].metadata.navbar;
+        if(metadata.hasOwnProperty('navbar'))
+            nav = metadata.navbar;
 
         //If it's the last page then make a <a> link
         if( Object.keys(pageTree.pages[page].pages).length === 0 || !nav){
