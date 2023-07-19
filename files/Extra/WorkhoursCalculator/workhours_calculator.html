@@ -26,8 +26,17 @@ hidden: true
         let lunch_exit = document.getElementById("lunch_exit").valueAsNumber;
 
         let exit = entry + lunch_exit - lunch_entry + duration_hours*3600*1000 + duration_minutes*60*1000;
+
         let exit_hours = Math.floor(exit / (3600*1000));
         let exit_minutes = Math.ceil(exit % (3600*1000))/(60*1000);
+
+        if(exit_hours < 10){
+            exit_hours = "0" + exit_hours;
+        }
+
+        if(exit_minutes < 10){
+            exit_minutes = "0" + exit_minutes;
+        }
 
         document.getElementById("exit").value = exit_hours + ":" + exit_minutes;
     }
