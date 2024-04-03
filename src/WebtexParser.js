@@ -10,10 +10,10 @@ function Parse(data){
     data = replaceSections(data);
     data = replaceMathEnvironments(data)
     data = replaceLists(data);
-    data = replaceTodos(data);
     data = replaceParagraphs(data);
     data = replaceStyling(data);
     data = replaceFootnotes(data);
+    data = replaceTodos(data);
     data = replaceScripts(data);
     data = replaceGeogebra(data);
     
