@@ -57,7 +57,7 @@ function replaceItem(text){
 
 //Replaces todos with a red div
 function replaceTodos(data){
-    let reg = /\\todo{(.+)}/g;
+    let reg = /\\TODO{(.+)}/g;
 
     data = data.replace(reg, 
         function(match, p1){
@@ -67,19 +67,18 @@ function replaceTodos(data){
 }
 
 //Replace footnotes by anchors with the content of them shown on the bottom of the page.
-//BUG only works for one line footnotes adding s flag helps but then breaks because of unbalanced parentheses.
 function replaceFootnotes(data){
-    let reg = /\\footnote{(.+)}/g;
+    let reg = /\\footnote{(.+)}(.*?)$/gms;
 
     let counter = 0; //Number of footnotes
     let footnotes = `<br><hr><b>Footnotes:</b><br>`;
 
     data = data.replace(reg, 
-        function(match, p1){
+        function(match, p1, p2){
             counter++;
             footnote = `<a id="Reference${counter}" href="#Footnote${counter}">[${counter}]</a> - ${p1} <br>`
             footnotes = footnotes.concat(footnote);
-            return `<a id="Footnote${counter}" href="#Reference${counter}">[${counter}]</a>`;
+            return `<a id="Footnote${counter}" href="#Reference${counter}">[${counter}]</a>${p2}`;
     });
 
     //If there are footnotes
