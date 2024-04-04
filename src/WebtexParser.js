@@ -114,7 +114,7 @@ function replaceFootnotes(data){
             let footnote = `<a id="Reference${counter}" href="#Footnote${counter}">[${counter}]</a> - ${footnote_text} <br>`;
             footnotes = footnotes.concat(footnote);
 
-            data += `<a id="Footnote${counter}" href="#Reference${counter}">[${counter}]</a>${next_text}`
+            data += `<sup><a id="Footnote${counter}" href="#Reference${counter}">[${counter}]</a></sup>${next_text}`
         }
     }
     if(counter){ data = data.concat(footnotes); } 
