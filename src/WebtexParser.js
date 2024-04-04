@@ -68,22 +68,56 @@ function replaceTodos(data){
 
 //Replace footnotes by anchors with the content of them shown on the bottom of the page.
 function replaceFootnotes(data){
-    let reg = /\\footnote{(.+)}(.*?)$/gms;
-
     let counter = 0; //Number of footnotes
     let footnotes = `<br><hr><b>Footnotes:</b><br>`;
 
-    data = data.replace(reg, 
-        function(match, p1, p2){
+    let strings = data.split("\\footnote{");
+    if (strings.length > 1)
+    {
+        data = strings[0];
+
+        for (let i = 1; i < strings.length; i++) 
+        {
             counter++;
-            footnote = `<a id="Reference${counter}" href="#Footnote${counter}">[${counter}]</a> - ${p1} <br>`
+            const text = strings[i];
+            let paranthesis_count = 1; // The initial '{' is eaten by the split
+            
+            // Find closing '}'
+            let closing_index = -1;
+            let prev_char = 0;
+            for (let c = 0; c < text.length; c++) {
+                const char = text[c];
+                if (char == '{' && prev_char != "\\")
+                {
+                    paranthesis_count++;
+                }
+                else if(char == '}' && prev_char != "\\")
+                {
+                    paranthesis_count--;
+                    if(paranthesis_count == 0) // Found it
+                    {
+                        closing_index = c;
+                        break; 
+                    }
+                }
+                prev_char = char;
+            }
+
+            if (closing_index == -1)
+            {
+                throw SyntaxError("No closing parenthesis found!"); // TODO Better debug messages, referencing file and line
+            }
+
+            let footnote_text = text.substring(0, closing_index);
+            let next_text = text.substring(closing_index + 1);
+            
+            let footnote = `<a id="Reference${counter}" href="#Footnote${counter}">[${counter}]</a> - ${footnote_text} <br>`;
             footnotes = footnotes.concat(footnote);
-            return `<a id="Footnote${counter}" href="#Reference${counter}">[${counter}]</a>${p2}`;
-    });
 
-    //If there are footnotes
+            data += `<a id="Footnote${counter}" href="#Reference${counter}">[${counter}]</a>${next_text}`
+        }
+    }
     if(counter){ data = data.concat(footnotes); } 
-
     return data;
 }
 
