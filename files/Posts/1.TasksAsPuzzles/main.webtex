@@ -2,70 +2,99 @@
 title: Doing hard tasks is like solving hard puzzles
 description: An essay on the similarities of puzzle solving versus completing difficult tasks.
 created: 25/03/2024
-modified: 25/03/2024
+modified: 04/04/2024
 type: post
 hidden: true
 ---
 
-Think about the huge amount of work in front of you. The road ahead is anything but paved! The task of solving the puzzle seems gigantic! \textit{What to do?}
-Firstly, we must focus on the information given to us, on the \textbf{Initial State} of the puzzle.
+Recently, I have been thinking a lot on how my approach to solve hard tasks compares to my approach to solve difficult logic puzzles\footnote{According to the \href{https://dictionary.cambridge.org/dictionary/english/puzzle}{Cambridge dictionary}, \textit{a puzzle is a situation that is difficult to understand or a problem or question that you have to answer by using your skill or knowledge}. Well, this pretty much also describes an hard task right? QED, you can stop reading!}. Both actions have a lot of things in common with each other. For example, both seem daunting at first sight, and yet, despite all of this, if you are anything like me you are more inclined to do one versus the other...
+
+Before further unraveling this thread, a \textit{disclaimer}. This text represents my perspective on both the world and my psyche. There are no guarantees that you share the same experience as me or that the few tips provided here will help you in your tasks or puzzle solving affairs. Nevertheless, I decided to share it in the offchance that it may entertain or even help someone.
+
+\subsection{Introduction}
+
+For someone who rarely solves puzzles and never deals with non routine tasks, the prospect of having to do so might be paralyzing. Any preexisting motivation quickly fades away when faced with the road ahead. After all, \textit{the road isn't even paved}, and we have to pave it ourselves to reach our destination.
+
+To do so, I find it helpful to divide the process of solving a puzzle into \textit{three different phases}:
+\begin{itemize}
+    \item The \textbf{Initial State}, where we think carefully about the given initial data;
+    \item The \textbf{End State}, where we think carefully about the end goal;
+    \item The \textbf{The Middle}, where the \textit{magic} happens.
+\end{itemize}
+
+The ordering might seem strange at first sight, with the \textbf{End State} coming before \textbf{The Middle}. The reason for this is that we often think about the solution even before we try to actually solve the puzzle. This is not problematic, in fact this thought process can be quite informative and even influence our first steps towards a solution! Let us analyze carefully each one of these phases from the point of view of solving a Sudoku puzzle. Afterwards, I will present an examination of the different phases when solving an hard\footnote{The notion of difficulty is subjective and heavily depends on the individual experiences of every one of us. The choice of this particular mathematical problem is not important. What matters is that the presented approach is present in the process of solving the problem.} mathematical problem.
+% TODO Write more here in regards to advice
 
 \subsection{Initial State}
 
-There are two kinds of information that can be given to us, \textbf{Clues} and \textbf{Constraints}:
+Firstly, we must focus on the information given to us, on the \textbf{Initial State} of the puzzle. There are two kinds of initial information, \textbf{Clues} and \textbf{Constraints}:
 \begin{itemize}
     \item \textbf{Clues} are guaranteed freebies. They are information that we know for a fact is true and that can only ever be contested if fundamentally the puzzle was wrong.
     \item \textbf{Constraints} (or rules) is information that constrains what we can do. This information needs to be acted upon, it does not translate directly to squares that we can fill.
 \end{itemize}
+Sometimes, there are \textbf{implied constraints} that a given type of puzzle will always have. For example, in a Sudoku puzzle, we almost always deal with the usual constraints of putting the numbers 1 to 9 once in each line, column and box. However, some puzzles may challenge these preconceived constraints, so \textbf{one must always read the rules carefully}.
 
-Sometimes there are \textbf{implied constraints} that a given type of puzzle will always have. For example, in a Sudoku puzzle, we almost always deal with the usual constraints of putting the numbers 1 to 9 once in each line, column and box. However, some puzzles may challenge these preconceived constraints, so \textit{one must always read the rules carefully}.
-
-The difficulty of the puzzle is negatively correlated to the number of \textbf{clues} and \textbf{constraints} given to you.
+Often, the difficulty of the puzzle is negatively correlated to the number of \textbf{clues} and \textbf{constraints} given to you:
 \begin{itemize}
-    \item \textbf{Easy puzzles} give you \textbf{lots of clues} and a \textbf{few constraints}. Thinking a bit on how these interact with the given clues quickly leads to a solution. If you have some experience on solving this type of puzzle, this may be *routine work* for you as you already know how to quickly think about and apply the constraints to the puzzle.
-    \item \textbf{Medium puzzles} give you less clues but in turn you may get a few more constraints. Compared to the easy puzzles, here we may have to think a little bit more on the new constraints and how they interact with the usual constraints of easy puzzles and the given clues.
-    \textbf{Hard puzzles} give you few or no clues at all. The only way to solve these is to carefully think about the constraints. They often also have few constraints. \textit{Only one who has thoroughly explored the constraint space will solve the puzzle.}
+    \item \textbf{Easy puzzles} usually give you \textbf{lots of clues} and a \textbf{few constraints}. Thinking a bit on how these interact with the given clues quickly leads to a solution. If you have some experience on solving this type of puzzle, this may be \textit{routine work} for you as you already know how to quickly think about and apply the constraints to the puzzle.
+    \item \textbf{Medium puzzles} give you less clues but in turn you may get a few more constraints. Compared to the easy puzzles, here we may have to think a little bit more on the new constraints and how they interact with the usual constraints of easy puzzles.
+    \item \textbf{Hard puzzles} give you few or no clues at all. The only way to solve these is to carefully think about the constraints. They often also have few constraints\footnote{\textbf{Beautiful hard puzzles} usually have no clues and so few constraints that it seems like a miracle that a solution can even exist.}. \textbf{Only one who has thoroughly explored the constraint space will solve the puzzle.}
 \end{itemize}
 
-You may think that having more constraints makes the puzzle harder, but the truth is that it actually tends to make it easier. Even though we will need to think more on how each constraint interacts with the puzzle, the more constraints there are, the smaller the number of options we have for filling squares. This assumes of course, that we put in the effort of exploring the constraints. This is why clues are freebies and constraints are not. \textit{One needs to put effort in thinking about the given constraints.}
+You may think that having more constraints makes the puzzle harder, but the truth is that it actually tends to make it easier. Even though we will need to think more on how each constraint interacts with the puzzle, the more constraints there are, the smaller the number of options we have for filling squares. This assumes of course, that we put in the effort of exploring the constraints\footnote{This is why clues are freebies and constraints are not. Clues provide direct information of the solution whereas constraints provide indirect information that needs additional reasoning.}. \textbf{One needs to put effort in thinking about the given constraints.}
 
 Having reviewed carefully the \textbf{Initial State}, we now \textit{put the end in mind} and look at the \textbf{End State}.
 
 \subsection{End State}
-We haven't even filled a square, how can we think about the \textbf{End State}? A great deal of times, we do not even know what it is! It takes some \textit{fuzzy form} in our minds, it is some abstract shape of what we want it to be. Surely you have felt it too? That nebulous thought running through your mind, teasing you to make it clear. To make the end state a reality... Ah! This can be paralyzing. We see, in our minds, that nebulous thing, and it is so so obscure!
 
-\textit{Acknowledge it, and dismiss it!} That thing is not the \textbf{End State}! A real \textbf{End State} is easy to check! Given the clues and the constraints, we just check that everything checks out! \textit{Checkmate} \textit{cumulonimbus}! Sometimes we really need this \textit{reality check}, to remain aware that we cannot let that fuzzy form have a \textit{blank check} on our attention.
+Thinking about the \textbf{End State} can be difficult emotionally. It reminds us of the unpaved path ahead, of the all unfilled squares, of the incompleteness of our solution\footnote{The solution takes some \textit{fuzzy form} in our minds, it is some abstract shape of what we want it to be. Surely you have felt it too? That nebulous thought running through your mind, teasing you to make it clear. To make the end state a reality... Ah! This can be paralyzing... For others, this can actually be encouraging, as they are not intimidated by it.}. Paradoxically, thinking too much about the \textbf{End State} can actually give us enough dopamine that we no longer want to do the puzzle. This drains our will to do, robs us of our motivation.
 
-Now, to talk about the real \textbf{End State}. Some of our constraints may only work near the end of the solve. For example, if we were given the information that some large diagonal sums to 42, then this is something that we should keep in mind and, by using it as we solve the puzzle, confirms that we are in the right path and did not make any mistake.
+On the opposite end of the spectrum, failing to acknowledge the \textbf{End State} can often make us miss important details. In an easy puzzle, we may not be hindered by this and we find the solution following more or less a forward process. For hard puzzles, we need every tool in the box. And looking at the \textbf{End State} is an important tool. So important that even the Greeks wrote about it, \textbf{analysis}\footnote{\href{https://mathshistory.st-andrews.ac.uk/Extras/Pappus_analysis_synthesis/}{Pappus of Alexandria} defines \textbf{analysis} as the process of admitting a solution to be true and to try to derive previous steps from it.} they called it, although a more modern term would be \textbf{working backwards}. And so, following the Greeks, \textbf{one should analyse the End State.} What conditions will an \textbf{End State} satisfy? Can I derive previous steps? Does the solution infer some way forward? These are all questions worth pondering when looking at the \textbf{End State}.
 
-We should be careful that the \textbf{End State} may not be unique. Similarly, there may be different valid solve puzzles that reach the same \textbf{End State}. The only information we know is that the solution has to obey the rules of the game. This is because the rules are dogmas, they cannot be broken. Similarly, we know some part of the solution through the clues, but unfortunately most often than not this does not make the task of solving the puzzle any less daunting. So why talk about the \textbf{End State} at all? \textit{Because sometimes we may have one!}
+We should be careful that the \textbf{End State} may not be unique. Similarly, there may be different valid solutions to the puzzle that reach the same \textbf{End State}. The only information we know is that the solution has to obey the rules of the game. This is because the rules are dogmas, they cannot be broken. Despite this, we can often derive useful conclusions from looking at possible \textbf{End States}, even if at the end of the day they are not the true solution.
 
-Sometimes we actually only care about the \textbf{End State} and not the process that we take to reach it. This is less true for puzzles, where the time we take to solve them is a necessary part for us to later have the elation of having solved the puzzle. Still, for actual tasks, sometimes the end product is what matters. If that is the case, search for an \textbf{End State}, has someone already solved something similar? Take some time evaluating that other puzzle, most often than not you will gain valuable information and experience to apply to your case. Sometimes we can even find the actual \textbf{End State} of our puzzle at the back of the book or by having some algorithm solve it for us. Even if we want to solve the puzzle for ourselves, \textit{having a solution can be beneficial, if used carefully and thoughtfully.} Mindlessly copying the solution will not improve our skills and will yield no satisfaction. But we can use it when we get stuck. Use the solution as a means to get more clues and to check your assumptions, this makes the puzzle easier and does not completely rob us of our satisfaction. We even get more experience, as long as we are mindful of our use of the solution!
+After analysing the \textbf{End State}, we may have some strategies that we want to try and solve the puzzle with. Or we may be empty handed. Either way, we need to roll up our sleeves and to start paving the road to the \textbf{End State}. We need to work on \textbf{The Middle}.
 
-If the only goal was the end state and we managed to find it, bravo! Generally, we are not so lucky. We need to roll up our sleeves and to start paving the road to the \textbf{End State}. We need to work on \textbf{The Middle}.
+%\textit{Acknowledge it, and dismiss it!} That thing is not the \textbf{End State}! A real \textbf{End State} is easy to check! Given the clues and the constraints, we just check that everything checks out! \textit{Checkmate} \textit{cumulonimbus}! Sometimes we really need this \textit{reality check}, to remain aware that we cannot let that fuzzy form have a \textit{blank check} on our attention.
 
-\subsection{Middle State}
-How do you go from start to end? You play the game! If you're new at this, you may instantaneously enter a state of despair. "What do you mean \textit{play the game}?", "Where do I start?", you may ask yourself. And that is where \textbf{experience} comes into the picture.
+%Now, to talk about the real \textbf{End State}. Some of our constraints may only work near the end of the solve. For example, if we were given the information that some large diagonal sums to 42, then this is something that we should keep in mind and, by using it as we solve the puzzle, confirms that we are in the right path and did not make any mistake.
 
-An \textbf{experienced solver} may take a quick glance at a puzzle and instantly identify three or four interesting parts of the puzzle to attack. Yes attack, it's you versus the puzzle! The \textbf{experienced solver} not only has an arsenal of techniques to apply to the puzzle, he also has experience on using them and familiarity with most of the constraints. An \textbf{experienced solver} has solved so many puzzles that this one is just one more, the puzzle does not scare him. To a newbie, seeing the \textbf{experienced solver} solve the puzzle seems almost magical, the leaps he makes with such a seemingless effort. Ah...
+%Sometimes we actually only care about the \textbf{End State} and not the process that we take to reach it. This is less true for puzzles, where the time we take to solve them is a necessary part for us to later have the elation of having solved the puzzle. Still, for actual tasks, sometimes the end product is what matters. If that is the case, search for an \textbf{End State}, has someone already solved something similar? Take some time evaluating that other puzzle, most often than not you will gain valuable information and experience to apply to your case. Sometimes we can even find the actual \textbf{End State} of our puzzle at the back of the book or by having some algorithm solve it for us. Even if we want to solve the puzzle for ourselves, \textit{having a solution can be beneficial, if used carefully and thoughtfully.} Mindlessly copying the solution will not improve our skills and will yield no satisfaction. But we can use it when we get stuck. Use the solution as a means to get more clues and to check your assumptions, this makes the puzzle easier and does not completely rob us of our satisfaction. We even get more experience, as long as we are mindful of our use of the solution!
+
+\subsection{The Middle}
+
+How do you go from start to end? Obviously, you play the game! But if you're new at this, you may enter a state of despair. "What do you mean \textit{play the game}?", "Where do I start?", you may ask yourself. And that is where \textbf{experience} comes into the picture.
+
+An \textbf{experienced solver} may take a quick glance at a puzzle and instantly identify three or four interesting parts of the puzzle to attack. Yes, attack! \textbf{It's you versus the puzzle}! The \textbf{experienced solver} not only has an arsenal of techniques to apply to the puzzle, he also has experience on using them and familiarity with most of the constraints. An \textbf{experienced solver} has solved so many puzzles that this one is just one more, the puzzle does not scare him. To a newbie, seeing the \textbf{experienced solver} solve the puzzle seems almost magical, the leaps he makes with such a seemingless effort. Ah... Anyways, to solve hard puzzles, \textbf{we should aim to become an experienced solver}.
 
 You know how one becomes an \textbf{experienced solver}? \textit{By solving puzzles.} Easy, medium, hard, it does not matter, the experienced solver has solved them all! The leaps he makes now seem effortless, but behind them are countless hours exploring the constraints, trying and retrying assumptions, defying puzzles time and time again.
 There was a time where the \textbf{experienced solver} was a newbie. And surely there are puzzle types where the \textbf{experienced solver} is a newbie! No one can solve everything in this world. But the \textbf{experienced solver} is aware of that. He knows what being a newbie takes, the toll one has to pay to move forward.
-If you are a Newbie, the road ahead is not easy. You must be resilient! You should not be scared of trying even though you may fail. For if you do not try, you will forever be a Newbie.
+If you are a newbie, the road ahead is not easy. \textbf{You must be resilient!} You should not be scared of trying even though you may fail. For if you do not try, you will forever be a newbie.
 
-Here are some tips I have found helpful to keep in mind:
+Here are some actionable tips I have found helpful to keep in mind:
 \begin{itemize}
-    \item Do not despair. Even if you do not see any point of attack, start small. Take one of the constraints and see if you can use it in an area of the puzzle with a lot of clues. Didn't work? Take another constraint, take both at the same time! Keep trying!
-    \item Make sure you understand the constraints and what they imply! Make a few sanity checks or sketches of the constraint in action. This helps a lot in memorizing both the constraint and its implications. With time, you will start noticing patterns, these patterns become techniques in your arsenal. The next time you meet this constraint you already have some prior experience to help you. You no longer have to start from zero!
-    \item Even if you meet a new, never before seen constraint, you now have experience in being a newbie! Yes! By being a newbie several times, you start to get used to it. When meeting a new puzzle that has some similarities to others you are already experienced on, you no longer fret. You also become aware and learn to enjoy the process.
+    \item Do not despair. Even if you do not see any point of attack, start small. Take one of the constraints and see if you can use it in an area of the puzzle with a lot of clues. Didn't work? Take another constraint, take both at the same time! \textbf{Keep trying!}
+    \item Make sure you understand the constraints and what they imply! Make a few sanity checks or sketches of the constraint in action. This helps a lot in memorizing both the constraint and its implications. With time, you will start noticing patterns, these patterns become techniques in your arsenal. The next time you meet this constraint you already have some prior experience to help you. \textbf{You no longer have to start from zero!}
+    \item Even if you meet a new, never before seen constraint, you now have experience in being a newbie! Yes! By being a newbie several times, you start to get used to it. When meeting a new puzzle that has some similarities to others you are already experienced on, you no longer fret. \textbf{You become aware and learn to enjoy the process!}
 \end{itemize}
 
-It is only by iterating this process of trial and failure that you gain experience. \textbf{Fail now so that you will not fail in the future.}
+The advice in this section may be a little discouraging. Unfortunately, there is no \textit{magic trick} or \textit{shortcut} here\footnote{If there is, please contact me immediately!}. \textbf{The Middle} is the part where we actually do most of the work. The best advice really is \textbf{to do}. If, after some effort, one is still blocked, then maybe there is an easier puzzle with these constraints that we can solve\footnote{\href{https://en.wikipedia.org/wiki/George_P%C3%B3lya}{Pólya} is often attributed with saying, \textbf{“If you can't solve a problem, then there is an easier problem you can solve: find it.”} It is good advice.}.
+
+A friend of mine a couple of years ago said a phrase that really stuck with me. \begin{equation*}\text{Iterate, iterate, iterate.}\end{equation*} Only by constant iteration, pondering clues and constraints, may we solve the puzzle. 
+Only by constant iteration, one square at a time, will we solve the puzzle. 
+Only by constant iteration, a little bit at a time, can we improve ourselves, towards becoming an \textbf{experienced solver}. 
+
+It is only by iterating this process of trial and failure that we gain experience. \textbf{Fail now so that you will not fail in the future.}
+
+\subsection{An example from Mathematics}
+
+Let's see how these phases apply when solving a Mathematics problem.
+
+\TODO{Harmonic series example}
 
 \subsection{Conclusion}
 
-Good luck in your puzzle solving!
+\TODO{Summarize the results.}
 
-
-\subsection{Footnotes}
+Have any feedback? Feel free to comment below. \textbf{Good luck in your puzzle solving}!
 	
