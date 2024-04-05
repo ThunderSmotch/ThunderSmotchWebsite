@@ -81,6 +81,13 @@ body{
   text-decoration: underline;
 }
 
+.content sup {
+  vertical-align: top; 
+  position: relative;
+  top: -0.5em;
+  font-size: 0.6em;
+}
+
 .nosidebar{
   padding-right: 20px !important;
   padding-left: 20px !important;
