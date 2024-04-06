@@ -1,8 +1,8 @@
 ---
 title: Doing hard tasks is like solving hard puzzles
-description: An essay on the similarities of puzzle solving versus completing difficult tasks.
+description: An essay on puzzle solving and completing difficult tasks.
 created: 25/03/2024
-modified: 04/04/2024
+modified: 06/04/2024
 type: post
 hidden: true
 ---
@@ -10,6 +10,8 @@ hidden: true
 Recently, I have been thinking a lot on how my approach to solve hard tasks compares to my approach to solve difficult logic puzzles\footnote{According to the \href{https://dictionary.cambridge.org/dictionary/english/puzzle}{Cambridge dictionary}, \textit{a puzzle is a situation that is difficult to understand or a problem or question that you have to answer by using your skill or knowledge}. Well, this pretty much also describes an hard task right? QED, you can stop reading!}. Both actions have a lot of things in common with each other. For example, both seem daunting at first sight, and yet, despite all of this, if you are anything like me you are more inclined to do one versus the other...
 
 Before further unraveling this thread, a \textit{disclaimer}. This text represents my perspective on both the world and my psyche. There are no guarantees that you share the same experience as me or that the few tips provided here will help you in your tasks or puzzle solving affairs. Nevertheless, I decided to share it in the offchance that it may entertain or even help someone.
+
+\textit{Note:} If this essay seems too intimidating to read, just do the first two steps of puzzle solving and look at the \textbf{Initial State} (Introduction) and \textbf{End State} (Conclusion) for the key takeaways.
 
 \subsection{Introduction}
 
@@ -22,8 +24,7 @@ To do so, I find it helpful to divide the process of solving a puzzle into \text
     \item The \textbf{The Middle}, where the \textit{magic} happens.
 \end{itemize}
 
-The ordering might seem strange at first sight, with the \textbf{End State} coming before \textbf{The Middle}. The reason for this is that we often think about the solution even before we try to actually solve the puzzle. This is not problematic, in fact this thought process can be quite informative and even influence our first steps towards a solution! Let us analyze carefully each one of these phases from the point of view of solving a Sudoku puzzle. Afterwards, I will present an examination of the different phases when solving an hard\footnote{The notion of difficulty is subjective and heavily depends on the individual experiences of every one of us. The choice of this particular mathematical problem is not important. What matters is that the presented approach is present in the process of solving the problem.} mathematical problem.
-% TODO Write more here in regards to advice
+The ordering might seem strange at first sight, with the \textbf{End State} coming before \textbf{The Middle}. The reason for this is that we often think about the solution even before we try to actually solve the puzzle. This is not problematic, in fact this thought process can be quite informative and even influence our first steps towards a solution! Let us analyze carefully each one of these phases from the point of view of solving a logic puzzle, like Sudoku. Afterwards, I will present an examination of the different phases when solving an hard\footnote{The notion of difficulty is subjective and heavily depends on the individual experiences of every one of us. The choice of this particular mathematical problem is not important. What matters is that the presented approach is present in the process of solving the problem.} mathematical problem.
 
 \subsection{Initial State}
 
@@ -43,13 +44,15 @@ Often, the difficulty of the puzzle is negatively correlated to the number of \t
 
 You may think that having more constraints makes the puzzle harder, but the truth is that it actually tends to make it easier. Even though we will need to think more on how each constraint interacts with the puzzle, the more constraints there are, the smaller the number of options we have for filling squares. This assumes of course, that we put in the effort of exploring the constraints\footnote{This is why clues are freebies and constraints are not. Clues provide direct information of the solution whereas constraints provide indirect information that needs additional reasoning.}. \textbf{One needs to put effort in thinking about the given constraints.}
 
+Another important part of the \textbf{Initial State} is our previous experiences. We should always ask ourselves if we have solved puzzles with these constraints before. In those cases, maybe we can recall what we tried and apply it to this puzzle. On the other hand, if one of the constraints is new to us, we should pay a closer look at it, to understand it better.
+
 Having reviewed carefully the \textbf{Initial State}, we now \textit{put the end in mind} and look at the \textbf{End State}.
 
 \subsection{End State}
 
 Thinking about the \textbf{End State} can be difficult emotionally. It reminds us of the unpaved path ahead, of the all unfilled squares, of the incompleteness of our solution\footnote{The solution takes some \textit{fuzzy form} in our minds, it is some abstract shape of what we want it to be. Surely you have felt it too? That nebulous thought running through your mind, teasing you to make it clear. To make the end state a reality... Ah! This can be paralyzing... For others, this can actually be encouraging, as they are not intimidated by it.}. Paradoxically, thinking too much about the \textbf{End State} can actually give us enough dopamine that we no longer want to do the puzzle. This drains our will to do, robs us of our motivation.
 
-On the opposite end of the spectrum, failing to acknowledge the \textbf{End State} can often make us miss important details. In an easy puzzle, we may not be hindered by this and we find the solution following more or less a forward process. For hard puzzles, we need every tool in the box. And looking at the \textbf{End State} is an important tool. So important that even the Greeks wrote about it, \textbf{analysis}\footnote{\href{https://mathshistory.st-andrews.ac.uk/Extras/Pappus_analysis_synthesis/}{Pappus of Alexandria} defines \textbf{analysis} as the process of admitting a solution to be true and to try to derive previous steps from it.} they called it, although a more modern term would be \textbf{working backwards}. And so, following the Greeks, \textbf{one should analyse the End State.} What conditions will an \textbf{End State} satisfy? Can I derive previous steps? Does the solution infer some way forward? These are all questions worth pondering when looking at the \textbf{End State}.
+On the opposite end of the spectrum, failing to acknowledge the \textbf{End State} can often make us miss important details. In an easy puzzle, we may not be hindered by this and we find the solution following more or less a forward process. For hard puzzles, we need every tool in the box. And looking at the \textbf{End State} is an important tool. So important that even the Greeks wrote about it, \textbf{analysis}\footnote{\href{https://mathshistory.st-andrews.ac.uk/Extras/Pappus_analysis_synthesis/}{Pappus of Alexandria} defines \textbf{analysis} as the process of admitting a solution to be true and to try to derive previous steps from it.}, they called it, although a more modern term would be \textbf{working backwards}. And so, following the Greeks, \textbf{one should analyse the End State.} What conditions will an \textbf{End State} satisfy? Can I derive previous steps? Does the solution infer some way forward? These are all questions worth pondering when looking at the \textbf{End State}.
 
 We should be careful that the \textbf{End State} may not be unique. Similarly, there may be different valid solutions to the puzzle that reach the same \textbf{End State}. The only information we know is that the solution has to obey the rules of the game. This is because the rules are dogmas, they cannot be broken. Despite this, we can often derive useful conclusions from looking at possible \textbf{End States}, even if at the end of the day they are not the true solution.
 
@@ -73,9 +76,10 @@ If you are a newbie, the road ahead is not easy. \textbf{You must be resilient!}
 
 Here are some actionable tips I have found helpful to keep in mind:
 \begin{itemize}
-    \item Do not despair. Even if you do not see any point of attack, start small. Take one of the constraints and see if you can use it in an area of the puzzle with a lot of clues. Didn't work? Take another constraint, take both at the same time! \textbf{Keep trying!}
+    \item Do not despair. Even if you do not see any point of attack, start small. Take one of the constraints and see if you can use it in an area of the puzzle with a lot of clues. Didn't work? Take another constraint, take both at the same time! \textbf{You need to keep trying!}
+    \item In complete opposition to the previous advice, sometimes we should stop trying and put down the puzzle for a little while. For example, if we ran out of ideas to try, then trying harder will lead to no progress. For some reason putting down the thing we are doing and coming back to it with a fresh pair of eyes usually helps a lot. \textbf{You need to know when to take breaks!}
     \item Make sure you understand the constraints and what they imply! Make a few sanity checks or sketches of the constraint in action. This helps a lot in memorizing both the constraint and its implications. With time, you will start noticing patterns, these patterns become techniques in your arsenal. The next time you meet this constraint you already have some prior experience to help you. \textbf{You no longer have to start from zero!}
-    \item Even if you meet a new, never before seen constraint, you now have experience in being a newbie! Yes! By being a newbie several times, you start to get used to it. When meeting a new puzzle that has some similarities to others you are already experienced on, you no longer fret. \textbf{You become aware and learn to enjoy the process!}
+    \item Even if you meet a new, never before seen constraint, you now have experience in being a newbie! Yes! By being a newbie several times, you start to get used to it. When meeting a new puzzle that has some similarities to others you are already experienced on, you no longer fret. \textbf{You will become aware and learn to enjoy the process!}
 \end{itemize}
 
 The advice in this section may be a little discouraging. Unfortunately, there is no \textit{magic trick} or \textit{shortcut} here\footnote{If there is, please contact me immediately!}. \textbf{The Middle} is the part where we actually do most of the work. The best advice really is \textbf{to do}. If, after some effort, one is still blocked, then maybe there is an easier puzzle with these constraints that we can solve\footnote{\href{https://en.wikipedia.org/wiki/George_P%C3%B3lya}{Pólya} is often attributed with saying, \textbf{“If you can't solve a problem, then there is an easier problem you can solve: find it.”} It is good advice.}.
@@ -88,13 +92,72 @@ It is only by iterating this process of trial and failure that we gain experienc
 
 \subsection{An example from Mathematics}
 
-Let's see how these phases apply when solving a Mathematics problem.
+Let's see how these phases apply when solving a specific Mathematics problem. I will assume that we learned what an infinite series is fairly recently\footnote{If you never heard of infinite series, they essentially are an infinite sum of terms, that either converges to some number or goes to infinity.}, and thus do not have too much previous experience working with them. I will also not be overly formal here.
 
-\TODO{Harmonic series example}
+\begin{exercise}[The Harmonic Series]
+    Check if the harmonic series, which is defined as
+    \( \sum_{n = 1}^\infty \frac{1}{n}\ , \)
+    is a convergent or divergent series.
+\end{exercise}
+
+\paragraph{Initial State}
+
+So our initial state is the infinite sum \[\frac{1}{1} + \frac{1}{2} + \frac{1}{3} + \frac{1}{4} + \cdots\]
+and we want to find out if this sum converges to some number \(a\) or if it diverges to infinity. We are obviously constrained to the terms of this series. As for clues, we seem to not be given any. 
+
+Now, regarding previous experience, as we learned fairly recently of series, the only ways we know to show that a given series converges or diverges is using the comparison test. I will state it here:
+
+\begin{theorem}[Comparison Test of Series]
+    If \(\sum_{n = 1}^\infty a_n\) and \(\sum_{n = 1}^\infty b_n\) are series with non-negative terms, then:
+    \begin{enumerate}
+        \item If \(\sum_{n = 1}^\infty b_n\) converges and \(a_n \leq b_n\) for all \(n\), then \(\sum_{n = 1}^\infty a_n\) converges. 
+        \item If \(\sum_{n = 1}^\infty b_n\) diverges and \(a_n \geq b_n\) for all \(n\), then \(\sum_{n = 1}^\infty a_n\) diverges.
+    \end{enumerate}
+\end{theorem}
+
+In less formal words, to see if a given series converges we need to compare its terms with the terms of another series that we know converges. Similarly, to show that a given series diverges we just need to find another series that diverges and compare its terms to ours. However, before trying something, let's first look at the end state.
+
+\paragraph{End State}
+
+Our end state is the result that either the harmonic series is convergent or it is divergent. We don't know if the true result is one or the other, but we can assume it is one of the two possibilities and try to \textit{work backwards}, to find the previous step that we need to reach such a possibility. For example, if we assume that the harmonic series converges, a possible previous step was to use the comparison test and compare terms with another series that converges. Or we may assume that the series diverges and do something similar. It doesn't matter what we try, what matters here is to look at the end state and to try to extract possible strategies to use or to find other interim goals to work towards!
+
+\paragraph{The Middle}
+
+After considering both the initial and end state, we finally get to try things. We may try to sum a few terms of the series using our calculators to get a \textit{"feel"} or an intuition for the result. We may observe that the terms get smaller as \(n\) increases, so perhaps the harmonic series converges. Suppose we start by assuming that. We massage the series, trying to somehow extract a convergent series from this. After sometime, we run out of ideas, nothing seems to work. Taking hint from some of the previously mentioned tips, \textbf{we should not despair} and \textbf{we will keep trying}. 
+
+We ran out of ideas for proving that it converges, so maybe we should try to prove it diverges. We try again, and nothing seems to work... \textbf{We should take a break}, coming back to this with a fresh pair of eyes, maybe after looking at several similar problems.
+
+Meanwhile, after some time, we remembered that one convergent series we have seen is \( \sum_{n = 1}^\infty \frac{1}{2^n} = 1\). More things to try. We again assume it is convergent, and try to find any connection with the reciprocals of powers of two. No such luck... But then we notice
+\begin{equation*}
+    \frac{1}{1} + \left(\frac{1}{2} + \frac{1}{3}\right) + \left(\frac{1}{4} + \frac{1}{5} + \frac{1}{6} + \frac{1}{7}\right) + \frac{1}{8} + \cdots
+\end{equation*}
+is larger than
+\begin{equation*}
+    \frac{1}{1} +  \underbrace{\left(\frac{1}{4} + \frac{1}{4}\right)}_{ = \frac{1}{2} }  +  \underbrace{\left(\frac{1}{8} + \frac{1}{8} + \frac{1}{8} + \frac{1}{8} \right)}_{= \frac{1}{2}}  + \cdots\ .
+\end{equation*} 
+Because \(\frac{1}{2} > \frac{1}{3} > \frac{1}{4}\) we can say that both of these terms, \(\frac{1}{2} \) and \( \frac{1}{3} \), are larger than \(\frac{1}{4}\). Generally, starting from \(\frac{1}{2^k}\) until \(\frac{1}{2^{k + 1} - 1}\) contains \(2^k\) terms that are larger than \(\frac{1}{2^{k + + 1}}\) and thus, when summed, those terms of the harmonic series together are larger than \(\frac{1}{2}\).
+
+But this means that our harmonic series is larger than a series that is constantly adding \(\frac{1}{2}\) ad infinitum. Such series clearly diverges! As every term of the harmonic series is larger than the corresponding term of the series that keeps adding \(\frac{1}{2}\) ad infinitum, by the comparison test the harmonic series \textbf{diverges}. $\blacksquare$
 
 \subsection{Conclusion}
 
-\TODO{Summarize the results.}
+As we saw, whether we are solving a logic puzzle, trying to prove some mathematical statement or really doing any other task; we can always divide the process into three separate phases.
 
-Have any feedback? Feel free to comment below. \textbf{Good luck in your puzzle solving}!
-	
+Before anything else, we should look at the \textbf{Initial State}, carefully listing and pondering over all the \textbf{clues and constraints} that we are given. Here we also should remind ourselves of \textbf{past experiences} with tasks similar to these ones, remembering particular actions or choices taken that lead to the successful realization of those past endeavors.
+
+Afterwards, we should look at the \textbf{End State}, but not too much. Just enough to inform us of \textbf{possible previous steps} that lead to the end. Even if there may be an infinity of possible \textbf{End States} and an infinity of paths to reach them, taking a specific \textbf{End State} usually leads to a generalizable approach that we can take to do the hard task. Other times, looking at the \textbf{End State} can inform us of temporary goals to work towards, effectively allowing us to subdivide our task into subtasks.
+
+After considering both endpoints, we go for \textbf{The Middle}. Here, the only rule is \textbf{to do}:
+\begin{itemize}
+    \item To \textbf{keep trying different things}.
+    \item To aim to become \textbf{experienced} at these kinds of tasks.
+    \item To \textbf{learn to enjoy the process}.
+    \item To \textbf{take breaks when needed}, when stuck or when out of ideas.
+    \item To \textbf{iterate, iterate, iterate} the former ideas, forever.
+\end{itemize}
+
+The most freeing thought is knowing that the above process works for anything and everything, maths, drawing, music, running, you name it. You can go from newbie to experienced at anything if you continuously keep doing it! 
+
+\textit{Wouldn't the world be a much worse place if you could only be good at the things you were innately good at?} \footnote{A story for another day, perhaps.}
+
+Have any feedback? Feel free to comment below. \textbf{And good luck in your puzzle solving}!
