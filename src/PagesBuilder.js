@@ -15,21 +15,14 @@ function BuildPage(outpath, body, metadata)
 
     body = TemplatesVars.BuildVarsAndUpdateBody(body, metadata);
 
-    switch(metadata.type)
+    // Swap this for a file check of a "type.html" template present
+    if(metadata.type)
     {
-        case "post":
-            data = BuildPostPage(body, metadata);
-            break;
-        case "problems":
-            data = BuildProblemsListPage(body, metadata);
-            break;
-        case "problem":
-            data = BuildProblemPage(body, metadata);
-            break;
-        case "tableofcontents":
-            break; // TODO Incomplete
-        default:
-            data = BuildDefaultPage(body, metadata);
+        data = BuildPageFromTemplate("type/" + metadata.type + ".html", body, metadata);
+    }
+    else
+    {
+        data = BuildPageFromTemplate("type/default.html", body, metadata);
     }
 
     ok(data, "Page data is empty, maybe you do not handle all metadata types!");
@@ -40,29 +33,14 @@ function BuildPage(outpath, body, metadata)
         Sitemap.AddURL(metadata.url);        
 }
 
-function BuildDefaultPage(body, metadata)
+function BuildPageFromTemplate(template, body, metadata)
 {
-    return TemplatesParser.Parse("default_page.html", body, metadata);
-}
-
-function BuildPostPage(body, metadata)
-{
-    return TemplatesParser.Parse("post_page.html", body, metadata);
-}
-
-function BuildProblemPage(body, metadata)
-{
-    return TemplatesParser.Parse("problem_page.html", body, metadata);
-}
-
-function BuildProblemsListPage(body, metadata)
-{
-    return TemplatesParser.Parse("problems_list_page.html", body, metadata);
+    return TemplatesParser.Parse(template, body, metadata);
 }
 
 function Build404Page()
 {
-    let data = BuildDefaultPage(TemplatesParser.Parse("404.html"), 
+    let data = BuildPageFromTemplate("type/default.html", TemplatesParser.Parse("404.html"), 
         {title: "Page Not Found", 
         description: "Page was not found!", 
         url: config.dev.url + "404.html"});    
