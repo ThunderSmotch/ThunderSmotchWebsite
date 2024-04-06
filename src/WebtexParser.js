@@ -8,7 +8,7 @@ function Parse(data){
     data = replaceLinks(data);
     data = replaceSpoiler(data);
     data = replaceSections(data);
-    data = replaceMathEnvironments(data)
+    data = replaceMathEnvironments(data);
     data = replaceLists(data);
     data = replaceParagraphs(data);
     data = replaceStyling(data);
@@ -217,7 +217,8 @@ function replaceSections(data){
 function replaceMathEnvironments(data){
     data = replaceMathEnvironment(data, 'definition');
     data = replaceMathEnvironment(data, 'example');
-
+    data = replaceMathEnvironment(data, 'exercise');
+    data = replaceMathEnvironment(data, 'theorem');
     return data;
 }
 

@@ -117,6 +117,49 @@ details > summary{
   font-style: normal;
 }
 
+.exercise {
+  display: block;
+  padding: 12px;
+  margin: 12px 0;
+  border-style: solid;
+  border-width: 2px;
+  font-style: normal;
+}
+
+.theorem {
+  display: block;
+  padding: 12px;
+  margin: 12px 0;
+  border-style: solid;
+  border-width: 2px;
+  font-style: normal;
+}
+
+.theorem::before {
+  content: "Theorem \A\A";
+  font-size: 1.1em;
+  font-weight: bold;
+  font-style: normal;
+}
+
+.theorem[title]::before {
+  content: "Theorem (" attr(title) ") \A\A";
+}
+
+.exercise::before {
+  content: "Exercise \A\A";
+
+  font-size: 1.1em;
+
+  font-weight: bold;
+
+  font-style: normal;
+}
+
+.exercise[title]::before {
+  content: "Exercise (" attr(title) ") \A\A";
+}
+
 mjx-container{
   min-width:0 !important;
   overflow-x: auto;
