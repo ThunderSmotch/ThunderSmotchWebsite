@@ -1,4 +1,4 @@
-module.exports = {BuildVarsAndUpdateBody, GetVar, BuildNavbar, BuildProblemsList, BuildSidebar}
+module.exports = {BuildVarsAndUpdateBody, GetVar, BuildNavbar, BuildList, BuildSidebar}
 
 const {RemoveOrderingPrefix, SplitStringUppercase} = require("./Utils");
 const StringUtils = require("./StringUtils");
@@ -8,6 +8,7 @@ let template_vars = {
     table_of_contents: "",
     sidebar: "",
     problemsList: "",
+    list: ""
 }
 
 function GetVar(name){
@@ -85,24 +86,20 @@ function getSubpageButtons(pages, dir){
     return html;
 }
 
-//Builds the problems list from the page tree.
-//TODO refactor tags
-function BuildProblemsList(pageTree){
-    try {
-        let html = '<ol>';
+function BuildList(pages)
+{
+    let html = '<ol>';
 
-        let problems = pageTree.pages['4.Problems'].pages;
-        
-        for(let ex in problems){
-            let url = './' + ex + '/';
-            html += `<li><a href=${url}>${problems[ex].metadata.title}</a> - Tags: ${problems[ex].metadata.tags}</li>`
-        }
-
-        html += '</ol>';
-        template_vars["problemsList"] = html;
-    } catch (err) {
-        console.log("Could not build problems list:" + err);
+    for(let page in pages)
+    {
+        let name = RemoveOrderingPrefix(page);
+        page = pages[page];
+        let url = './' + name + "/";
+        html += `<li><a href=${url}>${page.metadata.title}</a> - ${page.metadata.created} - Tags: ${page.metadata.tags}</li>`;
     }
+
+    html += '</ol>';
+    template_vars["list"] = html;
 }
 
 // Receives the HTML body of a post and builds the table of contents from

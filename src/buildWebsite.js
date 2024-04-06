@@ -19,7 +19,6 @@ let pageTree = PageTree.GetPageTree();
 
 // Building global templates variables
 TemplatesVars.BuildNavbar(pageTree);
-TemplatesVars.BuildProblemsList(pageTree);
 
 // Adding pages
 Sitemap.Start();
@@ -28,3 +27,6 @@ PagesBuilder.Build404Page();
 FileParser.ParseDirectory(pageTree, '');
 Sitemap.End();
 ///////////////////// SITE BUILT /////////////////////
+
+//FIXME Check for URL Name Clashes
+//TODO Tag ordering? Or an url for posts/problems from a given tag.

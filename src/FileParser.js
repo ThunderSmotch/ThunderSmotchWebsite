@@ -14,9 +14,15 @@ function ParseDirectory(pageTree, dir=''){
     //Make same directory on output dir
     Utils.MakeDirectory(Utils.CatDirs(config.dev.outdir, Utils.RemoveOrderingPrefix(dir)));
     
+    //FIXME Local File Variables should not be made here
+    // MAYBE move this to the BuildPageAndVars function by providing the pageTree there
     // Build sidebar if sidebar metadata is true
     if(pageTree.metadata.sidebar == true){
         TemplatesVars.BuildSidebar(pageTree.pages, Utils.RemoveOrderingPrefix(dir));
+    }
+    if(pageTree.metadata.type == 'list')
+    {
+        TemplatesVars.BuildList(pageTree.pages);
     }
 
     //Convert files

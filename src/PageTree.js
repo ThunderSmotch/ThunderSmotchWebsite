@@ -15,7 +15,7 @@ function GetPageTree(dir=''){
         pages: {}
     };
     
-    let pretty_name = Utils.RemoveOrderingPrefix(dir.split('/').pop());
+    let pretty_name = Utils.RemoveOrderingPrefix(dir.split('/').pop()); //TODO What was the purpose of this?
     
     data.metadata = Metadata.GetMetadata(dir);
 
