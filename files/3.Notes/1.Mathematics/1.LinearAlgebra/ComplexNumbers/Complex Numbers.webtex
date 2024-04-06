@@ -3,7 +3,7 @@ title: Complex Numbers
 description: Introduction to addition and multiplication of complex numbers.
 created: 20/07/2020
 modified: 20/07/2020
-type: post
+type: note
 ---
 Complex numbers are an extension of the real numbers. They arise from the need of having solutions to equations of the form 
 \[ x^{2} + 1 = 0\ , \]
