@@ -6,6 +6,13 @@ const config = require("./config");
 const Utils = require("./Utils");
 const StringUtils = require("./StringUtils");
 
+/* Page Metadata 
+ * 
+ * 
+ * 
+ * hidden: boolean // If true the page will not show on the navigation bar
+ */
+
 let default_metadata = 
 {
 // Required fields

@@ -1,5 +1,3 @@
-const fs = require("fs");
-
 const config = require("./config");
 
 const TemplatesVars = require("./TemplatesVars");
@@ -16,7 +14,7 @@ Utils.MakeDirectory(config.dev.outdir);
 Utils.MoveFolderToOutput('js');
 Utils.MoveFolderToOutput('style');
 
-//Gets the page tree for the website
+// Gets the page tree for the website
 let pageTree = PageTree.GetPageTree();
 
 // Building global templates variables

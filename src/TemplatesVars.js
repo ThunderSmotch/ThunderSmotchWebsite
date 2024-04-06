@@ -91,7 +91,7 @@ function BuildProblemsList(pageTree){
     try {
         let html = '<ol>';
 
-        let problems = pageTree.pages['Problems'].pages;
+        let problems = pageTree.pages['4.Problems'].pages;
         
         for(let ex in problems){
             let url = './' + ex + '/';

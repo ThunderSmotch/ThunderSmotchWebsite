@@ -15,7 +15,7 @@ function GetPageTree(dir=''){
         pages: {}
     };
     
-    pretty_name = Utils.RemoveOrderingPrefix(dir.split('/').pop());
+    let pretty_name = Utils.RemoveOrderingPrefix(dir.split('/').pop());
     
     data.metadata = Metadata.GetMetadata(dir);
 
@@ -26,9 +26,7 @@ function GetPageTree(dir=''){
 
     subDirs.forEach( subDir => {
         let subDirPath = Utils.CatDirs(dir, subDir);
-        data.pages[subDir] = {};
-        let page = GetPageTree(subDirPath);
-        data.pages[subDir] = page;
+        data.pages[subDir] = GetPageTree(subDirPath);
     });
 
     return data;
