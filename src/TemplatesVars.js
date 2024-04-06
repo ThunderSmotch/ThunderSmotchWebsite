@@ -107,9 +107,11 @@ function BuildProblemsList(pageTree){
 
 // Receives the HTML body of a post and builds the table of contents from
 // the header tags inside
+// TODO Add Post Title as first element of TOC
+// TODO Nest enumerates for subsubsections and others
 function BuildTableOfContentsAndUpdateBody(body)
 {
-    let reg = /<h\d>(.*?)<\/h\d>/gm;
+    let reg = /<h(?:1|2|3|4)>(.*?)<\/h(?:1|2|3|4)>/gm;
 
     let html = "<ol>";
 
