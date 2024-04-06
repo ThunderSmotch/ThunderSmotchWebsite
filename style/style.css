@@ -331,3 +331,8 @@ html{
   -ms-user-select: none;
   user-select: none;
 }
+
+.list_item {
+  margin-bottom: 0%;
+  margin-top: 20px;
+}

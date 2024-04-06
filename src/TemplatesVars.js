@@ -88,17 +88,29 @@ function getSubpageButtons(pages, dir){
 
 function BuildList(pages)
 {
-    let html = '<ol>';
+    let html = '';
 
     for(let page in pages)
     {
         let name = RemoveOrderingPrefix(page);
         page = pages[page];
         let url = './' + name + "/";
-        html += `<li><a href=${url}>${page.metadata.title}</a> - ${page.metadata.created} - Tags: ${page.metadata.tags}</li>`;
+
+        if(page.metadata.hidden)
+        {
+            continue;
+        }
+
+        let date = page.metadata.created == undefined ? "" : page.metadata.created;
+        let tags = page.metadata.tags == undefined ? "": page.metadata.tags;
+
+        html += `<div>
+        <h4 class="list_item"><a href=${url}>${page.metadata.title}</a></h4>
+        ${date} <span class="unselectable">&nbsp;&middot;&nbsp;</span> ${tags}
+        </div>`;
     }
 
-    html += '</ol>';
+    html += '';
     template_vars["list"] = html;
 }
 
