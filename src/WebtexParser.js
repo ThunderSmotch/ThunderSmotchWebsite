@@ -69,7 +69,7 @@ function replaceTodos(data){
 //Replace footnotes by anchors with the content of them shown on the bottom of the page.
 function replaceFootnotes(data){
     let counter = 0; //Number of footnotes
-    let footnotes = `<br><hr><h1>Footnotes</h1><br>`;
+    let footnotes = `<br><hr><h1 title="Footnotes">Footnotes</h1><br>`;
 
     let strings = data.split("\\footnote{");
     if (strings.length > 1)
