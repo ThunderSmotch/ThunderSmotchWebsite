@@ -87,6 +87,15 @@ body{
   text-decoration: underline;
 }
 
+/* MAYBE Remove this */
+.content a:target { 
+  background: rgb(221, 221, 221);
+}
+
+.content .footnote:target {
+  background: rgb(221, 221, 221);
+}
+
 .content sup {
   vertical-align: top; 
   position: relative;

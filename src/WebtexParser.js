@@ -57,7 +57,7 @@ function replaceItem(text){
 
 //Replaces todos with a red div
 function replaceTodos(data){
-    let reg = /\\TODO{(.+)}/g;
+    let reg = /\\TODO{(.+?)}/gs;
 
     data = data.replace(reg, 
         function(match, p1){
@@ -69,7 +69,7 @@ function replaceTodos(data){
 //Replace footnotes by anchors with the content of them shown on the bottom of the page.
 function replaceFootnotes(data){
     let counter = 0; //Number of footnotes
-    let footnotes = `<br><hr><b>Footnotes:</b><br>`;
+    let footnotes = `<br><hr><h1>Footnotes</h1><br>`;
 
     let strings = data.split("\\footnote{");
     if (strings.length > 1)
@@ -111,10 +111,10 @@ function replaceFootnotes(data){
             let footnote_text = text.substring(0, closing_index);
             let next_text = text.substring(closing_index + 1);
             
-            let footnote = `<a id="Reference${counter}" href="#Footnote${counter}">[${counter}]</a> - ${footnote_text} <br>`;
+            let footnote = `<p class="footnote" id="fn-${counter}"><span class="unselectable"><b>[${counter}]</b></span> ${footnote_text} <a href="#ref-${counter}">↩</a></p>`;
             footnotes = footnotes.concat(footnote);
 
-            data += `<sup><a id="Footnote${counter}" href="#Reference${counter}">[${counter}]</a></sup>${next_text}`
+            data += `<sup><a id="ref-${counter}" href="#fn-${counter}">[${counter}]</a></sup>${next_text}`
         }
     }
     if(counter){ data = data.concat(footnotes); } 
