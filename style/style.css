@@ -87,6 +87,23 @@ body{
   text-decoration: underline;
 }
 
+/* Adapted from ➤ https://www.benkuhn.net */
+:target::before {
+  content: "🗲";
+  float: left;
+  margin-left: -1.3em;
+  opacity: 0;
+  animation: flash 2s ease;
+  font-size: 2em;
+  transform: rotate(0.1turn);
+}
+
+@keyframes flash {
+  25% {
+    opacity:1
+  }
+}
+
 /* MAYBE Remove this */
 .content a:target { 
   background: rgb(221, 221, 221);
