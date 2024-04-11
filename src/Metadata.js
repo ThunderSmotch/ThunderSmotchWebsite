@@ -27,6 +27,7 @@ tags: [],
 url: config.dev.url,
 created:  StringUtils.GetCurrentDayMonthYear(),
 modified: StringUtils.GetCurrentDayMonthYear(),
+iterations: 1,
 };
 
 //Check inside this directory for a file with metadata and return the metadata
