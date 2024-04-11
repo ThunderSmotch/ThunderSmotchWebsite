@@ -120,16 +120,43 @@ function BuildList(pages)
 // TODO Nest enumerates for subsubsections and others
 function BuildTableOfContentsAndUpdateBody(body)
 {
-    let reg = /<h(?:1|2|3|4)>(.*?)<\/h(?:1|2|3|4)>/gm;
+    let set = new Set();
+    let previous_level = undefined;
+
+    let reg = /<h(\d)>(.*?)<\/h(?:\d)>/gm;
 
     let html = "<ol>";
 
-    body = body.replaceAll(reg, (match, p1) => {
-        let section_id = StringUtils.ToLowerCaseWithoutSpaces(p1);
-        html += `<li><a href="#${section_id}">${p1}</a></li>`;
+    body = body.replaceAll(reg, (match, p1, p2) => {
+        let section_id = StringUtils.ToLowerCaseWithoutSpaces(p2);
+        if(set.has(section_id))
+        {
+            section_id = section_id + "-1";
+        }
+        set.add(section_id);
+
+        if(previous_level == undefined) // First match
+        {
+            previous_level = p1;
+        }
+        else if(previous_level < p1)
+        {
+            html += "<ol>";
+        }
+        else if(previous_level > p1)
+        {
+            html += "</li></ol>";
+        }
+        else
+        {
+            html += "</li>";
+        }
+        previous_level = p1;
+
+        html += `<li><a href="#${section_id}">${p2}</a>`;
         return `<div id="${section_id}">${match}</div>`
     });
-    html += "</ol>";
+    html += "</li></ol>";
 
     // Nothing got added
     if (html == "<ol></ol>")

@@ -26,7 +26,6 @@ body{
   border: solid;
   border-width: 1px;
   text-align: left;
-  padding-left: 40px;
   padding-right: 20px;
   left: 200px;
   max-width: 200px;
@@ -39,18 +38,25 @@ body{
 }
 
 #TOC ol {
-  padding: 0;
+  counter-reset: item;
 }
 
 #TOC li {
+  display: block;
   margin-top: 6px;
   margin-bottom: 6px;
   width: 100%;
   background-color:white;
 }
 
-#TOC li:hover {
+#TOC a:hover {
   background-color: #DDD;
+}
+
+#TOC li::before {
+  content: counters(item, ".") " - ";
+  counter-increment: item;
+  margin-left: -20px;
 }
 
 #TOC a {
