@@ -25,8 +25,8 @@ hidden: false,
 navbar: true, // FIXME If navbar should be drawn WRONG This actually means if the page should be used in the navbar generation (see TemplateVars BuildNavbar)
 tags: [],     
 url: config.dev.url,
-created:  StringUtils.GetCurrentDayMonthYear(),
-modified: StringUtils.GetCurrentDayMonthYear(),
+created:  StringUtils.GetDayMonthYearString(),
+modified: StringUtils.GetDayMonthYearString(),
 iterations: 1,
 };
 

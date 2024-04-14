@@ -1,19 +1,21 @@
-module.exports = {
-    ToLowerCaseWithoutSpaces,
-    GetCurrentDayMonthYear
-}
+export {ToLowerCaseWithoutSpaces, GetDayMonthYearString}
 
-export {ToLowerCaseWithoutSpaces, GetCurrentDayMonthYear}
-
-function ToLowerCaseWithoutSpaces(str: string)
+/**
+ * Sets text to lowercase and converts whitespace to hyphens
+ * @param str - String to convert
+ * @returns A string where all characters are lowercase and contiguous whitespace is a hyphen '-'
+ */
+function ToLowerCaseWithoutSpaces(str: string): string
 {
     return str.replace(/\s+/g, '-').toLowerCase();
 }
 
-function GetCurrentDayMonthYear()
-{
-    let date = new Date();
-
+/**
+ * Turns a date into the 'dd/mm/yyyy' format
+ * @param date - Date to convert (defaults to current date if none given)
+ * @returns Fixed length string in the dd/mm/yyyy format
+ */
+function GetDayMonthYearString(date = new Date()) : string {
     let dd =  date.getDate();
     let mm =  date.getMonth() + 1;
     let yyyy = date.getFullYear();
