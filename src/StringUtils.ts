@@ -3,7 +3,9 @@ module.exports = {
     GetCurrentDayMonthYear
 }
 
-function ToLowerCaseWithoutSpaces(str)
+export {ToLowerCaseWithoutSpaces, GetCurrentDayMonthYear}
+
+function ToLowerCaseWithoutSpaces(str: string)
 {
     return str.replace(/\s+/g, '-').toLowerCase();
 }
@@ -16,8 +18,8 @@ function GetCurrentDayMonthYear()
     let mm =  date.getMonth() + 1;
     let yyyy = date.getFullYear();
 
-    if (dd < 10) dd = '0' + dd;
-    if (mm < 10) mm = '0' + mm;
-
-    return dd + '/' + mm + '/' + yyyy;
+    let day = dd < 10 ? '0' + String(dd) : String(dd);
+    let mon = mm < 10 ? '0' + String(mm): String(mm);
+    
+    return day + '/' + mon + '/' + yyyy;
 }
