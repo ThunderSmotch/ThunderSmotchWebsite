@@ -2,5 +2,5 @@
 module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'node',
-  coverageReporters: ["text"]
+  coverageReporters: ["text"],
 };
