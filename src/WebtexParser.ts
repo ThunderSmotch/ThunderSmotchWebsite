@@ -1,7 +1,5 @@
-module.exports = { Parse }
-
 //TODO: Detect line break as two blank linebreaks on the tex file.
-function Parse(data){
+export function Parse(data: string){
     
     data = removeComments(data);
     data = replaceFigures(data);
@@ -21,14 +19,14 @@ function Parse(data){
 }
 
 //Replaces lists with the corresponding html tags
-function replaceLists(data){
+function replaceLists(data: string){
     data = replaceList(data, 'itemize', 'ul');
     data = replaceList(data, 'enumerate', 'ol');
     return data;
 }
 
 //Replace a list environment env that has 
-function replaceList(data, env, tag){
+function replaceList(data: string, env: string, tag: string){
     var reg = new RegExp('\\\\begin{'+env+'}[\\s\\r\\n]+([\\s\\S]*?)\\\\end{'+env+'}', 'g')
 
     var str = data.replace(reg, 
@@ -43,7 +41,7 @@ function replaceList(data, env, tag){
 
 //Replaces item by the tag li
 //BUG Does not work with nested lists
-function replaceItem(text){
+function replaceItem(text: string){
 
     let reg = /\\item\s(((?!\\item )(.|\n))+)/gms;
 
@@ -56,7 +54,7 @@ function replaceItem(text){
 }
 
 //Replaces todos with a red div
-function replaceTodos(data){
+function replaceTodos(data: string){
     let reg = /\\TODO{(.+?)}/gs;
 
     data = data.replace(reg, 
@@ -67,7 +65,7 @@ function replaceTodos(data){
 }
 
 //Replace footnotes by anchors with the content of them shown on the bottom of the page.
-function replaceFootnotes(data){
+function replaceFootnotes(data: string){
     let counter = 0; //Number of footnotes
     let footnotes = `<br><hr><h1 title="Footnotes">Footnotes</h1><br>`;
 
@@ -84,7 +82,7 @@ function replaceFootnotes(data){
             
             // Find closing '}'
             let closing_index = -1;
-            let prev_char = 0;
+            let prev_char = '\0';
             for (let c = 0; c < text.length; c++) {
                 const char = text[c];
                 if (char == '{' && prev_char != "\\")
@@ -122,7 +120,7 @@ function replaceFootnotes(data){
 }
 
 //Replace \geogebra{material_id} by the Geogebra embed
-function replaceGeogebra(data){
+function replaceGeogebra(data: string){
     let reg = /\\geogebra{(.+)}/g;
 
     data = data.replace(reg,
@@ -140,7 +138,7 @@ function replaceGeogebra(data){
 }
 
 //Replace script commands with a script tag
-function replaceScripts(data){
+function replaceScripts(data: string){
     let reg = /\\script{(.+)}/g;
 
     data = data.replace(reg, 
@@ -152,7 +150,7 @@ function replaceScripts(data){
 }
 
 //Replace figure environments with the img html tag
-function replaceFigures(data){
+function replaceFigures(data: string){
     let reg = /\\begin{figure}[\s\S]*?includegrap[\s\S]+?{([\S]+)}[\s\S]*?\\end{figure}/mg;
 
     data = data.replace(reg, (match, p1)=>{
@@ -163,7 +161,7 @@ function replaceFigures(data){
 }
 
 //Removes comments (lines starting with %)
-function removeComments(data){
+function removeComments(data: string){
     let reg = /^%[\s\S]+?$/gm;
 
     data = data.replace(reg, '');
@@ -175,7 +173,7 @@ function removeComments(data){
 //Maybe fixed now with a regex change!
 
 //Puts p tags around everything that resembles a paragraph
-function replaceParagraphs(data){
+function replaceParagraphs(data: string){
     let reg = /^[^<\r\n][^\r\n]+((\r|\n|\r\n)[^\r\n]+)*/gm;
 
     data = data.replace(reg, (match)=>{
@@ -186,7 +184,7 @@ function replaceParagraphs(data){
 }
 
 //Replaces the styling by HTML tags
-function replaceStyling(data){
+function replaceStyling(data: string){
     data = replaceCommand(data, 'textit', 'i');
     data = replaceCommand(data, 'textbf', 'b');
     data = replaceCommand(data, 'underline', 'u');
@@ -195,14 +193,14 @@ function replaceStyling(data){
 }
 
 //Replace href
-function replaceLinks(data){
+function replaceLinks(data: string){
     data = replaceHref(data);
 
     return data;
 }
 
 //Replaces Sections by HTML headers
-function replaceSections(data){
+function replaceSections(data: string){
     data = replaceCommand(data, 'chapter', 'h1');
     data = replaceCommand(data, 'section', 'h2');
     data = replaceCommand(data, 'subsection', 'h3');
@@ -214,7 +212,7 @@ function replaceSections(data){
 }
 
 //Replaces amsmath environments with the according divs
-function replaceMathEnvironments(data){
+function replaceMathEnvironments(data: string){
     data = replaceMathEnvironment(data, 'definition');
     data = replaceMathEnvironment(data, 'example');
     data = replaceMathEnvironment(data, 'exercise');
@@ -223,7 +221,7 @@ function replaceMathEnvironments(data){
 }
 
 //Replace a math environment env that has title
-function replaceMathEnvironment(data, env){
+function replaceMathEnvironment(data: string, env: string){
     var reg = new RegExp('\\\\begin{'+env+'}\\[(.+)\\][\\s\\r\\n]+([\\s\\S]*?)\\\\end{'+env+'}', 'g')
 
     var str = data.replace(reg, 
@@ -239,7 +237,7 @@ return str;
 }
 
 //Replaces \begin{spoiler}[info] with the details HTML tag using the power of Regex
-function replaceSpoiler(data){
+function replaceSpoiler(data: string){
     var str = data.replace(/\\begin{spoiler}\[(.+)\][\s\r\n]+([\s\S]*?)\\end{spoiler}/g, 
         function (match, p1, p2){
             return `<details>
@@ -254,7 +252,7 @@ ${p2}
 }
 
 //Replaces \href{link}{text} with <a href='link'>text</a>.
-function replaceHref(data){
+function replaceHref(data: string){
     var reg = new RegExp('\\\\' + 'href' + '\\*?{(.+?)}{(.+?)}', 'g');
 
     var str = data.replace(reg, 
@@ -265,7 +263,7 @@ function replaceHref(data){
 }
 
 //Replaces a simple \command{text} or \command*{text} with a <tag>text</tag>
-function replaceCommand(data, cmdName, tag){
+function replaceCommand(data: string, cmdName: string, tag: string){
     var reg = new RegExp('\\\\' + cmdName + '\\*?{(.*?)}', 'g');
 
     var str = data.replace(reg, 

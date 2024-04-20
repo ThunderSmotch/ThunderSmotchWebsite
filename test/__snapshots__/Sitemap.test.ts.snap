@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Sitemap outputs correct basic sitemap if no urls are added 1`] = `
+"<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+</urlset>"
+`;
+
+exports[`Sitemap outputs correct sitemap when adding urls 1`] = `
+"<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<url>
+    <loc>https://thundersmotch.com/test/</loc>
+    <changefreq>daily</changefreq>
+</url>
+</urlset>"
+`;

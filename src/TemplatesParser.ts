@@ -1,14 +1,11 @@
-module.exports = {Parse}
+import {config} from './config';
+import * as FileUtils from './FileUtils';
+import {Metadata, GetDefaultField} from './Metadata';
+import {GetVar} from './TemplatesVars';
 
-const config = require("./config");
-
-const Utils = require("./Utils");
-const Metadata = require("./Metadata");
-
-const {GetVar} = require("./TemplatesVars");
-
-function Parse(template_name, body="", metadata={}) {
-    let data = Utils.GetFileData(Utils.CatDirs(config.dev.templatesdir, template_name));
+export function Parse(template_name: string, body="", metadata: Metadata=({} as Metadata)) 
+{
+    let data = FileUtils.GetFileData(FileUtils.CatDirs(config.dev.templatesdir, template_name));
 
     // Check for conditions
     data = data.replace(/(?:<%if)+?\s+(.*?)\s+(?:%>)+?(.*?)(?:<%endif%>)/gs,
@@ -39,7 +36,7 @@ function Parse(template_name, body="", metadata={}) {
         if(p1 in metadata)
             return metadata[p1];
         else
-            return Metadata.GetDefaultField(p1);
+            return GetDefaultField(p1);
     })
 
     // Other parses

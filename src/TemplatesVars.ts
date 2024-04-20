@@ -1,9 +1,9 @@
-module.exports = {BuildVarsAndUpdateBody, GetVar, BuildNavbar, BuildList, BuildSidebar}
+import { Metadata } from "./Metadata";
+import { PageTree } from "./PageTree";
+import {RemoveOrderingPrefix, SplitStringUppercase, ToLowerCaseWithoutSpaces} from "./StringUtils"; 
 
-const {RemoveOrderingPrefix, SplitStringUppercase} = require("./Utils");
-const StringUtils = require("./StringUtils");
-
-let template_vars = {
+let template_vars: Record<string, string> = 
+{
     navbar: "",
     table_of_contents: "",
     sidebar: "",
@@ -11,11 +11,18 @@ let template_vars = {
     list: ""
 }
 
-function GetVar(name){
+/**
+ * Grabs a variable stored inside the template vars
+ * @param name - The name of the template variable to get
+ * @returns A string containing the requested template variable
+ */
+export function GetVar(name: string) : string 
+{
     return template_vars[name];
 }
 
-function BuildVarsAndUpdateBody(body, metadata)
+
+export function BuildVarsAndUpdateBody(body: string, metadata: Metadata)
 {
     body = BuildTableOfContentsAndUpdateBody(body); // Generates TOC and updates HTML with the section ids
     return body;
@@ -24,22 +31,26 @@ function BuildVarsAndUpdateBody(body, metadata)
 // Builds the HTML for the navbar from the pageTree and sets it to the global constant
 // MAYBE see what's up with the fa caret thing & refactor this function
 // MAYBE Eventually need to move on from this
-function BuildNavbar(pageTree){
+export function BuildNavbar(pageTree: PageTree)
+{
 
-    let html = '<a href="/"><b>ThunderSmotch</b></a>\n';
+    let html = '<a href="/"><b>ThunderSmotch</b></a>\n'; // FIXME Hardcoded value
 
-    for(let page in pageTree.pages){
+    for(let page in pageTree.pages)
+    {
         let dir = page;
         let url = '/' + RemoveOrderingPrefix(dir);
         
         let title = SplitStringUppercase(RemoveOrderingPrefix(page));
         let metadata = pageTree.pages[page].metadata;
 
-        if(metadata.hasOwnProperty('hidden') && metadata.hidden){
+        if(metadata.hasOwnProperty('hidden') && metadata.hidden)
+        {
             continue; // If page is hidden don't show it on navbar
         }
 
-        let nav = true;
+        // @ts-ignore
+        let nav: boolean|undefined = true;
         if(metadata.hasOwnProperty('navbar'))
             nav = metadata.navbar;
 
@@ -52,7 +63,7 @@ function BuildNavbar(pageTree){
             <div class="dropdown-content">
             <div class="row">`;
 
-            let dropPage = pageTree.pages[page].pages;
+            let dropPage: Record<string, PageTree> = pageTree.pages[page].pages;
             for(let subpage in dropPage){
 
                 let subdir = dir + '/' + subpage;
@@ -72,7 +83,8 @@ function BuildNavbar(pageTree){
 }
 
 //Returns HTML for a given topic inside a subject
-function getSubpageButtons(pages, dir){
+function getSubpageButtons(pages : Record<string, PageTree>, dir : string)
+{
 
     var html = '';
     if(Object.keys(pages).length !== 0){
@@ -86,14 +98,14 @@ function getSubpageButtons(pages, dir){
     return html;
 }
 
-function BuildList(pages)
+export function BuildList(pages: Record<string, PageTree>)
 {
     let html = '';
 
-    for(let page in pages)
+    for(let pageName in pages)
     {
-        let name = RemoveOrderingPrefix(page);
-        page = pages[page];
+        let name = RemoveOrderingPrefix(pageName);
+        let page = pages[pageName];
         let url = './' + name + "/";
 
         if(page.metadata.hidden)
@@ -118,24 +130,24 @@ function BuildList(pages)
 // the header tags inside
 // TODO Add Post Title as first element of TOC
 // TODO Nest enumerates for subsubsections and others
-function BuildTableOfContentsAndUpdateBody(body)
+function BuildTableOfContentsAndUpdateBody(body : string)
 {
-    let set = new Set();
-    let previous_level = undefined;
+    let set = new Set<string>();
+    let previous_level = "";
 
     let reg = /<h(\d)>(.*?)<\/h(?:\d)>/gm;
 
     let html = "<ol>";
 
     body = body.replaceAll(reg, (match, p1, p2) => {
-        let section_id = StringUtils.ToLowerCaseWithoutSpaces(p2);
+        let section_id = ToLowerCaseWithoutSpaces(p2);
         if(set.has(section_id))
         {
             section_id = section_id + "-1";
         }
         set.add(section_id);
 
-        if(previous_level == undefined) // First match
+        if(previous_level == "") // First match
         {
             previous_level = p1;
         }
@@ -173,7 +185,7 @@ function BuildTableOfContentsAndUpdateBody(body)
 
 //Builds sidebar from a list of subpages
 // TODO Cleanup this function
-function BuildSidebar(pages, urlpath){
+export function BuildSidebar(pages: Record<string, PageTree>, urlpath: string){
     let listitems = '';
     let item_id = 0;
 
